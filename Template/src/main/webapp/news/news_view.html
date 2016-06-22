@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 导入CSS样式文件 -->
+<!-- CSS样式结束 -->
+<!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+   
+<body>
+	<div style="width:1000px;;margin:0 auto">
+            <h2 id="title" style="text-align: center;"></h2>
+            <div id="publisher"  ></div>
+            <div id="content" class="row" ></div>
+    </div>
+	<script src="../js/jquery/jquery-1.11.1.min.js"></script>
+	<script src="../js/common/common.js"></script>
+	<script type="text/javascript">
+	var newsId=getUrlParam("newsId");
+	var priviledgesID=getUrlParam("priviledgesID");
+	$.ajax({
+		   type: "POST",
+		   url: baseUrl+"news/getNews",
+		   data:{"priviledgesID":priviledgesID,"id":newsId},
+		   cache: false,
+		   success: function(data){
+		    	if(data.status==0){
+		    		$("#title").html(data.rows.title);
+			    	$("#publisher").html('<div><p><span style="float: left;"> 新闻类型: '+data.rows.newsTypeName+' 来源:'+data.rows.source+'</span><span style="float: right;">作者:'+data.rows.publisher+' '+data.rows.createTime+'</span></p></div>');
+			    	
+			    	$("#content").html(' <div style="clear: both;"></div>'+data.rows.content);
+		    	}else{
+		    		$("#publisher").html(data.message);
+		    	}
+		   }
+			
+	});
+	</script>
+</body>
+</html>

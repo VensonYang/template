@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="../css/jquery.Jcrop.css" type="text/css" />
+<style type="text/css">
+
+/* Apply these styles only when #preview-pane has
+   been placed within the Jcrop widget */
+.jcrop-holder #preview-pane {
+  display: block;
+  position: absolute;
+  z-index: 2000;
+  top: 10px;
+  right: -280px;
+  padding: 6px;
+  border: 1px rgba(0,0,0,.4) solid;
+  background-color: white;
+
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+
+  -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* The Javascript code will set the aspect ratio of the crop
+   area based on the size of the thumbnail preview,
+   specified here */
+#preview-pane .preview-container {
+  width: 250px;
+  height: 170px;
+  overflow: hidden;
+}
+
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h6>请上传图片</h6>
+			<form id="uploadForm" method="post" enctype="multipart/form-data">
+				<input name="attachment" type="file" accept="image/jpeg,image/png" >
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-sm-8 col-lg-8 col-xs-8">
+				<img id="cropbox" style="display: none;">
+			</div>
+			<div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+				<div id="preview-pane" style="display: none;" onload="" >
+		          <div class="preview-container">
+		            <img id="preCrop" class="jcrop-preview" alt="Preview">
+		          </div>
+		        </div>
+		        <div style="height:250px;"></div>
+				<div class="jc-demo-box">
+					<button id="confirm" class="btn btn-primary" onclick="uploadHead()" style="display: none;">确认上传</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../js/jquery/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery/jquery.Jcrop.js"></script>
+	<script src="../js/jquery/jquery.form.js"></script>
+	<script src="../js/jquery/jquery.tips.js"></script>
+	<script src="../js/common/common.js"></script>
+	<script src="../js/common/uploadFile.js"></script>
+	<script type="text/javascript">
+	 var jcrop_api, boundx,boundy,xsize,ysize;
+	 function updatePreview(c){
+		    if (parseInt(c.w) > 0) {
+		      var rx = xsize / c.w;
+		      var ry = ysize / c.h;
+		      $pimg.css({
+		        width: Math.round(rx * boundx) + 'px',
+		        height: Math.round(ry * boundy) + 'px',
+		        marginLeft: '-' + Math.round(rx * c.x) + 'px',
+		        marginTop: '-' + Math.round(ry * c.y) + 'px'
+		      });
+		    }
+		  };
+		var params={};
+	  function updateCoords(c){
+		  $("#confirm").show();
+		  params.x=c.x;
+		  params.y=c.y;
+		  params.w=c.w;
+		  params.h=c.h;
+	  };
+	  var cropbox=document.getElementById("cropbox");
+	  var preCrop=document.getElementById("preCrop");
+	  cropbox.onload =function(){
+		  var img=new Image();
+		  img.src=this.src;
+		  img.onload=function(){
+			  boundx = this.width;
+			  boundy = this.height;
+		  }
+		 
+	  }
+	function initCrop(){
+		$('#cropbox').Jcrop({
+		    onChange: updatePreview,
+		    onSelect: updateCoords,
+		    boxWidth:500,
+		    maxSize:[150,150],
+		    minSize:[150,150]
+		  },function(){
+		    jcrop_api = this;
+		    $preview.appendTo(jcrop_api.ui.holder);
+		  });
+	}
+	function uploadHead(){
+		params.priviledgesID=priviledgesID;
+		$.ajax({
+			type:"post",
+			url:baseUrl+"user/modifyHeadImage",
+			data:params,
+			success:function(data){
+				if(data.status==0){
+					alert("用户头像保存成功！");
+				}else{
+					alert(data.message);
+				}
+			}
+		})
+	}
+		$(function() {
+			 $preview = $('#preview-pane'),
+			  $pcnt = $('#preview-pane .preview-container'),
+			  $pimg = $('#preview-pane .preview-container img'),
+			  
+			  xsize = $pcnt.width(),
+			  ysize = $pcnt.height();
+			$("input[name='attachment']").change(function(){
+				if(!$(this).fileTypeJudge("photo"))
+					return;
+				var options={
+					    success : imageResponse,    // 提交后的回调函数
+					    url : baseUrl+"attachment/uploadImg?floder=crop",    //默认是form的action，如果申明，则会覆盖
+					    type : "POST",    // 默认值是form的method("GET" or "POST")，如果声明，则会覆盖
+					    dataType : "json",   // html（默认）、xml、script、json接受服务器端返回的类型
+					}
+				$("#uploadForm").ajaxSubmit(options);
+			})
+		});
+		function imageResponse(data,statusText){
+			if(data.status==0){
+				params.fileName=data.rows[0].builderNames;
+				var imgSrc=baseUrl+"upload/image/"+data.rows[0].builderNames
+				cropbox.src=imgSrc;
+				preCrop.src=imgSrc;
+				$preview.show();
+				if(jcrop_api==null){
+					initCrop();
+				}else{
+					jcrop_api.setImage(imgSrc);
+				}
+	  		}else{
+	  			alert("上传出错:"+data.message);
+	  		}
+	  	}
+	</script>
+</body>
+
+</html>

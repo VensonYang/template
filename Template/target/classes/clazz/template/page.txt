@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 导入CSS样式文件 -->
+<link href="../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+<!-- CSS样式结束 -->
+<!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<div class="a-body r-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 a-r">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <div class="panel query">
+                                <div class="panel-heading">
+                                    <h3>查询条件</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form class="form-inline">
+                                        <div class="row">
+                                            <div class="col-md-4 col-lg-3 col-sm-6 col-xs-6">
+                                                <div class="row">
+                                                    <div class="form-group col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                                                        <label>名称：</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input id="searchName" type="text" class="form-control" name="name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-lg-3 col-sm-6 col-xs-6">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3"></div>
+                                                    <input onclick="onSearch()" type="button" value="查询" class="btn-1 btn-search">
+                                                    <input type="button" value="清空" class="btn-1 btn-clear">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row a-r-b">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <div class="panel">
+                                <div class="panel-heading clearfix">
+                                    <h3>#{title}</h3>
+                                </div>
+                                <div class="tool-bar">
+                                    <ul class="tool-list clearfix">
+                                        <li class="tool-list-item">
+                                            <label>全选/反选</label>
+                                        </li>
+                                        <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" data-toggle='modal' data-backdrop="static" data-target="#modify-#{entity}">增加</a></li>
+                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('#{entity}/delete#{Entity}','#table')">删除</a></li>
+                                    </ul>
+                                </div>
+                                <form>
+                                    <div class="modal dialog" id="modify-#{entity}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                                    <h5 class="modal-title">编辑</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-inline">
+                                                        <div class="mb12">
+                                                            <div class="form-group">
+                                                                <label>名称:</label>
+                                                                <input id="name" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>备注:</label>
+                                                            <textarea id="memo" class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <span id="saveId" class="btn-1 btn-define">保存</span>
+                                                    <span class="btn-1 btn-cancel" data-dismiss="modal">取消</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="table-responsive">
+                                   <table id="table"
+										   data-toggle="table" 
+								           data-pagination="true">
+                                        <thead>
+                                            <tr>
+                                                <th data-checkbox="true">全选</th>
+												<th data-field="id" data-align="center">ID</th>
+												<th data-field="name" data-align="center">名称</th>
+												<th data-field="memo" data-align="center">备注</th>
+												<th data-formatter="operateFormatter" data-align="center" data-events="operateEvents">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+<body>
+	<script src="../js/jquery/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery/jquery.tips.js"></script>
+	<script src="../js/bootstrap/bootstrap.min.js"></script>
+	<script src="../js/bootstrap/bootstrap-table.min.js"></script>
+	<script src="../js/common/common.js"></script>
+	<script type="text/javascript">
+			function add(){
+		    	$("#saveId").off('click').on('click',function(){
+		    		params=getParameter($(this));
+		    		if(params!=null){
+						saveAjax("#{entity}/add#{Entity}",params,$(this))
+					}
+			    });
+		    	
+		    }
+		    //关闭模态框触发清空
+		    $('#modify-#{entity}').on('hidden.bs.modal', function (e) {
+		    	$(this).find(":input").val("");
+		    })
+			var $table = $('#table');
+			function operateFormatter(value, row, index) {
+		        return [
+					'<a class="modify" href="javascript:void(0)"  title="编辑">修改</a> '
+		        ].join('');
+		    }
+		 window.operateEvents = {
+			        'click .modify': function (e, value, row, index) {
+			        	var options={backdrop:true};
+			        	var id=row.id;
+			        	$('#modify-#{entity}').modal(options);
+			        	$.ajax({ type: "POST",url: baseUrl+"#{entity}/get#{Entity}",data:{"id":id,"priviledgesID":priviledgesID}, 
+			        		//async: false, 
+			        		success: function(data){
+		        			$("#name").val(data.rows.name);
+		        			$("#memo").val(data.rows.memo);
+		        		}});
+			        	$("#saveId").off('click').on('click',function(){
+			        		params=getParameter($(this));
+							if(params!=null){
+								params.id=id;
+								saveAjax("#{entity}/modify#{Entity}",params,$(this))
+							}
+					    });
+			        }
+			    };
+			//获取参数
+			function getParameter(tip){
+				var vname=$("#name").val();
+				var vmemo=$("#memo").val();
+				var vlidArr=[vname];
+				var msgArr1=["名称不能为空"];
+				if(isNull(vlidArr,msgArr1,tip)){
+					var params={
+							name:vname,
+							memo:vmemo
+					}
+					return params;
+				}else{
+					return null;
+				}
+			}
+			var searchName,searchStatus;
+			function onSearch(){
+				searchName=$("#searchName").val();
+					$table.bootstrapTable('refresh', {
+						query: {
+		   				search: searchName
+						}
+					});
+			}
+			$table.bootstrapTable({
+				url: baseUrl+'#{entity}/query#{Entity}',
+				queryParams:function(params){
+					params.priviledgesID=priviledgesID;
+					params.search=searchName;
+		    		return params;
+		    	}
+			});
+	</script>
+</body>
+</html>

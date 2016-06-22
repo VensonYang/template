@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html ng-app="" lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/datepicker.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="a-body r-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 a-r">
+                    <div class="tab-content">
+                        <div class="tab-pane clearfix active" id="upload-file">
+                            <div class="panel query">
+                                <div class="panel-heading">
+                                    <h3>查询条件</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form class="form-inline">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4">
+                                                <div class="row">
+                                                    <div class="form-group col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                                                        <label>上传日期：</label>
+                                                    </div>
+                                                    <div class="form-group col-md-9 col-lg-9 col-sm-9 col-xs-9 relative">
+                                                        <input id="staTime" type="text" class="start-time form-control" readonly>-
+                                                   		<input id="endTime" type="text" class="end-time form-control" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-lg-2 col-xs-4">
+                                                <div class="row">
+                                                    <div class="form-group col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                                                        <label>文件名：</label>
+                                                    </div>
+                                                    <div class="form-group col-md-9 col-lg-9 col-sm-9 col-xs-9" style="width: 150px;">
+                                                        <input id="fileName" class="form-control"  type="text" name="file-name" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-lg-5 col-xs-4">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-lg-3 col-sm-6 col-xs-6">
+	                                                    <input onclick="onSearch()" type="button" value="查询" class="btn-1 btn-search">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="panel">
+                            	<div class="panel-heading clearfix">
+                                    <h3>文件管理</h3>
+                                </div>
+                                <div class="table-responsive">
+                                    <table
+	                                       id="table"
+										   data-toggle="table" 
+								           data-pagination="true">
+                                        <thead>
+                                           <tr>
+                                            	<th data-field="id" data-align="center">ID</th>
+												<th data-field="fileName"  data-align="center">文件名称</th>
+                                                <th data-field="fileSize" data-align="center">文件大小</th>
+                                                <th data-field="uploadName" data-align="center">上传人</th>
+                                                <th data-field="createTime" data-align="center">上传时间</th>
+                                                <th data-align="center"  data-events="operateEvents" data-formatter="downloadFormatter">下载</th>
+                                                <th data-align="center"  data-events="operateEvents" data-formatter="previewFormatter">下载</th>
+                                                <th data-align="center"  data-events="operateEvents" data-formatter="deleteFormatter">删除</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div>
+                            	<input type="button" value="上传" class="btn-1 btn-define mt10" data-toggle='modal' data-backdrop="static" data-target="#upload">
+                                    <div class="modal dialog" id="upload">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                                    <h5 class="modal-title">文件上传</h5>
+                                                </div>
+                                                <div class="modal-body">
+	                                                    <table id="uploadTable" class="table">
+	                                                        <thead>
+	                                                            <tr>
+	                                                                <th style="text-align: left;padding-left:30px;">文件</th>
+	                                                                <th>操作</th>
+	                                                            </tr>
+	                                                        </thead>
+	                                                        <tbody>
+	                                                        </tbody>
+	                                                    </table>
+                                                    
+                                                    <div id="initDiv" style="height:50px;"></div>
+                                                   	<div id="progress-bar" class="pr-success" style="display: none;">
+                                                        <div class="progress">
+                                                            <div id="progress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                                            </div>
+                                                        </div>
+                                                        <span>0%</span>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer clearfix">
+                                                    <div class="file-wrap mr12 fl">
+	                                                    <button  class="btn-1 btn-define btn-add">
+	                            							<span class="add">添加文件</span>
+	                        							</button>
+	                        							<form method="post"  id="uploadForm" enctype="multipart/form-data">
+                        									<input onchange="addFile(this)" type="file" name="attachment" class="attachment" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+                                                    	</form>
+                                                    </div>
+                                                    <div class="fr">
+                                                        <button onclick="upload()" type="button" class="btn-1 btn-define mr12">上传</button>
+                                                        <button type="button" class="btn-1 btn-cancel" data-dismiss="modal">取消</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-include="'../common/warning.html'"></div>
+    <script type="text/javascript" src="../js/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery.form.js"></script>
+    <script type="text/javascript" src="../js/jquery/jquery.tips.js"></script>
+    <script type="text/javascript" src="../js/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src='../js/bootstrap/bootstrap-datepicker.min.js'></script>
+    <script type="text/javascript" src='../js/bootstrap/bootstrap-datepicker.zh-CN.min.js'></script>
+    <script type="text/javascript" src='../js/common/common.js'></script>
+    <script type="text/javascript" src='../js/bootstrap/bootstrap-table.min.js'></script>
+    <script type="text/javascript" src="../js/common/uploadFile.js"></script>
+    <script type="text/javascript">
+    $(function(){
+    	 if ($('.start-time')[0] && $('.end-time')[0]) {
+           $('.start-time,.end-time').datepicker({
+               format: 'yyyy-mm-dd',
+               language: 'zh-CN',
+               enableOnReadonly: true,
+               autoclose: true,
+
+           });
+       }
+    })
+	var $table = $('#table');
+	function downloadFormatter(value, row, index) {
+        return '<a href="javascript:void(0)" class="download"  title="下载">下载</a>';
+    }
+	function previewFormatter(value, row, index) {
+        return '<a href="javascript:void(0)" class="preview"  title="预览">预览</a>';
+    }
+    function deleteFormatter(value, row, index) {
+    	 return '<a href="javascript:void(0)" class="remove"  title="删除">删除</a>';
+    }
+	 window.operateEvents = {
+			 'click .download': function (e, value, row, index) {
+		        	var url=null;
+		        	$.ajax({
+						   type: "POST",
+						   url: baseUrl+"netdisk/getFile",
+						   data:{"id":row.id,"priviledgesID":priviledgesID},
+						   async:false,
+						   success: function(data){
+							  if(data.status==0){
+								  url=baseUrl+"attachment/attachmentDownload?fileName="+data.rows.fileName+"&downName="+data.rows.downName;
+								  //location.href=url;
+							  }
+						   }
+						});
+		        	window.open(url,"_blank");
+		        	
+		        },
+		        'click .preview': function (e, value, row, index) {
+		        	var setting ={
+		    				id:"-211",
+		    				title:"文件预览",
+		    				icon :"fa-eye",
+		    				url:"../universal/preview_doc.html?fileId="+row.id+"&priviledgesID="+priviledgesID,
+		    				close:true
+		    		};
+		    		addTabs(setting);
+		        },
+		        'click .remove': function (e, value, row, index) {
+		        	$("#warningMsg").text("你确定要删除["+row.fileName+"]文件？");
+		        	var options={backdrop:true};
+		        	$('#warningConfirm').modal(options);
+		        	$("#OKConfirm").off("click").on("click",function(){
+		        		$.ajax({
+							   type: "POST",
+							   url: baseUrl+"netdisk/deleteAttachment",
+							   data:{"id":row.id,"priviledgesID":priviledgesID},
+							   success: function(response){
+								  if(response.status==0){
+									  $table.bootstrapTable('remove', {
+							                field: 'id',
+							                values: [row.id]
+							            });
+								  }else{
+									  alert("错误提示："+response.message);
+								  }
+							   },error:function(response){
+								   	 alert("连接服务器出错，请检查！");
+							   }
+							});
+		        	});
+		            
+		        }
+	 }
+	 var vfileName,vstaTime,vendTime;
+    	function onSearch(){
+    		vfileName=$("#fileName").val();
+    		vstaTime=$("#staTime").val();
+    		vendTime=$("#endTime").val();
+   			$table.bootstrapTable('refresh', {
+   				query: {
+	   				fileName:vfileName,
+	   				staTime:vstaTime,
+	   				endTime:vendTime
+   				}
+   			});
+    	}
+    	$table.bootstrapTable({
+    				url: baseUrl+'netdisk/showQueryFiles',
+    				queryParams:function(params){
+    					params.priviledgesID=priviledgesID;
+    					params.name=vfileName;
+    					params.staTime=vstaTime;
+    					params.endTime=vendTime;
+    		    		return params;
+    		    	}
+    	});
+    </script>
+</body>
+
+</html>

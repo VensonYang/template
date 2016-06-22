@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-22 14:06:48 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="dao.model.TUser" table="t_user" catalog="template" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="userName" type="string">
+            <column name="userName" length="20" not-null="true">
+                <comment>&#211;&#195;&#187;&#167;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="sex" type="string">
+            <column name="sex" length="4" not-null="true">
+                <comment>&#208;&#212;&#177;&#240;</comment>
+            </column>
+        </property>
+        <property name="userAccount" type="string">
+            <column name="userAccount" length="32" not-null="true" unique="true">
+                <comment>&#213;&#203;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="32" not-null="true">
+                <comment>&#181;&#199;&#194;&#189;&#195;&#220;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="status" type="string">
+            <column name="status" length="2">
+                <comment>&#215;&#180;&#204;&#172;(0&#163;&#186;&#211;&#208;&#208;&#167; 1&#163;&#186;&#206;&#222;&#208;&#167;)</comment>
+            </column>
+        </property>
+        <property name="creator" type="java.lang.Integer">
+            <column name="creator">
+                <comment>&#180;&#180;&#189;&#168;&#213;&#223;(&#182;&#212;&#211;&#166;userId)</comment>
+            </column>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="createTime" length="19" not-null="true">
+                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="modifier" type="java.lang.Integer">
+            <column name="modifier">
+                <comment>&#208;&#222;&#184;&#196;&#200;&#203;</comment>
+            </column>
+        </property>
+        <property name="modifyTime" type="timestamp">
+            <column name="modifyTime" length="19">
+                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="headImage" type="string">
+            <column name="headImage" length="150">
+                <comment>&#211;&#195;&#187;&#167;&#205;&#183;&#207;&#241;</comment>
+            </column>
+        </property>
+        <property name="memo" type="string">
+            <column name="memo" length="100">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+        <set name="TUserRoles" table="t_user_role" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="userID" />
+            </key>
+            <one-to-many class="dao.model.TUserRole" />
+        </set>
+        <set name="TUserRoles_1" table="t_user_role" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="userID" />
+            </key>
+            <one-to-many class="dao.model.TUserRole" />
+        </set>
+    </class>
+</hibernate-mapping>

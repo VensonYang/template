@@ -1,0 +1,59 @@
+package #{service_p};
+
+import java.io.Serializable;
+import java.util.Map;
+
+import dao.model.T#{Entity};
+import model.common.QueryVO;
+import #{model_p}.#{Entity}VO;
+
+public interface #{Entity}Service {
+
+	/**
+	 * 分页获取所有对象
+	 * 
+	 * @param queryVO
+	 *            查询条件
+	 */
+	Map<String, Object> query#{Entity}(QueryVO queryVO);
+
+	/**
+	 * 增加对象
+	 * 
+	 * @param #{entity}VO
+	 *            值模型对象
+	 */
+	Serializable add#{Entity}(#{Entity}VO #{entity}VO);
+
+	/**
+	 * 修改对象
+	 * 
+	 * @param #{entity}VO
+	 *            值模型对象
+	 */
+	void modify#{Entity}(#{Entity}VO #{entity}VO);
+
+	/**
+	 * 根据Id删除对象
+	 * 
+	 * @param #{entity}Id
+	 */
+	void delete#{Entity}(Object #{entity}Id);
+
+	/**
+	 * 根据Id获取表对象
+	 * 
+	 * @param #{entity}Id
+	 */
+	T#{Entity} get#{Entity}ById(Object #{entity}Id);
+
+	/**
+	 * 根据Id获取值模型对象
+	 * 
+	 * @param #{entity}Id
+	 */
+	#{Entity}VO get#{Entity}VOById(Object #{entity}Id);
+
+
+
+}

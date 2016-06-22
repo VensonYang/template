@@ -1,0 +1,1044 @@
+html,
+body {
+    height: 100%;
+}
+
+h1,
+h2,
+h3,
+ul,
+input,
+label {
+    padding: 0;
+    margin: 0;
+}
+
+label {
+    vertical-align: middle;
+    font-weight: normal;
+}
+
+li {
+    list-style: none;
+}
+
+body {
+    font-size: 12px;
+    position: relative;
+    font-family: 'Microsoft YaHei', 'SimSun', 'sans';
+    background-color: #fff;
+}
+
+.relative {
+    position: relative;
+}
+
+.clearfix {}
+
+.clearfix:after {
+    content: '';
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    clear: both;
+}
+
+a {
+    font-size: 12px;
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+input[type='text'],
+input[type='password'] textarea {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+input[type='checkbox'] {
+    vertical-align: middle;
+    margin: 0;
+}
+
+input[type='checkbox'],
+input[type='checkbox']:focus {
+    outline: 0;
+}
+
+.a-body select {
+    padding: 0;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.mr12 {
+    margin-right: 12px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.file-txt,
+.file-ppt {
+    color: #000;
+    text-decoration: none;
+}
+
+.file-txt:before,
+.file-ppt:before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    right: 9px;
+}
+
+.file-txt:before {
+    background: url(../images/icons.png) no-repeat -31px -54px;
+}
+
+.file-ppt:before {
+    background: url(../images/icons.png) no-repeat -1px -54px;
+}
+
+
+/*分页样式*/
+
+.pagination>li>.pre-p,
+.pagination>li>.next-n {
+    height: 24px;
+    line-height: 7px;
+    font-size: 20px;
+    width: 24px;
+}
+
+.pagination>li>.pre-p {
+    text-indent: -2px;
+}
+
+.pagination>li>.next-n {
+    text-indent: -2px;
+}
+
+.pagination>li>.pre,
+.pagination>li>.next {
+    font-family: 'SimHei';
+    font-weight: 800;
+    font-size: 10px;
+    height: 24px;
+    width: 24px;
+}
+
+
+/*自定义时间控件*/
+
+.start-time,
+.end-time {
+    height: 25px;
+    width: 98px;
+}
+
+.start-time-c {
+    position: absolute;
+    top: 7px;
+    left: 85px
+}
+
+.end-time-c {
+    position: absolute;
+    top: 7px;
+    left: 192px;
+}
+
+.start-time-s,
+.end-time-s {
+    font-size: 10px;
+    position: absolute;
+    -webkit-transform: scale(0.9);
+    -o-transform: scale(1);
+    top: 6px;
+    left: 145px;
+}
+
+.start-time-c:before,
+.end-time-c:before,
+.end-time-s,
+.start-time-s {
+    color: #b4c4d1;
+}
+
+
+/*工具栏样式*/
+
+.tool-bar {
+    padding: 6px 7px;
+    font-size: 12px;
+    line-height: 12px;
+    background-color: #e8f1f7;
+    border-bottom: 1px solid #b8cbd6;
+}
+
+.tool-list-item {
+    padding-left: 4px;
+    padding-right: 12px;
+    float: left;
+}
+
+.tool-list-item input {
+    outline: none;
+    margin-right: 4px;
+    line-height: 13px;
+}
+
+.tool-list-item > label {
+    line-height: 13px;
+    vertical-align: middle;
+}
+
+.delete,
+.add,
+.modify,
+.pause,
+.start {
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+}
+
+.delete:before,
+.add:before,
+.modify:before,
+.pause:before,
+.start:before {
+    content: '';
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+}
+
+.delete:before {
+    background: url(../images/icons.png) no-repeat -15px 1px;
+}
+
+.add:before {
+    background: url(../images/icons.png) no-repeat -1px 0;
+}
+
+.modify:before {
+    background: url(../images/icons.png) no-repeat -28px 0;
+}
+
+.pause:before {
+    background: url(../images/icons.png) no-repeat -42px 0;
+}
+
+.start:before {
+    background: url(../images/icons.png) no-repeat -55px 1px;
+}
+
+
+/*表格样式*/
+
+.table {
+    margin-bottom: 0;
+}
+
+.table,
+.table>thead>tr>th,
+.table>tbody>tr>td {
+    line-height: 12px;
+}
+
+.table thead {
+    background-color: #e8f1f7;
+}
+
+.table>tbody>tr>td {
+	/* 修改 ：默认边框只有左边和头部
+    border: 1px solid #b4c4d1;
+    */
+    border-left: 1px solid #b4c4d1;
+    border-top: 1px solid #b4c4d1;
+    border-bottom: 1px solid #b4c4d1;
+    
+}
+
+.table>tbody>tr:first-child>td {
+    border-top: 0;
+}
+
+.table>tbody>tr>td:first-child {
+    border-left: 0;
+}
+
+/* 修改 默认开启
+.table>tbody>tr>td >input {
+    margin-right: 9px;
+}
+*/
+.table>tbody>tr>td>label {
+    line-height: 13px;
+}
+
+.table .right {
+    text-align: right;
+}
+
+.table .left {
+    text-align: left;
+}
+
+
+/*弹出框*/
+
+.dialog .tips {
+    display: inline-block;
+    margin-left: 22px;
+    width: 216px;
+}
+
+.dialog .tips p {
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.dialog .tips span {
+    font-size: 11px;
+}
+
+.modal-body img {
+    vertical-align: middle;
+}
+
+.modal-body .tips {
+    vertical-align: middle;
+}
+
+.modal-footer button:first-child,
+.modal-footer span:first-child {
+    margin-right: 7px;
+}
+
+
+/*警告弹出框*/
+
+#warning-a .modal-footer,
+#error-a .modal-footer {
+    padding-right: 30px;
+}
+
+
+/*自定义按钮*/
+
+.btn-blue {
+    color: #fff;
+    border: none;
+    padding: 8px 25px;
+    background: url(../images/blue-btn.jpg) repeat-x 0 0;
+    line-height: 12px;
+}
+
+.btn-blue:visited,
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue:focus {
+    color: #fff;
+}
+
+.btn-1 {
+    display: inline-block;
+    padding: 7px 22px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 13px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.btn-define {
+    color: #fff;
+    background: url(../images/btn-define.jpg) repeat-x 0 0;
+}
+
+.btn-cancel {
+    border-color: #b4c4d1;
+    background: url(../images/h3-bg.jpg) repeat-x 0 0;
+}
+
+
+/*页面主体部分*/
+
+.a-body {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid #2a83cf;
+    min-width: 548px;
+}
+
+.r-body {
+    overflow: hidden;
+    background: #fff;
+    border: none;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .a-body {
+        position: static;
+        height: 100%;
+    }
+}
+
+.a-body .container-fluid {
+    background-color: #fff;
+    height: 100%;
+    padding: 5px 4px 3px 4px;
+    margin: 0 4px;
+}
+
+.r-body .container-fluid {
+    margin: 0;
+    padding: 0 0 3px 0;
+}
+
+.a-body .row {
+    height: 100%;
+}
+
+.panel-heading {
+    border-bottom: none;
+}
+
+.a-body .col-md-2,
+.a-body .col-lg-2 {
+    height: 100%;
+}
+
+.panel-body {
+    padding: 0;
+}
+
+
+/*网页右边部分*/
+
+.a-r .panel {
+    border: 1px solid #b4c4d1;
+}
+
+.a-r .panel-heading {
+    background: url(../images/h3-bg.jpg) repeat-x 0 0;
+    border-bottom: 1px solid #b4c4d1;
+}
+
+.a-r h3 {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.a-r h3:before {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    font-size: 0;
+    background: url(../images/icons.png) no-repeat -55px -14px;
+    right: 6px;
+    top: 2px;
+}
+
+.a-r .grade-list {
+    margin: 18px 10px 6px 10px;
+}
+
+.a-r .grade-list-item {
+    float: left;
+}
+
+.grade-list-item > a {
+    display: inline-block;
+    padding-top: 40px;
+    padding-bottom: 6px;
+    width: 80px;
+    background: url(../images/icons.png) no-repeat 14px -98px;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+    outline: none;
+}
+
+
+/*最新试卷*/
+
+.a-r-b h3 {
+    float: left;
+}
+
+.panel-heading a {
+    line-height: 15px;
+    float: right;
+}
+
+.panel-heading a:after {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 4px;
+    height: 8px;
+    left: 2px;
+    background: url(../images/icons.png) no-repeat -28px -14px;
+}
+
+.new-paper {
+    margin-bottom: 0;
+    padding: 8px 12px 7px 17px;
+}
+
+.new-paper-item {
+    line-height: 22px;
+}
+
+.new-paper-item a {
+    color: #000;
+    text-decoration: none;
+    outline: none;
+}
+
+.new-paper-item a:before,
+.profile-list-item:before {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    right: 5px;
+    background: url(../images/icons.png) no-repeat -14px -14px;
+}
+
+.new-paper-item span {
+    float: right;
+}
+
+
+/*用户资料*/
+
+.profile-list {
+    margin-left: 26px;
+    float: left;
+    margin-bottom: 0;
+}
+
+.user-profile .panel-body {
+    padding: 8px 13px 7px 13px;
+}
+
+.user-photo {
+    float: left;
+    border: 1px solid #b4c4d1;
+    border-radius: 3px;
+    margin-top: 6px;
+}
+
+.profile-list-item {
+    line-height: 22px;
+}
+
+.profile-list-item > a {
+    text-decoration: none;
+}
+
+.profile-list-item span {
+    padding-right: 14px;
+}
+
+.tab-pane .query {
+    border-bottom: 0;
+}
+
+
+/*查询表单*/
+
+.query .btn-1 {
+    padding: 6px 17px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.btn-search {
+    color: #fff;
+    background-color: #5dca1b;
+}
+
+.btn-clear {
+    background: url(../images/btn-clear.jpg) repeat-x 0 0;
+    border: 1px solid #b4c4d1;
+}
+
+.form-inline label {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.query .form-inline {
+    padding-top: 10px;
+}
+.query input {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.query select {
+    padding: 3px 0 3px 0;
+}
+
+.query .input-file-name {
+    width: 205px;
+}
+
+.form-inline .row>.form-group:first-child {
+    text-align: right;
+}
+
+.form-inline>.row>.col-md-12>.row>div {
+    margin-bottom: 0;
+}
+
+.query label {
+    margin-bottom: 0;
+    line-height: 25px;
+}
+
+
+/*查询结果*/
+
+.page {
+    float: right;
+}
+
+.page p {
+    position: relative;
+    margin: 0 0 0 2px;
+    /*ie 8 下同一行没有间距的inline-block元素会重叠*/
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 50px;
+    top: -9px;
+}
+
+.page select {
+    /*safari 中line-height 对input元素有效  会继承父元素的行高*/
+    line-height: 20px;
+}
+
+
+/*所有弹出框的文本输入框长度*/
+
+.modal-body .form-control {
+    width: 86px;
+    height: 19px;
+}
+
+
+/*用户管理页面*/
+
+#modify-user .modal-dialog,
+#assign-priviledges .modal-dialog,
+#modify-priviledges .modal-dialog {
+    width: 532px;
+}
+
+#modify-user .form-group label,
+#modify-priviledges .form-group label {
+    width: 68px;
+    text-align: right;
+}
+
+#modify-user select,
+#modify-user textarea,
+#modify-priviledges select,
+#modify-priviledges textarea {
+    padding-left: 3px;
+}
+
+#modify-user textarea,
+#modify-priviledges textarea {
+    width: 408px;
+    height: 61px;
+    resize: none;
+}
+
+#modify-user .modal-body,
+#modify-priviledges .modal-body {
+    padding: 20px 0 24px 18px;
+}
+
+#modify-user .modal-footer,
+#modify-priviledges .modal-footer {
+    padding: 0 0 23px 0;
+    text-align: center;
+}
+
+.mb12 {
+    margin-bottom: 12px;
+}
+
+.form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.form-inline .form-control {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+/*用户权限管理*/
+
+#modify-role .modal-body,
+#modify-newsType .modal-body {
+    padding-top: 16px;
+    padding-left: 20px;
+}
+
+#modify-role .mb12 .form-group:first-child,
+#modify-newsType .mb12 .form-group:first-child {
+    margin-right: 18px;
+}
+
+#modify-role label,
+#modify-newsType label {
+    min-width: 54px;
+    text-align: right;
+}
+
+#modify-role .mb12 .form-group~.form-group label,
+#modify-newsType .mb12 .form-group~.form-group label {
+    width: 82px;
+}
+
+#modify-role .modal-body .btn-1,
+#modify-newsType .modal-body .btn-1 {
+    padding: 4px 14px;
+}
+
+#modify-role textarea,
+#modify-newsType textarea {
+    width: 280px;
+    resize: none;
+    padding-left: 3px;
+    height: 61px;
+}
+
+#modify-role .modal-footer,
+#modify-newsType .modal-footer,
+#assign-priviledges .modal-footer {
+    padding: 0 0 9px 0;
+    text-align: center;
+}
+
+#assign-priviledges .modal-body {
+    padding: 20px 23px 0 22px;
+}
+
+#assign-priviledges .row1 {
+    padding: 0 0 9px 7px;
+    border-bottom: 1px dashed #b4c4d1;
+}
+
+#assign-priviledges .row2 {
+    padding: 3px 0 3px 7px;
+}
+
+#assign-priviledges .row3,
+#assign-priviledges .row4 {
+    padding: 5px 0 9px 18px;
+}
+
+#assign-priviledges .row4 {
+    padding-bottom: 34px;
+}
+
+#assign-priviledges .row3 .checkbox,
+#assign-priviledges .row4 .checkbox {
+    margin-right: 27px;
+}
+
+
+/*个人上传文件页面*/
+
+.nav-tabs > li > a:before {
+    line-height: 12px;
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    right: 4px;
+    top: 2px;
+    background: url(../images/icons.png) no-repeat -55px -14px;
+}
+
+
+/*用户信息页面*/
+
+#user-data .table>tbody>tr>td {
+    vertical-align: middle;
+    border-left: 0px;
+}
+
+.tab-pane .table-border>tbody>tr>td {
+    border-top: 0;
+}
+
+.tab-pane .table-border>tbody>tr:first-child {
+    border-top: 0px;
+}
+
+.tab-pane .panel-heading {
+    background: none;
+    background-color: #e8f1f7;
+}
+
+#user-data {
+    border: 1px solid #b4c4d1;
+}
+
+#user-data img {
+    margin-top: 3px;
+    border: 1px solid #b4c4d1;
+    border-radius: 3px;
+}
+
+.change-photo {
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+#user-data .table-responsive {
+    border: 0px;
+}
+
+
+/*上传文件弹出框*/
+
+#upload .modal-dialog {
+    width: 648px;
+}
+
+#upload .modal-body {
+    padding: 0;
+}
+
+#upload .modal-footer {
+    background-color: #efefef;
+    padding: 7px 13px;
+}
+
+#upload .table {
+    border-bottom: 1px dashed #ccc;
+}
+
+#upload thead {
+    background: #efefef;
+}
+
+#upload td {
+    vertical-align: middle;
+    padding: 0;
+    border-left: 0;
+    text-align: center;
+    border-top: 0;
+}
+
+#upload td>span {
+    line-height: 44px;
+}
+
+#upload select {
+    padding-left: 3px;
+    margin-right: 0;
+    margin: 0 auto;
+}
+
+#upload .progress {
+    position: relative;
+    height: 8px; 
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(204, 204, 204, .5);
+    border: 1px solid #ccc\9;
+}
+
+#upload .pr-success {
+    position: relative;
+}
+
+#upload .pr-success span {
+    font-size: 10px;
+   /*
+   	修改：默认开启
+   	position: absolute;*/
+    text-align: center;
+    display:block;
+    /*left: 50%;
+    top: 12px;*/
+    color: #000;
+}
+
+#upload .add {
+    color: #fff;
+}
+
+#upload .start {
+    margin-right: 12px;
+}
+
+#upload .btn-add {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+.file-wrap {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 74px;
+    height: 30px;
+}
+.attachment {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 50px;
+    font-size: 100px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+}
+
+/*学期定义弹出框*/
+
+
+/*修改密码页面*/
+
+#password label {
+    display: inline-block;
+    width: 105px;
+    text-align: right;
+}
+
+#password input[type='password'] {
+    line-height: 20px;
+    padding-left: 3px;
+    width: 137px;
+}
+
+#password .panel-body {
+    padding-top: 20px;
+}
+
+#password .form-group {
+    margin-bottom: 16px;
+}
+
+#password .form-inline {
+    margin-bottom: 0;
+}
+
+#password .form-group label,
+#password .form-group div {
+    margin-bottom: 0;
+}
+
+#password .form-inline .right-btn {
+    width: 245px;
+    text-align: right;
+}
+
+
+/*文件类型弹出框*/
+
+#file-type .modal-dialog {
+    width: 384px;
+}
+
+#file-type .modal-body {
+    padding: 22px 0 22px 60px;
+}
+
+#file-type .form-group input {
+    width: 177px;
+}
+
+#file-type .form-group label {
+    text-align: right;
+}
+
+#file-type .modal-footer {
+    padding: 0 0 30px 0;
+    text-align: center;
+}
+
+
+/*
+	bootstrap-table
+*/
+.pagination-detail{
+	  display: inline-block;
+	  padding-left: 0;
+	  margin-top: 10px;
+	  border-radius: 4px;
+}
+
+.page-list .btn {
+     padding:0px 10px;
+}

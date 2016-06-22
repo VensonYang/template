@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!-- 警告弹出框 有确定和取消按钮 -->
+		<!-- 确认模态框 -->
+		<div class="modal dialog" id="warningConfirm">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+		                <h5 class="modal-title">警告信息</h5>
+		            </div>
+		            <div class="modal-body">
+		                <img src="../images/warning.png" alt="warning">
+		                <div class="tips">
+		                    <p id="warningMsg"></p></div>
+		            </div>
+		            <div class="modal-footer">
+		                <button id="OKConfirm" type="button" class="btn-1 btn-define" data-dismiss="modal">确定</button>
+		                <button type="button" class="btn-1 btn-cancel" data-dismiss="modal">取消</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	
+		<!-- 错误弹出框 有确定和取消按钮 -->
+		<div class="modal dialog" id="error">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+		                <h5 class="modal-title">错误信息</h5>
+		            </div>
+		            <div class="modal-body">
+		                <img src="../images/error.png" alt="exit-img">
+		                <div class="tips">
+		                    <p>你确定要删除文件吗？</p></div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn-1 btn-define" data-dismiss="modal">确定</button>
+		                <button type="button" class="btn-1 btn-cancel" data-dismiss="modal">取消</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	
+		<!-- 警告弹出框 只有确定按钮 -->
+		<div class="modal dialog" id="warning-a">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+		                <h5 class="modal-title">警告信息</h5>
+		            </div>
+		            <div class="modal-body">
+		                <img src="../images/warning.png" alt="warning">
+		                <div class="tips">
+		                    <p>你确定要删除文件吗？</p></div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn-1 btn-define" data-dismiss="modal">确定</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	
+		<!-- 错误弹出框 只有确定按钮 -->
+		<div class="modal dialog" id="error-a">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+		                <h5 class="modal-title">错误信息</h5>
+		            </div>
+		            <div class="modal-body">
+		                <img src="../images/error.png" alt="exit-img">
+		                <div class="tips">
+		                    <p>你确定要删除文件吗？</p></div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn-1 btn-define" data-dismiss="modal">确定</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		
+		<div class="modal dialog" id="exit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title">提示信息</h5>
+                </div>
+                <div class="modal-body">
+                    <img src="../images/exit-dialog.png" alt="exit-img">
+                    <div class="tips">
+                        <p>你确定要退出系统吗？</p></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="OKConfirm1" type="button" class="btn-1 btn-define">确定</button>
+                    <button type="button" class="btn-1 btn-cancel" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
