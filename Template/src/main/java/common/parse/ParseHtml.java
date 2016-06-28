@@ -36,7 +36,7 @@ public class ParseHtml {
 	 *            匹配的起始头
 	 */
 	public static boolean matches(String text) {
-		if (text.matches(Resolver.REGEX_SMALL_START + ".*"))
+		if (text.matches(Resolver.REGEX_SMALL_ITEM_START + ".*"))
 			return true;
 		return false;
 	}
@@ -83,7 +83,7 @@ public class ParseHtml {
 				for (Element em : elems) {
 					if (em.nodeName().equals("img")) {
 						path.append(em.attr("src"));
-						path.append("]");
+						path.append(",");
 					}
 				}
 			}
@@ -122,6 +122,7 @@ public class ParseHtml {
 				Elements elems = e.children();
 				for (Element em : elems) {
 					if (em.nodeName().equals("img")) {
+						builder.append("[imgPath=");
 						builder.append(em.attr("src"));
 						builder.append("]");
 					}
@@ -152,10 +153,11 @@ public class ParseHtml {
 				map.put(String.valueOf(e.elementSiblingIndex()), Question.ANSWER);
 				return map;
 			} else {
-				Pattern p = Pattern.compile("^" + Resolver.REGEX_BIG);
+				Pattern p = Pattern.compile("^" + Resolver.REGEX_BIG_QUESTION);
 				Matcher m = p.matcher(text);
-				if (m.matches()) {
+				if (m.find()) {
 					String name = text.split(Resolver.REGEX_BIG_NUM)[1].replace((char) 12288, ' ').trim();
+					System.out.println(m.matches());
 					map.put(String.valueOf(e.elementSiblingIndex()), name);
 				}
 			}

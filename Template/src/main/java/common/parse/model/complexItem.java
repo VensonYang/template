@@ -3,7 +3,7 @@ package common.parse.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ShortAnswer extends BaseItem {
+public class complexItem extends BaseItem {
 
 	private List<Item> items = new LinkedList<Item>();
 
@@ -21,7 +21,7 @@ public class ShortAnswer extends BaseItem {
 
 	@Override
 	public String toString() {
-		return "ShortAnswer [items=" + items + ", title=" + title + ", answer=" + answer + ", imgPath=" + imgPath + "]";
+		return "complexItem [items=" + items + ", title=" + title + ", answer=" + answer + ", imgPath=" + imgPath + "]";
 	}
 
 }

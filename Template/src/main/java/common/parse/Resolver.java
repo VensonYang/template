@@ -17,7 +17,7 @@ import common.parse.model.Item;
 import common.parse.model.Paper;
 import common.parse.model.Question;
 import common.parse.model.QuestionImpl;
-import common.parse.model.ShortAnswer;
+import common.parse.model.complexItem;
 
 public class Resolver implements Parse {
 
@@ -26,16 +26,18 @@ public class Resolver implements Parse {
 	// 匹配【七年级下册课外古诗《春夜洛城闻笛》，易】题型
 	public static final String REGEX_ITEM_INFO = "【.{7,50}】";
 	// 匹配（1）（2）（2）题型(简答题中的小题)
-	public static final String REGEX_SMALL_BRACKET = "[(（][1-9][）)]|[(（]\\d{1,2}+(?!分)";
+	public static final String REGEX_COMLLEX_ITEM = "[(（][1-9][）)]|[(（]\\d{1,2}+(?!分)";
 	// 匹配1．2．3．题型(答案区小题)
-	public static final String REGEX_SMALL = "\\d{1,2}[.、．]";
+	public static final String REGEX_SMALL_ITEM = "\\d{1,2}[.、．]";
+	// 匹配1．2．3．题型(答案区小题)
+	public static final String REGEX_SMALL_ITEM_ANSWER = REGEX_SMALL_ITEM + "(?!png)";
 	// 匹配起始头为1．2．3．题型(试卷小题)
-	public static final String REGEX_SMALL_START = "^" + REGEX_SMALL;
+	public static final String REGEX_SMALL_ITEM_START = "^" + REGEX_SMALL_ITEM;
 	// 匹配一、二、题型
 	public static final String REGEX_BIG_NUM = "[一二三四五六七八九十][、.．]";
 	// 匹配一、XX题二、XX题 题型(试卷大题，答案区小题)
-	public static final String REGEX_BIG = REGEX_BIG_NUM + "[\u4e00-\u9fa5]*题";
-
+	public static final String REGEX_BIG_QUESTION = REGEX_BIG_NUM + "[\u4e00-\u9fa5]*题";
+	Pattern patternItem;
 	static {
 		QUESTION_TYPE = new HashMap<String, String>();
 		// 利用java反射获取基本题型
@@ -57,6 +59,7 @@ public class Resolver implements Parse {
 	}
 
 	private Resolver() {
+		patternItem = Pattern.compile(REGEX_ITEM_INFO);
 	}
 
 	private static Resolver resolver = new Resolver();
@@ -109,10 +112,10 @@ public class Resolver implements Parse {
 		// 获取答案
 		String answer = question.getItem().get(0).getTitle();
 		// 寻找大题
-		Pattern p = Pattern.compile(REGEX_BIG);
+		Pattern p = Pattern.compile(REGEX_BIG_QUESTION);
 		Matcher m = p.matcher(answer);
 		// 截取答案
-		String[] a = answer.split(REGEX_BIG);
+		String[] a = answer.split(REGEX_BIG_QUESTION);
 		Map<String, String> map = new HashMap<String, String>();
 		// 将答案放入对应的大题中
 		for (String s : a) {
@@ -127,7 +130,7 @@ public class Resolver implements Parse {
 			// 无法获取键值
 			if (types.keySet().contains(entry.getKey())) {
 				// 拆分小题答案
-				String[] split = entry.getValue().split(REGEX_SMALL + "(?!png)");
+				String[] split = entry.getValue().split(REGEX_SMALL_ITEM_ANSWER);
 				// 保存小题答案
 				List<String> as = new LinkedList<String>();
 				for (String e : split) {
@@ -154,34 +157,37 @@ public class Resolver implements Parse {
 	 * 解析简答题
 	 */
 	public void parseShortAnswer(Question question, Paper paper) {
-		parseBig(question, paper);
+		parseComplexItem(question, paper);
 	}
 
-	private void parseBig(Question question, Paper paper) {
+	private void parseComplexItem(Question question, Paper paper) {
 		Question q = new QuestionImpl(question.getType());
 		for (Item it : question.getItem()) {
 			BaseItem bt = (BaseItem) it;
-			ShortAnswer item = new ShortAnswer();
+			complexItem item = new complexItem();
 			item.setImgPath(bt.getImgPath());
 			String text = bt.getTitle();
-			parseItemInItem(item, text);
+			parse(item, text);
 			q.add(item);
 		}
 		paper.add(q);
 	}
 
-	private void parseItemInItem(ShortAnswer item, String text) {
+	/**
+	 * 解析复杂题型，即题中包含小题
+	 */
+	private void parse(complexItem item, String text) {
 		// 分离小题
-		String[] s = text.split(REGEX_SMALL_BRACKET);
+		String[] s = text.split(REGEX_COMLLEX_ITEM);
 		for (int i = 0; i < s.length; i++) {
 			if (StringUtils.isNotBlank(s[i])) {
 				if (i == 0) {
 					// 分离第一道小题与标题
-					item.setTitle(s[i].split(REGEX_SMALL_START)[1]);
+					item.setTitle(s[i].split(REGEX_SMALL_ITEM_START)[1]);
 				} else {
 					// 分离章节，难度
 					BaseItem baseItem = new BaseItem();
-					parseItemInfo(baseItem, s[i]);
+					parse(baseItem, s[i]);
 					item.add(baseItem);
 				}
 			}
@@ -202,9 +208,11 @@ public class Resolver implements Parse {
 		parseBaseItem(question, paper);
 	}
 
-	private void parseItemInfo(BaseItem item, String text) {
-		Pattern p = Pattern.compile(REGEX_ITEM_INFO);
-		Matcher m = p.matcher(text);
+	/**
+	 * 解析试题中的章节、难度、答案
+	 */
+	private void parse(BaseItem item, String text) {
+		Matcher m = patternItem.matcher(text);
 		// 分离章节，难度
 		if (m.find()) {
 			String[] s = text.split(REGEX_ITEM_INFO);
@@ -212,7 +220,7 @@ public class Resolver implements Parse {
 			for (String t : s) {
 				title += t;
 			}
-			String[] a = title.split(REGEX_SMALL);
+			String[] a = title.split(REGEX_SMALL_ITEM);
 			title = a.length == 2 ? a[1] : a[0];
 			item.setTitle(title);
 			String g = m.group();
@@ -243,6 +251,13 @@ public class Resolver implements Parse {
 	}
 
 	/**
+	 * 解析解答题
+	 */
+	public void parseSolve(Question question, Paper paper) {
+		parseBaseItem(question, paper);
+	}
+
+	/**
 	 * 解析附加题
 	 */
 	public void parseAdditional(Question question, Paper paper) {
@@ -256,12 +271,15 @@ public class Resolver implements Parse {
 		paper.add(question);
 	}
 
+	/**
+	 * 解析基本题型
+	 */
 	private void parseBaseItem(Question question, Paper paper) {
 		Question q = new QuestionImpl(question.getType());
 		for (Item it : question.getItem()) {
 			BaseItem bt = (BaseItem) it;
 			String text = bt.getTitle();
-			parseItemInfo(bt, text);
+			parse(bt, text);
 			q.add(bt);
 		}
 		paper.add(q);

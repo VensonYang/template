@@ -9,6 +9,7 @@ public interface Question {
 	String ADDITIONAL = "附加题";
 	String READING = "阅读题";
 	String COMPREHENSIVE = "综合题";
+	String SOLVE = "解答题";
 	String ANSWER = "***答案区***";
 
 	void setType(String type);
