@@ -8,6 +8,8 @@ public interface Question {
 	String SHORT_ANSWER = "简答题";
 	String ADDITIONAL = "附加题";
 	String READING = "阅读题";
+	String COMPREHENSIVE = "综合题";
+	String ANSWER = "***答案区***";
 
 	void setType(String type);
 

@@ -44,10 +44,9 @@ public class LoginFilter implements Filter {
 	private UserService userService;
 	private boolean ignore = false;
 	private String encoding;
-	private String permitUrls[] = null;
+	public static final String permitUrls[] = { "/get/createVerifyCode", "/get/getUserAccount", "/user/login" };
 
 	public void destroy() {
-		permitUrls = null;
 		ignore = false;
 	}
 
@@ -63,17 +62,19 @@ public class LoginFilter implements Filter {
 		/**
 		 * 如果是静态资源则不进行拦截
 		 */
-		HttpServletRequest req = (HttpServletRequest) request;
-		String reqURI = req.getRequestURI();
-		if (reqURI.lastIndexOf(".") != -1) {
-			chain.doFilter(request, response);
-			return;
-		}
+		// HttpServletRequest req = (HttpServletRequest) request;
+		// String reqURI = req.getRequestURI();
+		// logger.debug(reqURI);
+		// if (reqURI.lastIndexOf(".") != -1) {
+		// chain.doFilter(request, response);
+		// return;
+		// }
 		// 统一全站字符编码
+		logger.debug("进入站点。。。");
 		request.setCharacterEncoding(encoding);
 		response.setCharacterEncoding(encoding);
 		// 将request,response保存到当前线程中去
-		ControllerContext.setRequest(req);
+		ControllerContext.setRequest((HttpServletRequest) request);
 		ControllerContext.setResponse((HttpServletResponse) response);
 
 		if (ignore == false) {
@@ -98,7 +99,8 @@ public class LoginFilter implements Filter {
 	 */
 	public boolean isPermitUrl(ServletRequest request) {
 		boolean isPermit = false;
-		String[] rootUrls = currentUrl(request).split("/");
+		String currentURL = currentUrl(request);
+		String[] rootUrls = currentURL.split("/");
 		String rooturl = "";
 		if (rootUrls.length > 1) {
 			rooturl = "/" + rootUrls[1];
@@ -106,7 +108,7 @@ public class LoginFilter implements Filter {
 
 		if (permitUrls != null && permitUrls.length > 0) {
 			for (int i = 0; i < permitUrls.length; i++) {
-				if (permitUrls[i].equals(currentUrl(request)) || permitUrls[i].equals(rooturl)) {
+				if (permitUrls[i].equals(currentURL) || permitUrls[i].equals(rooturl)) {
 					isPermit = true;
 					logger.debug("rooturl=" + rooturl);
 					break;
@@ -174,13 +176,9 @@ public class LoginFilter implements Filter {
 		ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
 		userService = (UserService) ctx.getBean("userService");
 		String ignore = filterConfig.getInitParameter(IGNORE_PARAM);
-		String permitUrls = filterConfig.getInitParameter(PERMIT_URL_PARAM);
 		this.encoding = filterConfig.getInitParameter(ENCODING_PARAM);
 		if (Boolean.parseBoolean(ignore)) {
 			this.ignore = true;
-		}
-		if (permitUrls != null && permitUrls.length() > 0) {
-			this.permitUrls = permitUrls.split(",");
 		}
 	}
 

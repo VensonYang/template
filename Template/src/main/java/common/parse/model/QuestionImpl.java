@@ -41,7 +41,6 @@ public class QuestionImpl implements Question {
 
 	@Override
 	public List<Item> getItem() {
-		// TODO Auto-generated method stub
 		return this.items;
 	}
 

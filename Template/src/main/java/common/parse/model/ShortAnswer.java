@@ -1,10 +1,27 @@
 package common.parse.model;
 
-public class ShortAnswer extends AbstractItem {
+import java.util.LinkedList;
+import java.util.List;
+
+public class ShortAnswer extends BaseItem {
+
+	private List<Item> items = new LinkedList<Item>();
+
+	public void add(Item e) {
+		items.add(e);
+	}
+
+	public void remove(Item e) {
+		items.remove(e);
+	}
+
+	public List<Item> getItem() {
+		return this.items;
+	}
 
 	@Override
 	public String toString() {
-		return "ShortAnswer [title=" + title + "]";
+		return "ShortAnswer [items=" + items + ", title=" + title + ", answer=" + answer + ", imgPath=" + imgPath + "]";
 	}
 
 }

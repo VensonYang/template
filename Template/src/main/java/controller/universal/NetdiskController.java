@@ -54,8 +54,7 @@ public class NetdiskController {
 		if (ControllerHelper.checkError(fileVO, va, returnResult, logger)) {
 			return returnResult;
 		}
-		netdiskService.addBatchFile(ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_UPLOAD_PATH), fileVO,
-				ControllerHelper.getUserId());
+		netdiskService.addBatchFile(fileVO, ControllerHelper.getUserId());
 		returnResult.setStatus(StatusCode.SUCCESS);
 		return returnResult;
 	}
@@ -69,10 +68,8 @@ public class NetdiskController {
 		}
 		FileVO file = netdiskService.getFileByFileId(Integer.parseInt(param));
 		Map<String, String> result = new HashMap<String, String>();
-		String fileName = file.getFilePath()
-				.substring(ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_UPLOAD_PATH).length());
 		result.put("downName", file.getFileName());
-		result.put("fileName", fileName);
+		result.put("fileName", file.getFilePath());
 		returnResult.setStatus(StatusCode.SUCCESS).setRows(result);
 		return returnResult;
 	}
@@ -96,7 +93,8 @@ public class NetdiskController {
 			return returnResult;
 		}
 		String htmlPath = ControllerHelper.getUploadPath(ControllerHelper.HTML_UPLOAD_PATH);
-		String wordPath = ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_UPLOAD_PATH);
+		String wordPath = ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_ROOT_PATH);
+		logger.debug(wordPath + fileName);
 		if (!new File(wordPath + fileName).exists()) {
 			returnResult.setStatus(StatusCode.FAIL).setRows("文件不存在！");
 			return returnResult;

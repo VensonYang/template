@@ -12,6 +12,8 @@ public class BatchFileVO {
 	private Integer[] fileSizes;
 	@NotNull(message = "文件名不能为空")
 	private String[] builderNames;
+	@NotNull(message = "文件名不能为空")
+	private String[] url;
 
 	private String floder;
 
@@ -53,6 +55,14 @@ public class BatchFileVO {
 
 	public void setFloder(String floder) {
 		this.floder = floder;
+	}
+
+	public String[] getUrl() {
+		return url;
+	}
+
+	public void setUrl(String[] url) {
+		this.url = url;
 	}
 
 }

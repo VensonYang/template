@@ -59,18 +59,28 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-	 <!-- 拦截器  
+	 <!-- 拦截器  -->
     <mvc:interceptors>
+    	<!-- 
         <mvc:interceptor>
             <mvc:mapping path="/**" />
             <bean class="interceptor.RequestTypeInterceptor"></bean>
         </mvc:interceptor>
+         -->
+         <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <mvc:exclude-mapping path="/get/createVerifyCode"/>
+            <mvc:exclude-mapping path="/get/getUserAccount"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <bean class="interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor> 
         <mvc:interceptor>
             <mvc:mapping path="/**" />
             <bean class="interceptor.AuthorityInterceptor"></bean>
         </mvc:interceptor> 
     </mvc:interceptors>
-   -->
+   
+   
     <mvc:resources location="/upload/" mapping="/upload/**"/> 
 	<mvc:resources location="/download/" mapping="/download/**"/> 
 	<mvc:resources location="/prints/" mapping="/prints/**"/> 

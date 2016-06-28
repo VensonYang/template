@@ -30,7 +30,7 @@ public interface NetdiskService {
 	/**
 	 * 批量增加对象
 	 */
-	void addBatchFile(String rootPath, BatchFileVO fileVO, Integer userId);
+	void addBatchFile(BatchFileVO fileVO, Integer userId);
 
 	/**
 	 * 根据Id删除对象

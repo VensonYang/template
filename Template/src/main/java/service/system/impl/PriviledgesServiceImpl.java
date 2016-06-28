@@ -33,18 +33,24 @@ public class PriviledgesServiceImpl implements PriviledgesService {
 	private Map<Integer, PriviledgesVectorVO> priviledgesVectors;
 
 	private boolean initPriviledgesVectors(int userId) {
+		// 获取用户的所有权限
 		List<Map<String, Object>> priviledgesResult = loginService.getPriviledgesByUserId(userId);
 		if (priviledgesResult != null) {
+			// 获取用户的所有增删改查权限
 			List<Map<String, Object>> priviledgeMatrixResult = loginService.getPriviledgesMatrixByUserId(userId);
+			// 遍历权限
 			for (Map<String, Object> priviledge : priviledgesResult) {
 				for (Map<String, Object> priviledgeMatrix : priviledgeMatrixResult) {
+					// 寻找对应的增删改查权限
 					if ((Integer) priviledge.get("id") == (Integer) priviledgeMatrix
 							.get(StaticsConstancts.PRIVILEDGES_ID)) {
+						// 保存对应的增删改查权限
 						PriviledgesVectorVO priviledgesVector = new PriviledgesVectorVO();
 						priviledgesVector.setPriviledge(priviledge);
 						Map<String, Boolean> priviledgeMatrixMap = new HashMap<String, Boolean>();
 						for (Entry<String, Object> set : priviledgeMatrix.entrySet()) {
 							String key = set.getKey();
+							// 排除priviledgesID
 							if (!key.equals("priviledgesID")) {
 								priviledgeMatrixMap.put(key, (Boolean) set.getValue());
 							}

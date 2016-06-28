@@ -69,7 +69,6 @@ public class NetdiskServiceImpl implements NetdiskService {
 	@Override
 	public Serializable addFile(FileVO obj) {
 		TFile tobj = new TFile();
-		// TODO Auto-generated method stub
 		BeanCopyUtils.copyProperties(obj, tobj);
 		return baseDao.save(tobj);
 	}
@@ -91,18 +90,19 @@ public class NetdiskServiceImpl implements NetdiskService {
 	}
 
 	@Override
-	public void addBatchFile(String rootPath, BatchFileVO fileVO, Integer userId) {
+	public void addBatchFile(BatchFileVO fileVO, Integer userId) {
 		for (int i = 0; i < fileVO.getFileNames().length; i++) {
 			FileVO saveFileVO = new FileVO();
 			String fileName = fileVO.getFileNames()[i];
 			String builderName = fileVO.getBuilderNames()[i];
+			String url = fileVO.getUrl()[i];
 			int fileSize = fileVO.getFileSizes()[i];
 			String fileType = fileVO.getFileTypes()[i];
 			saveFileVO.setFileName(fileName);
 			saveFileVO.setFileType(fileType);
 			saveFileVO.setBuilderName(builderName);
 			saveFileVO.setFileSize(fileSize);
-			saveFileVO.setFilePath(rootPath + builderName);
+			saveFileVO.setFilePath(url);
 			saveFileVO.setCreateor(userId);
 			saveFileVO.setCreateTime(new Date());
 			addFile(saveFileVO);

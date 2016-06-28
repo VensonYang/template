@@ -8,6 +8,7 @@ public class FileVO {
 	private String fileType;
 	private Integer fileSize;
 	private String builderName;
+	private String url;
 	private String filePath;
 	private String fileDesc;
 	private Integer createor;
@@ -84,6 +85,14 @@ public class FileVO {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
