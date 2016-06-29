@@ -27,6 +27,15 @@ import controller.result.StatusCode;
 
 public class ParseHtml {
 
+	private ParseHtml() {
+	}
+
+	private static ParseHtml instance = new ParseHtml();
+
+	public static ParseHtml getIntance() {
+		return instance;
+	}
+
 	/**
 	 * 用于匹配小题的正则表达式
 	 * 
@@ -35,7 +44,7 @@ public class ParseHtml {
 	 * @param headers
 	 *            匹配的起始头
 	 */
-	public static boolean matches(String text) {
+	public boolean matches(String text) {
 		if (text.matches(Resolver.REGEX_SMALL_ITEM_START + ".*"))
 			return true;
 		return false;
@@ -51,15 +60,22 @@ public class ParseHtml {
 	 * @param length
 	 *            长度
 	 */
-	public static Question getQuestion(Elements children, int staIdx, int length, String type) {
+	public Question getQuestions(Elements children, int staIdx, int length, String type) {
 		Question question = new QuestionImpl(type);
 		StringBuilder builder = new StringBuilder();
-		BaseItem item = new BaseItem();
+		Item item = new BaseItem();
 		StringBuilder path = new StringBuilder();
 		boolean isStart = false;
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
-			String text = e.text().replace((char) 12288, ' ').trim();
+			// 这里可以对文本进行处理
+			String text = e.text();
+			// 将全角空格替换成半角空格
+			text = text.replace((char) 12288, ' ').trim();
+			text = text.replace((char) 160, ' ').trim();
+			// 过滤字符如：（X分），图X
+			text = text.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[）)]", "");
+			text = text.replaceAll("图\\d{1,2}", "图");
 			String html = e.html();
 			if (matches(text)) {
 				isStart = true;
@@ -109,13 +125,20 @@ public class ParseHtml {
 	 * @param length
 	 *            长度
 	 */
-	public static Question getAnswer(Elements children, int staIdx, int length) {
+	public Question getAnswer(Elements children, int staIdx, int length) {
 		Question question = new QuestionImpl(Question.ANSWER);
 		StringBuilder builder = new StringBuilder();
-		BaseItem item = new BaseItem();
+		Item item = new BaseItem();
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
+			// 这里可以对文本进行处理
 			String text = e.text();
+			// 将全角空格替换成半角空格
+			text = text.replace((char) 12288, ' ').trim();
+			text = text.replace((char) 160, ' ').trim();
+			// 过滤字符如：（X分），图X
+			text = text.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[）)]", "");
+			text = text.replaceAll("图\\d{1,2}", "图");
 			builder.append(text);
 			String html = e.html();
 			if (html.contains("img")) {
@@ -143,7 +166,7 @@ public class ParseHtml {
 	 * @param children
 	 *            节点
 	 */
-	public static Map<String, String> getType(Elements children) {
+	public Map<String, String> getType(Elements children) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (Element e : children) {
 			// 从试卷里面查找题型
@@ -156,8 +179,7 @@ public class ParseHtml {
 				Pattern p = Pattern.compile("^" + Resolver.REGEX_BIG_QUESTION);
 				Matcher m = p.matcher(text);
 				if (m.find()) {
-					String name = text.split(Resolver.REGEX_BIG_NUM)[1].replace((char) 12288, ' ').trim();
-					System.out.println(m.matches());
+					String name = m.group().replaceAll(Resolver.REGEX_BIG_NUM, "").replace((char) 12288, ' ').trim();
 					map.put(String.valueOf(e.elementSiblingIndex()), name);
 				}
 			}
@@ -175,7 +197,7 @@ public class ParseHtml {
 	 * @param map
 	 *            题型键值对
 	 */
-	public static String[] sortIndex(Map<String, String> map) {
+	public String[] sortIndex(Map<String, String> map) {
 		if (map == null) {
 			return null;
 		}
@@ -207,7 +229,7 @@ public class ParseHtml {
 	 *            自定义解析接口
 	 * @throws Exception
 	 */
-	public static Paper parse(String path, String subject, Parse parse) throws Exception {
+	public Paper parse(String path, String subject) throws Exception {
 		// 定义一个指定科目的试卷保存对象
 		Paper paper = new PaperImpl(subject);
 		// 读取文件
@@ -239,11 +261,13 @@ public class ParseHtml {
 				if (type == Question.ANSWER) {
 					question = getAnswer(children, staIdx, length);
 				} else {
-					question = getQuestion(children, staIdx, length, type);
+					question = getQuestions(children, staIdx, length, type);
 				}
-				if (parse != null) {
-					parse.parse(question, paper);
-				}
+				paper.add(question);
+				// 此处不进行解析
+				// if (parse != null) {
+				// parse.parse(question, paper);
+				// }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -251,33 +275,14 @@ public class ParseHtml {
 
 		}
 		boolean isNull = false;
-		for (Question question : paper.getQuestion()) {
-			List<Item> items = question.getItem();
+		for (Question question : paper.getQuestions()) {
+			List<Item> items = question.getItems();
 			if (items.size() != 0)
 				isNull = true;
 		}
 		if (!isNull)
 			return paper.setResult(StatusCode.PARAMETER_ERROR.setMessage("文档中未找到可以解析的题型"));
 		return paper;
-	}
-
-	/**
-	 * 利用Jsoup组件对html试卷进行解析,使用默认的解析方法
-	 * 
-	 * @param path
-	 *            文件路径
-	 * @param subject
-	 *            科目
-	 * @throws Exception
-	 */
-	public static Paper parse(String path, String subject) throws Exception {
-		return parse(path, subject, new Parse() {
-
-			@Override
-			public void parse(Question question, Paper paper) {
-				paper.add(question);
-			}
-		});
 	}
 
 	/**
@@ -292,7 +297,7 @@ public class ParseHtml {
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	public static Paper parse(String path) throws Exception {
+	public Paper parse(String path) throws Exception {
 		return parse(path, null);
 	}
 

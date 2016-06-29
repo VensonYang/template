@@ -64,13 +64,22 @@ public class WordToHtml {
 
 	private static final Logger logger = LoggerFactory.getLogger(WordToHtml.class);
 
+	private WordToHtml() {
+	}
+
+	private static WordToHtml instance = new WordToHtml();
+
+	public static WordToHtml getInstance() {
+		return instance;
+	}
+
 	public static void main(String args[]) throws Exception {
 		// toHtml("f:/", "test.doc", "f:/", "sd.html");
-		toHtml("f://word/", "数学试卷.doc", "f://word/", "数学试卷.html");
+		instance.toHtml("f://word/", "数学试卷.doc", "f://word/", "数学试卷.html");
 
 	}
 
-	public static void convertTxtToHtml(String inPath, String inFileName, String outPath, String outFileName) {
+	public void convertTxtToHtml(String inPath, String inFileName, String outPath, String outFileName) {
 		try {
 			String content = getStringFormTxt(inPath + inFileName);
 			writeHtml(content, outPath, outFileName);
@@ -80,7 +89,7 @@ public class WordToHtml {
 		}
 	}
 
-	public static void writeHtml(String content, String outPath, String outFileName) throws IOException {
+	public void writeHtml(String content, String outPath, String outFileName) throws IOException {
 		File writefile = new File(outPath + outFileName);
 		writefile.createNewFile();
 		writefile = new File(outPath + outFileName); // 重新实例化
@@ -100,7 +109,7 @@ public class WordToHtml {
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	public static void wordToHtml03(String inPath, String inFileName, final String outPath, final String outFileName)
+	public void wordToHtml03(String inPath, String inFileName, final String outPath, final String outFileName)
 			throws IOException, ParserConfigurationException, TransformerException {
 		STUnderline.Enum.forInt(1);
 		HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(inPath + inFileName));
@@ -142,8 +151,8 @@ public class WordToHtml {
 	 * @param outfileName
 	 *            输出文件夹名
 	 */
-	public static String savePic(byte[] content, PictureType pictureType, String outPath, String outfileName,
-			float width, float height) {
+	public String savePic(byte[] content, PictureType pictureType, String outPath, String outfileName, float width,
+			float height) {
 		String outFloder = outfileName.substring(0, outfileName.lastIndexOf("."));
 		File outFile = new File(outPath + outFloder);
 		if (!outFile.exists()) {
@@ -169,7 +178,7 @@ public class WordToHtml {
 		return null;
 	}
 
-	private static void scaleImg(byte[] in, float width, float height, String path, String ext) throws IOException {
+	private void scaleImg(byte[] in, float width, float height, String path, String ext) throws IOException {
 		InputStream buffin = new ByteArrayInputStream(in);
 		BufferedImage bImage = ImageIO.read(buffin);
 		Image img = bImage.getScaledInstance((int) width, (int) height, Image.SCALE_SMOOTH);
@@ -189,7 +198,7 @@ public class WordToHtml {
 	 * @param fileName
 	 *            输入文件名
 	 */
-	private static void emf2Png(byte[] content, String fileName, float width, float height) throws Exception {
+	private void emf2Png(byte[] content, String fileName, float width, float height) throws Exception {
 
 		EMFInputStream sin = new EMFInputStream(new ByteArrayInputStream(content));
 		// read the EMF file
@@ -240,7 +249,7 @@ public class WordToHtml {
 	 * @param fileName
 	 *            输入文件名
 	 */
-	private static void wmf2Png(byte[] content, String fileName, float width, float height) throws Exception {
+	private void wmf2Png(byte[] content, String fileName, float width, float height) throws Exception {
 		WmfParser parser = new WmfParser();
 		SvgGdi gdi = new SvgGdi(false);
 		parser.parse(new ByteArrayInputStream(content), gdi);
@@ -289,7 +298,7 @@ public class WordToHtml {
 	//
 	// }
 
-	public static boolean doGenerateSysOut(String inPath, String inFileName, String outPath, String outFileName)
+	public boolean doGenerateSysOut(String inPath, String inFileName, String outPath, String outFileName)
 			throws IOException {
 		boolean flag = true;
 		try {
@@ -323,7 +332,7 @@ public class WordToHtml {
 		return flag;
 	}
 
-	public static void imgBitchConvert(String path) throws Exception {
+	public void imgBitchConvert(String path) throws Exception {
 		File file = new File(path);
 		File[] files = file.listFiles();
 		for (File f : files) {
@@ -349,7 +358,7 @@ public class WordToHtml {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String readFile(String filename) throws Exception {
+	public String readFile(String filename) throws Exception {
 		StringBuffer buffer = new StringBuffer("");
 		BufferedReader br = null;
 		try {
@@ -366,7 +375,7 @@ public class WordToHtml {
 		return buffer.toString();
 	}
 
-	private static String convertToChinese(String dataStr) {
+	private String convertToChinese(String dataStr) {
 		if (dataStr == null || dataStr.length() == 0) {
 			return dataStr;
 		}
@@ -421,7 +430,7 @@ public class WordToHtml {
 		return buffer.toString();
 	}
 
-	public static void writeToFile2(String path, String str) throws IOException {
+	public void writeToFile2(String path, String str) throws IOException {
 		PrintStream ps = null;
 		try {
 			File file = new File(path);
@@ -446,7 +455,7 @@ public class WordToHtml {
 	 * @throws Exception
 	 */
 
-	public static void convertDocxToHtml(String inPath, String inFileName, String outPath, String outFileName)
+	public void convertDocxToHtml(String inPath, String inFileName, String outPath, String outFileName)
 			throws Exception {
 		if (doGenerateSysOut(inPath, inFileName, outPath, outFileName)) {
 			writeToFile2(outPath + outFileName, convertToChinese(readFile(outPath + outFileName)));
@@ -458,7 +467,7 @@ public class WordToHtml {
 	 *            文件路径
 	 * @return 读出的txt的内容
 	 */
-	public static String getStringFormTxt(String path) throws Exception {
+	public String getStringFormTxt(String path) throws Exception {
 
 		InputStreamReader in = new InputStreamReader(new FileInputStream(path), "gb2312");
 		BufferedReader br = new BufferedReader(in);
@@ -491,7 +500,7 @@ public class WordToHtml {
 	 * @param outFileName
 	 * @throws Exception
 	 */
-	public static void toHtml(String inPath, String inFileName, String outPath, String outFileName) throws Exception {
+	public void toHtml(String inPath, String inFileName, String outPath, String outFileName) throws Exception {
 		logger.debug("文件:" + inFileName + "转换开始....");
 		if (!new File(inPath + inFileName).exists()) {
 			System.out.println(inPath + inFileName + " 文件不存在");
@@ -503,17 +512,17 @@ public class WordToHtml {
 		boolean isDoc = false;
 		if (inFileName.endsWith(".docx") || inFileName.endsWith(".DOCX")) {
 			// 07
-			WordToHtml.convertDocxToHtml(inPath, inFileName, outPath, outFileName);
+			convertDocxToHtml(inPath, inFileName, outPath, outFileName);
 			isDoc = true;
 		} else if (inFileName.endsWith(".doc") || inFileName.endsWith(".DOC")) {
 			// 03
-			WordToHtml.wordToHtml03(inPath, inFileName, outPath, outFileName);
+			wordToHtml03(inPath, inFileName, outPath, outFileName);
 			// WordDocumentUtils.convertToHTML(inPath, inFileName, outPath,
 			// outFileName);
 			isDoc = true;
 
 		} else {
-			WordToHtml.convertTxtToHtml(inPath, inFileName, outPath, outFileName);
+			convertTxtToHtml(inPath, inFileName, outPath, outFileName);
 		}
 		if (isDoc) {
 			updateImgSrc(outPath, outFileName);
@@ -521,7 +530,7 @@ public class WordToHtml {
 		logger.debug("文件:" + outFileName + "转换结束....");
 	}
 
-	private static void updateImgSrc(String outPath, String outFileName) throws IOException, FileNotFoundException {
+	private void updateImgSrc(String outPath, String outFileName) throws IOException, FileNotFoundException {
 		org.jsoup.nodes.Document doc = Jsoup.parse(new File(outPath + outFileName), "utf-8");
 		Element body = doc.body();
 		Elements links = body.getElementsByTag("img");

@@ -3,7 +3,7 @@ package common.parse.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class complexItem extends BaseItem {
+public class ComplexItem extends BaseItem {
 
 	private List<Item> items = new LinkedList<Item>();
 
@@ -15,8 +15,12 @@ public class complexItem extends BaseItem {
 		items.remove(e);
 	}
 
-	public List<Item> getItem() {
+	public List<Item> getItems() {
 		return this.items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	@Override

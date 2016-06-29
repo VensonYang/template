@@ -22,11 +22,16 @@ public interface Paper {
 
 	void remove(Question e);
 
-	List<Question> getQuestion();
+	List<Question> getQuestions();
+
+	void setQuestions(List<Question> questions);
 
 	String getMessage();
 
 	int getStatus();
 
 	Paper setResult(StatusCode code);
+
+	boolean hasAnswer();
+
 }

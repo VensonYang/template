@@ -20,5 +20,7 @@ public interface Question {
 
 	void remove(Item e);
 
-	List<Item> getItem();
+	void setItems(List<Item> items);
+
+	List<Item> getItems();
 }

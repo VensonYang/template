@@ -1,5 +1,6 @@
 package common.parse.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +24,11 @@ public class PaperImpl implements Paper {
 
 	public PaperImpl(String name) {
 		this.name = name;
+		this.status = 0;
+	}
+
+	public PaperImpl() {
+		this.name = "抽象";
 		this.status = 0;
 	}
 
@@ -51,11 +57,6 @@ public class PaperImpl implements Paper {
 	}
 
 	@Override
-	public List<Question> getQuestion() {
-		return this.questions;
-	}
-
-	@Override
 	public String getMessage() {
 		return this.message;
 	}
@@ -70,6 +71,32 @@ public class PaperImpl implements Paper {
 		this.message = code.getMessage();
 		this.status = code.getStatus();
 		return this;
+	}
+
+	@Override
+	public boolean hasAnswer() {
+		if (questions.isEmpty()) {
+			return false;
+		} else {
+			Iterator<Question> it = questions.iterator();
+			while (it.hasNext()) {
+				Question question = it.next();
+				if (question.getType().equals(Question.ANSWER)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	@Override
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 
 }

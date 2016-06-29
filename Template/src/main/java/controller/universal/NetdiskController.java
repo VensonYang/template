@@ -103,7 +103,7 @@ public class NetdiskController {
 		name = name.substring(name.lastIndexOf("-") + 1);
 		String position = htmlPath + name + ".html";
 		if (!new File(position).exists()) {
-			WordToHtml.toHtml(wordPath, fileName, htmlPath, name + ".html");
+			WordToHtml.getInstance().toHtml(wordPath, fileName, htmlPath, name + ".html");
 
 		}
 		returnResult.setStatus(StatusCode.SUCCESS).setRows(name + ".html");

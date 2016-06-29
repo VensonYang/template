@@ -13,42 +13,52 @@ public class BaseItem implements Item {
 	// 说明
 	protected String explain;
 
+	@Override
 	public String getTitle() {
 		return title;
 	}
 
+	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	@Override
 	public String getAnswer() {
 		return answer;
 	}
 
+	@Override
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
 
+	@Override
 	public String getImgPath() {
 		return imgPath;
 	}
 
+	@Override
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
 	}
 
+	@Override
 	public String getDifficulty() {
 		return difficulty;
 	}
 
+	@Override
 	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
 	}
 
+	@Override
 	public String getExplain() {
 		return explain;
 	}
 
+	@Override
 	public void setExplain(String explain) {
 		this.explain = explain;
 	}
