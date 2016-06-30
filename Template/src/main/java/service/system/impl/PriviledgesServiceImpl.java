@@ -169,8 +169,8 @@ public class PriviledgesServiceImpl implements PriviledgesService {
 
 	@Override
 	public void deletePriviledges(int id) {
-		String hql1 = "DELETE TPriviledgesMatrix WHERE a.TRole.id=:id";
-		String hql2 = "DELETE TRolePriviledges a WHERE a.TRole.id=:id";
+		String hql1 = "DELETE TPriviledgesMatrix a WHERE a.TPriviledges.id=:id";
+		String hql2 = "DELETE TRolePriviledges a WHERE a.TPriviledges.id=:id";
 		String hql3 = "DELETE TPriviledges WHERE id=:id";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);

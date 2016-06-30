@@ -34,7 +34,10 @@ public class Resolver implements Parse {
 	public static final String REGEX_BIG_NUM = "[一二三四五六七八九十][、.．]";
 	// 匹配一、XX题二、XX题 题型(试卷大题，答案区小题)
 	public static final String REGEX_BIG_QUESTION = REGEX_BIG_NUM + "[\u4e00-\u9fa5]*题";
-	Pattern patternItem;
+	// 小题正则
+	private Pattern patternItem;
+	// 提示信息
+	private String message;
 
 	private Resolver() {
 		patternItem = Pattern.compile(REGEX_ITEM_INFO);
@@ -83,7 +86,8 @@ public class Resolver implements Parse {
 	 */
 	public void parseAnswer(Question question, Paper paper) {
 		if (question.getItems() == null || question.getItems().isEmpty()) {
-			throw new IllegalArgumentException("答案区中未找到可以解析的答案");
+			this.message = "答案区中未找到可以解析的答案";
+			return;
 		}
 		// 获取试卷的所有类型
 		List<Question> questions = paper.getQuestions();
@@ -106,7 +110,8 @@ public class Resolver implements Parse {
 				String key = m.group().replaceAll(REGEX_BIG_NUM, "");
 				map.put(key, s);
 			} else {
-				throw new IllegalArgumentException("没有找到答案,请检查大题编号：" + s);
+				this.message = "没有找到答案,请检查大题编号：" + s;
+				return;
 			}
 		}
 		// 将答案保存到小题中
@@ -138,8 +143,8 @@ public class Resolver implements Parse {
 									base.setAnswer(answers.get(j));
 								}
 							} else {
-								throw new IllegalArgumentException(
-										q.getType() + "小题个数和答案个数不一致" + size + "," + answers.size());
+								this.message = q.getType() + "小题个数和答案个数不一致" + size + "," + answers.size();
+								return;
 							}
 						} else {
 							BaseItem base = (BaseItem) item;
@@ -147,8 +152,8 @@ public class Resolver implements Parse {
 						}
 					}
 				} else {
-					throw new IllegalArgumentException(
-							q.getType() + "题目个数和答案个数不一致" + +q.getItems().size() + "," + as.size() + as);
+					this.message = q.getType() + "题目个数和答案个数不一致" + +q.getItems().size() + "," + as.size() + as;
+					return;
 				}
 			}
 		}
@@ -215,7 +220,8 @@ public class Resolver implements Parse {
 			String g = m.group();
 			String[] t = g.substring(1, g.length() - 1).split("[，,]");
 			if (t.length < 2 || t.length > 3) {
-				throw new IllegalArgumentException("第" + text.substring(0, 1) + "题格式有误：" + g);
+				this.message = "第" + text.substring(0, 1) + "题格式有误：" + g;
+				return;
 			}
 			for (String str : t) {
 				if (str.length() > 1) {
@@ -227,7 +233,8 @@ public class Resolver implements Parse {
 				}
 			}
 		} else {
-			throw new IllegalArgumentException("第" + text.substring(0, 1) + "题题型出错，未找到【九年级下册第四单元第19课，难】");
+			this.message = "第" + text.substring(0, 1) + "题题型出错，未找到【九年级下册第四单元第19课，难】";
+			return;
 		}
 	}
 
@@ -256,4 +263,18 @@ public class Resolver implements Parse {
 		}
 		return c;
 	}
+
+	@Override
+	public boolean hasError() {
+		if (this.message == null || this.message.trim().length() == 0)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public String getMessage() {
+		return message;
+	}
+
 }

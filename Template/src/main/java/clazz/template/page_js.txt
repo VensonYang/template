@@ -1,0 +1,36 @@
+$(function () {
+    $('.table').bootstrapTable(
+    		Comm.bootstrapTableParams({
+        		url:'#{entity}/showQuery#{Entity}',
+        		columns: [{
+                    field: 'state',
+                    checkbox: true,
+                    title: '选择'
+                }, {
+                    field: 'id',
+                    title: 'ID'
+                }, {
+                    field: 'name',
+                    title: '权限名称'
+                }, {
+                    field: 'url',
+                    title: '权限管理地址'
+                }, {
+                    field: 'pid',
+                    title: '父节点'
+                }, {
+                    field: 'icon',
+                    title: '图标'
+                }, {
+                    field: 'status',
+                    title: '是否启用'
+                }]
+        	})	
+    	);
+});
+$(window).load(function () {
+    //窗口宽度变化时 改变bootstrap table宽度
+    $(window).resize(function () {
+        $('.table').bootstrapTable('resetWidth');
+    });
+});

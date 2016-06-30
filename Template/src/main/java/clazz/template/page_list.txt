@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="pd-t7r5l8" id="#{entity}-manage">
+        <div class="panel mr-b7">
+            <div class="panel-heading clearfix">
+                <span class="panel-title-icon"></span>
+                <h3 class="panel-title">查询条件</h3>
+            </div>
+            <div class="panel-body pd-t12r13l11">
+                <form class="form-inline container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4 pd-lr0">
+                                    <label>权限名称：</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 pd-lr0">
+                                    <input id="name" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4 pd-lr0">
+                                    <label>是否启用：</label>
+                                </div>
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 pd-lr0">
+                                    <select id="status" class="form-control">
+                                        <option></option>
+                                        <option value="0">暂停</option>
+                                        <option value="1">启用</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-lg-4 col-xs-4 pd-lr0">
+                                </div>
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-8 pd-lr0">
+                                    <span id="searche"  class="btn btn-green ml6">查&#12288;询</span>
+                                    <span class="btn btn-gray clear-js ml23">清&#12288;空</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-heading clearfix">
+                <span class="panel-title-icon"></span>
+                <h3 class="panel-title">权限设置</h3>
+            </div>
+            <div class="panel-body pd0">
+                <div class="tool-bar">
+                    <ul class="tool-list clearfix">
+                        <li class="tool-list-item">
+                            <input class="check-all-js" type="checkbox">
+                            <label class="ta-l">全选/反选</label>
+                        </li>
+                        <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="goTo('add-#{entity}.html')">增加</a></li>
+                        <li class="tool-list-item"><a id="modify" class="modify">修改</a></li>
+                        <li class="tool-list-item"><span id="delete" class="delete">删除</span></li>
+                    </ul>
+                </div>
+                <div class="table-responsive">
+                    <table class="table check">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/lib/jquery/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/lib/select2/select2.min.js"></script>
+    <script type="text/javascript" src="../js/lib/select2/zh-CN.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../js/common.min.js"></script>
+    <!-- venson -->
+    <script type="text/javascript">
+	    $("#searche").bind("click",function(){
+	    	 Comm.queryData();
+	    })
+	    $("#delete").bind("click",function(){
+	    	Comm.deleteObject('#{entity}/delete#{Entity}','.table');
+	    })
+	    $("#modify").bind("click",function(){
+	    	Comm.modifyObject('edit-#{entity}.html','.table');
+	    })
+    </script>
+    <script type="text/javascript" src="../js/page/#{package}/#{entity}.js"></script>
+    	
+    
+</body>
+
+</html>

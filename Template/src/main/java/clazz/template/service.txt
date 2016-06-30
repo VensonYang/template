@@ -1,11 +1,11 @@
-package #{service_p};
+package service.#{package};
 
 import java.io.Serializable;
 import java.util.Map;
 
 import dao.model.T#{Entity};
 import model.common.QueryVO;
-import #{model_p}.#{Entity}VO;
+import model.#{package}.#{Entity}VO;
 
 public interface #{Entity}Service {
 

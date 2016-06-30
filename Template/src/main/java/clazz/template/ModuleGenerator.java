@@ -8,8 +8,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 模块生成器
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
  * 可设置的参数有：模块实体类名、java类包地址、配置文件地址、ftl页面地址。
  */
 public class ModuleGenerator {
-	private static final Logger log = LoggerFactory.getLogger(ModuleGenerator.class);
 	public static final String SPT = File.separator;
 
 	public static final String ENCODING = "UTF-8";
@@ -35,40 +32,45 @@ public class ModuleGenerator {
 	private File serviceFile;
 	private File serviceImplFile;
 	private File controllerFile;
-	private File pageFile;
+	private File pageListFile;
+	private File pageJSFile;
+	private File pageAddFile;
+	private File pageEditFile;
 
 	private File serviceTpl;
 	private File serviceImplTpl;
 	private File controllerTpl;
-	private File pageTpl;
+	private File pageListTpl;
+	private File pageAddTpl;
+	private File pageEditTpl;
+	private File pageJSTpl;
 
 	public ModuleGenerator(String packName, String fileName) {
 		this.packName = packName;
 		this.fileName = fileName;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void loadProperties() {
 		try {
-			log.debug("packName=" + packName);
-			log.debug("fileName=" + fileName);
+			System.out.println("packName=" + packName);
+			System.out.println("fileName=" + fileName);
 			FileInputStream fileInput = new FileInputStream(getFilePath(packName, fileName));
 			prop.load(fileInput);
 			String entityUp = prop.getProperty("Entity");
-			log.debug("entityUp:" + entityUp);
+			System.out.println("entityUp:" + entityUp);
 			if (entityUp == null || entityUp.trim().equals("")) {
-				log.warn("Entity not specified, exit!");
+				System.out.println("Entity not specified, exit!");
 				return;
 			}
 			String entityLow = entityUp.substring(0, 1).toLowerCase() + entityUp.substring(1);
-			log.debug("entityLow:" + entityLow);
+			System.out.println("entityLow:" + entityLow);
 			prop.put("entity", entityLow);
-			if (log.isDebugEnabled()) {
-				Set ps = prop.keySet();
-				for (Object o : ps) {
-					log.debug(o + "=" + prop.get(o));
-				}
-			}
+			// if (log.isDebugEnabled()) {
+			// Set ps = prop.keySet();
+			// for (Object o : ps) {
+			// System.out.println(o + "=" + prop.get(o));
+			// }
+			// }
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -77,32 +79,53 @@ public class ModuleGenerator {
 	}
 
 	private void prepareFile() {
-		String serviceFilePath = getFilePath(prop.getProperty("service_p"),
-				prop.getProperty("Entity") + "Service.java");
+		String serviceFilePath = "src/main/java/service" + SPT + prop.getProperty("package") + SPT
+				+ prop.getProperty("Entity") + "Service.java";
 		serviceFile = new File(serviceFilePath);
-		log.debug("serviceFile:" + serviceFile.getAbsolutePath());
+		System.out.println("serviceFile:" + serviceFile.getAbsolutePath());
 
-		String serviceImplFilePath = getFilePath(prop.getProperty("service_impl_p"),
-				prop.getProperty("Entity") + "ServiceImpl.java");
+		String serviceImplFilePath = "src/main/java/service" + SPT + prop.getProperty("package") + SPT + "impl" + SPT
+				+ prop.getProperty("Entity") + "ServiceImpl.java";
 		serviceImplFile = new File(serviceImplFilePath);
-		log.debug("serviceImplFile:" + serviceImplFile.getAbsolutePath());
-		String controllerFilePath = getFilePath(prop.getProperty("controller_p"),
-				prop.getProperty("Entity") + "Controller.java");
+		System.out.println("serviceImplFile:" + serviceImplFile.getAbsolutePath());
+
+		String controllerFilePath = "src/main/java/controller" + SPT + prop.getProperty("package") + SPT
+				+ prop.getProperty("Entity") + "Controller.java";
 		controllerFile = new File(controllerFilePath);
-		log.debug("controllerFile:" + controllerFile.getAbsolutePath());
-		String pageFilePath = prop.getProperty("page_dir") + "/" + prop.getProperty("entity") + ".html";
-		pageFile = new File(pageFilePath);
-		log.debug("pageFilePath:" + pageFile.getAbsolutePath());
+		System.out.println("controllerFile:" + controllerFile.getAbsolutePath());
+
+		String pageListFilePath = prop.getProperty("page_dir") + SPT + prop.getProperty("package") + SPT
+				+ prop.getProperty("entity") + ".html";
+		pageListFile = new File(pageListFilePath);
+		System.out.println("pageListFile:" + pageListFile.getAbsolutePath());
+
+		String pageAddFilePath = prop.getProperty("page_dir") + SPT + prop.getProperty("package") + SPT + "add-"
+				+ prop.getProperty("entity") + ".html";
+		pageAddFile = new File(pageAddFilePath);
+		System.out.println("pageAddFile:" + pageAddFile.getAbsolutePath());
+
+		String pageEditFilePath = prop.getProperty("page_dir") + SPT + prop.getProperty("package") + SPT + "edit-"
+				+ prop.getProperty("entity") + ".html";
+		pageEditFile = new File(pageEditFilePath);
+		System.out.println("pageEditFile:" + pageEditFile.getAbsolutePath());
+
+		String pageJSFilePath = prop.getProperty("page_dir") + SPT + "js" + SPT + "page" + SPT
+				+ prop.getProperty("package") + SPT + prop.getProperty("entity") + ".js";
+		pageJSFile = new File(pageJSFilePath);
+		System.out.println("pageJSFile:" + pageJSFile.getAbsolutePath());
 
 	}
 
 	private void prepareTemplate() {
 		String tplPack = prop.getProperty("template_dir");
-		log.debug("tplPack:" + tplPack);
+		System.out.println("tplPack:" + tplPack);
 		serviceImplTpl = new File(getFilePath(tplPack, "service_impl.txt"));
 		serviceTpl = new File(getFilePath(tplPack, "service.txt"));
 		controllerTpl = new File(getFilePath(tplPack, "controller.txt"));
-		pageTpl = new File(getFilePath(tplPack, "page.txt"));
+		pageListTpl = new File(getFilePath(tplPack, "page_list.txt"));
+		pageAddTpl = new File(getFilePath(tplPack, "page_add.txt"));
+		pageEditTpl = new File(getFilePath(tplPack, "page_edit.txt"));
+		pageJSTpl = new File(getFilePath(tplPack, "page_js.txt"));
 	}
 
 	private static void stringToFile(File file, String s) throws IOException {
@@ -119,10 +142,13 @@ public class ModuleGenerator {
 				stringToFile(controllerFile, readTpl(controllerTpl));
 			}
 			if (Boolean.parseBoolean(prop.getProperty("is_page"))) {
-				stringToFile(pageFile, readTpl(pageTpl));
+				stringToFile(pageListFile, readTpl(pageListTpl));
+				stringToFile(pageAddFile, readTpl(pageAddTpl));
+				stringToFile(pageEditFile, readTpl(pageEditTpl));
+				stringToFile(pageJSFile, readTpl(pageJSTpl));
 			}
 		} catch (IOException e) {
-			log.warn("write file faild! " + e.getMessage());
+			System.out.println("write file faild! " + e.getMessage());
 		}
 	}
 
@@ -137,17 +163,14 @@ public class ModuleGenerator {
 				content = content.replaceAll("\\#\\{" + key + "\\}", value);
 			}
 		} catch (IOException e) {
-			log.warn("read file faild. " + e.getMessage());
+			System.out.println("read file faild. " + e.getMessage());
 		}
 		return content;
 
 	}
 
-	private String getFilePath(String packageName, String name) {
-		log.debug("replace:" + packageName);
-		String path = packageName.replaceAll("\\.", "/");
-		log.debug("after relpace:" + path);
-		return "src/main/java/" + path + "/" + name;
+	private String getFilePath(String templateDir, String name) {
+		return "src/main/java/" + templateDir + "/" + name;
 	}
 
 	public void generate() {
@@ -158,7 +181,7 @@ public class ModuleGenerator {
 	}
 
 	public static void main(String[] args) {
-		String packName = "clazz.template";
+		String packName = "clazz/template";
 		String fileName = "template.properties";
 		new ModuleGenerator(packName, fileName).generate();
 	}

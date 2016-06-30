@@ -2,8 +2,6 @@ package common.parse.model;
 
 import java.util.List;
 
-import controller.result.StatusCode;
-
 public interface Paper {
 
 	String CHINESE = "语文";
@@ -28,10 +26,10 @@ public interface Paper {
 
 	String getMessage();
 
-	int getStatus();
-
-	Paper setResult(StatusCode code);
+	Paper setMessage(String msg);
 
 	boolean hasAnswer();
+
+	boolean hasError();
 
 }

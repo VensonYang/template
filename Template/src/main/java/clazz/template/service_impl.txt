@@ -1,4 +1,4 @@
-package  #{service_impl_p};
+package service.#{package}.impl;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -13,8 +13,8 @@ import common.StaticsConstancts;
 import dao.BaseDao;
 import dao.model.T#{Entity};
 import model.common.QueryVO;
-import #{model_p}.#{Entity}VO;
-import #{service_p}.#{Entity}Service;
+import model.#{package}.#{Entity}VO;
+import service.#{package}.#{Entity}Service;
 
 @Service("#{entity}Service")
 public class #{Entity}ServiceImpl implements #{Entity}Service {

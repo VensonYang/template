@@ -4,8 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import controller.result.StatusCode;
-
 public class PaperImpl implements Paper {
 	public static final String CHINESE = "语文";
 	public static final String MATH = "数学";
@@ -62,18 +60,6 @@ public class PaperImpl implements Paper {
 	}
 
 	@Override
-	public int getStatus() {
-		return this.status;
-	}
-
-	@Override
-	public Paper setResult(StatusCode code) {
-		this.message = code.getMessage();
-		this.status = code.getStatus();
-		return this;
-	}
-
-	@Override
 	public boolean hasAnswer() {
 		if (questions.isEmpty()) {
 			return false;
@@ -97,6 +83,20 @@ public class PaperImpl implements Paper {
 	@Override
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	@Override
+	public Paper setMessage(String msg) {
+		this.message = msg;
+		return this;
+	}
+
+	@Override
+	public boolean hasError() {
+		if (this.message == null || this.message.trim().length() == 0)
+			return false;
+		else
+			return true;
 	}
 
 }

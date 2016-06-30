@@ -18,12 +18,14 @@ public class ParseQuestionTest {
 		String path = "F:/test.html";
 		String param = TEST_FILE[1];
 		String fileName = TEST_FILE[1];
-		Parse parse = Resolver.getInstance();
+		Parse resolver = Resolver.getInstance();
 		Paper paper = null;
 		try {
 			WordToHtml.getInstance().toHtml("f:/", fileName, "f:/", "test.html");
 			paper = ParseHtml.getIntance().parse(path, param);
-			if (paper.getStatus() == 0) {
+			if (paper.hasError()) {
+				System.out.println("提示：" + paper.getMessage());
+			} else {
 				StringBuilder builder = new StringBuilder();
 				builder.append(paper.getName());
 				builder.append("试卷:总共有");
@@ -41,20 +43,23 @@ public class ParseQuestionTest {
 				}
 				builder.append("");
 				System.out.println(builder.toString());
-
-			} else {
-				System.out.println(paper.getMessage());
+				String json = JSON.toJSONString(paper);
+				PaperImpl impl = JSON.parseObject(json, PaperImpl.class);
+				Paper newPaper = new PaperImpl();
+				List<Question> questiones = impl.getQuestions();
+				for (Question question : questiones) {
+					if (resolver.hasError()) {
+						System.out.println(resolver.getMessage());
+						return;
+					}
+					resolver.parse(question, newPaper);
+				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String json = JSON.toJSONString(paper);
-		PaperImpl impl = JSON.parseObject(json, PaperImpl.class);
-		Paper newPaper = new PaperImpl();
-		List<Question> questions = impl.getQuestions();
-		for (Question question : questions) {
-			parse.parse(question, newPaper);
-		}
+
 	}
 
 }

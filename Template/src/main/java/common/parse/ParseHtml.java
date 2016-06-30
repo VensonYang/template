@@ -1,8 +1,6 @@
 package common.parse;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,7 +21,6 @@ import common.parse.model.Paper;
 import common.parse.model.PaperImpl;
 import common.parse.model.Question;
 import common.parse.model.QuestionImpl;
-import controller.result.StatusCode;
 
 public class ParseHtml {
 
@@ -219,14 +216,12 @@ public class ParseHtml {
 	}
 
 	/**
-	 * 利用Jsoup组件对html试卷进行解析，定义解析试题方法
+	 * 利用Jsoup组件对html试卷进行解析
 	 * 
 	 * @param path
 	 *            文件路径
 	 * @param subject
 	 *            科目
-	 * @param parse
-	 *            自定义解析接口
 	 * @throws Exception
 	 */
 	public Paper parse(String path, String subject) throws Exception {
@@ -242,7 +237,7 @@ public class ParseHtml {
 		// 将题型索引按升序排序
 		String[] array = sortIndex(map);
 		if (array == null) {
-			return paper.setResult(StatusCode.PARAMETER_ERROR.setMessage("文档中未找到可以解析的题型"));
+			return paper.setMessage("解析出错:文档中未找到可以解析的题型");
 
 		}
 		int size = array.length;
@@ -271,31 +266,29 @@ public class ParseHtml {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return paper.setResult(StatusCode.FAIL.setMessage("试题格式有误，请检查格式"));
+			return paper.setMessage("解析出错:试题格式有误");
 
 		}
 		boolean isNull = false;
 		for (Question question : paper.getQuestions()) {
-			List<Item> items = question.getItems();
-			if (items.size() != 0)
-				isNull = true;
+			if (!question.getType().equals(Question.ANSWER)) {
+				System.out.println(question.getType());
+				List<Item> items = question.getItems();
+				if (items.size() != 0)
+					isNull = true;
+			}
 		}
 		if (!isNull)
-			return paper.setResult(StatusCode.PARAMETER_ERROR.setMessage("文档中未找到可以解析的题型"));
+			return paper.setMessage("解析出错:文档中未找到可以解析的题型");
 		return paper;
 	}
 
 	/**
-	 * 利用Jsoup组件对html试卷进行解析,使用默认的解析方法
+	 * 利用Jsoup组件对html试卷进行解析
 	 * 
 	 * @param path
 	 *            文件路径
-	 * @throws IOException
-	 * @throws NoSuchMethodException
-	 * @throws SecurityException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
+	 * @throws Exception
 	 */
 	public Paper parse(String path) throws Exception {
 		return parse(path, null);

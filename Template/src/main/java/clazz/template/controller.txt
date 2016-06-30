@@ -1,4 +1,4 @@
-package #{controller_p};
+package controller.#{package};
 
 import java.util.Map;
 
@@ -19,10 +19,10 @@ import controller.base.ValidationAwareSupport;
 import controller.result.ReturnResult;
 import controller.result.StatusCode;
 import model.common.QueryVO;
-import #{model_p}.#{Entity}VO;
-import #{model_p}.#{Entity}VO.IAdd#{Entity};
-import #{model_p}.#{Entity}VO.IModify#{Entity};
-import #{service_p}.#{Entity}Service;
+import model.#{package}.#{Entity}VO;
+import model.#{package}.#{Entity}VO.IAdd#{Entity};
+import model.#{package}.#{Entity}VO.IModify#{Entity};
+import service.#{package}.#{Entity}Service;
 
 @RequestMapping("/#{entity}")
 @ResponseBody
