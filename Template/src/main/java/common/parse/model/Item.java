@@ -1,25 +1,89 @@
 package common.parse.model;
 
-public interface Item {
+import java.util.LinkedList;
+import java.util.List;
 
-	String getTitle();
+public class Item {
+	// 题目
+	protected String title;
+	// 答案
+	protected String answer;
+	// 图片
+	protected String imgPath;
+	// 难度
+	protected String difficulty;
+	// 说明
+	protected String explain;
 
-	void setTitle(String title);
+	private List<Item> items = new LinkedList<Item>();
 
-	String getAnswer();
+	public void add(Item e) {
+		items.add(e);
+	}
 
-	void setAnswer(String answer);
+	public void remove(Item e) {
+		items.remove(e);
+	}
 
-	String getImgPath();
+	public List<Item> getItems() {
+		return this.items;
+	}
 
-	void setImgPath(String imgPath);
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
 
-	String getDifficulty();
+	public String getTitle() {
+		return title;
+	}
 
-	void setDifficulty(String difficulty);
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-	String getExplain();
+	public String getAnswer() {
+		return answer;
+	}
 
-	void setExplain(String explain);
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+
+	public String getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(String difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public String getExplain() {
+		return explain;
+	}
+
+	public void setExplain(String explain) {
+		this.explain = explain;
+	}
+
+	public boolean hasItem() {
+		if (this.items.isEmpty())
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [title=" + title + ", answer=" + answer + ", imgPath=" + imgPath + ", difficulty=" + difficulty
+				+ ", explain=" + explain + ", items=" + items + "]";
+	}
 
 }

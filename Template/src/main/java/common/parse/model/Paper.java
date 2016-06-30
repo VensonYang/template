@@ -1,35 +1,92 @@
 package common.parse.model;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-public interface Paper {
+public class Paper {
+	public static final String CHINESE = "语文";
+	public static final String MATH = "数学";
+	public static final String ENGLIST = "英语";
+	public static final String PHYSICS = "物理";
+	public static final String CHEMISTRY = "化学";
+	public static final String BIOLOGY = "生物";
+	public static final String POLITICAL = "政治";
+	public static final String HISTORY = "历史";
+	public static final String GEOGRAPHY = "地理";
 
-	String CHINESE = "语文";
-	String MATH = "数学";
-	String ENGLIST = "英语";
-	String GEOGRAPHY = "地理";
-	String BIOLOGY = "生物";
-	String CHEMISTRY = "化学";
-	String POLITICAL = "政治";
-	String Physics = "物理";
-	String HISTORY = "历史";
+	private String name;
+	private int status;
+	private String message;
+	private List<Question> questions = new LinkedList<Question>();
 
-	String getName();
+	public Paper(String name) {
+		this.name = name;
+		this.status = 0;
+	}
 
-	void add(Question e);
+	public Paper() {
+		this.name = "抽象";
+		this.status = 0;
+	}
 
-	void remove(Question e);
+	public void add(Question e) {
+		questions.add(e);
+	}
 
-	List<Question> getQuestions();
+	public void remove(Question e) {
+		questions.remove(e);
+	}
 
-	void setQuestions(List<Question> questions);
+	public String getName() {
+		return name;
+	}
 
-	String getMessage();
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	Paper setMessage(String msg);
+	public String toString() {
+		return "Paper [name=" + name + ", status=" + status + ", message=" + message + ", questions=" + questions + "]";
+	}
 
-	boolean hasAnswer();
+	public String getMessage() {
+		return this.message;
+	}
 
-	boolean hasError();
+	public boolean hasAnswer() {
+		if (questions.isEmpty()) {
+			return false;
+		} else {
+			Iterator<Question> it = questions.iterator();
+			while (it.hasNext()) {
+				Question question = it.next();
+				if (question.getType().equals(Question.ANSWER)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
+	public Paper setMessage(String msg) {
+		this.message = msg;
+		return this;
+	}
+
+	public boolean hasError() {
+		if (this.message == null || this.message.trim().length() == 0)
+			return false;
+		else
+			return true;
+	}
 
 }

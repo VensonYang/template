@@ -80,10 +80,17 @@ public class UserManageServiceImpl implements UserManageService {
 	@Override
 	public void modifyUser(UserVO obj) {
 		TUser tobj = getUserByUserId(obj.getId());
+		String password;
+		if (StringUtils.isBlank(obj.getPassword())) {
+			password = tobj.getPassword();
+		} else {
+			password = MD5Util.getMD5String(obj.getPassword());
+		}
 		BeanCopyUtils.copyProperties(obj, tobj);
 		if (null != obj.getRoleId()) {
 			addUserRoleByUserId(obj.getRoleId(), tobj.getId());
 		}
+		tobj.setPassword(password);
 		baseDao.update(tobj);
 	}
 

@@ -1,26 +1,54 @@
 package common.parse.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public interface Question {
-	String CHOICE = "选择题";
-	String COMPLETE = "填空题";
-	String SHORT_ANSWER = "简答题";
-	String ADDITIONAL = "附加题";
-	String READING = "阅读题";
-	String COMPREHENSIVE = "综合题";
-	String SOLVE = "解答题";
-	String ANSWER = "***答案区***";
+public class Question {
+	public static final String CHOICE = "选择题";
+	public static final String COMPLETE = "填空题";
+	public static final String SHORT_ANSWER = "简答题";
+	public static final String ADDITIONAL = "附加题";
+	public static final String READING = "阅读题";
+	public static final String COMPREHENSIVE = "综合题";
+	public static final String SOLVE = "解答题";
+	public static final String ANSWER = "***答案区***";
+	private String type;
+	private List<Item> items = new LinkedList<Item>();
 
-	void setType(String type);
+	public Question(String type) {
+		this.type = type;
+	}
 
-	String getType();
+	public Question() {
+		this.type = "抽象题";
+	}
 
-	void add(Item e);
+	public String getType() {
+		return this.type;
+	}
 
-	void remove(Item e);
+	public void setType(String type) {
+		this.type = type;
+	}
 
-	void setItems(List<Item> items);
+	public void add(Item e) {
+		items.add(e);
+	}
 
-	List<Item> getItems();
+	public void remove(Item e) {
+		items.remove(e);
+	}
+
+	public String toString() {
+		return "Question [type=" + type + ", items=" + items + "]";
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
 }

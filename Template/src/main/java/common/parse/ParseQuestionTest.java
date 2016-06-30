@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSON;
 
 import common.parse.model.Item;
 import common.parse.model.Paper;
-import common.parse.model.PaperImpl;
 import common.parse.model.Question;
 
 public class ParseQuestionTest {
@@ -44,15 +43,21 @@ public class ParseQuestionTest {
 				builder.append("");
 				System.out.println(builder.toString());
 				String json = JSON.toJSONString(paper);
-				PaperImpl impl = JSON.parseObject(json, PaperImpl.class);
-				Paper newPaper = new PaperImpl();
+				Paper impl = JSON.parseObject(json, Paper.class);
 				List<Question> questiones = impl.getQuestions();
+				Paper newPaper = new Paper();
 				for (Question question : questiones) {
 					if (resolver.hasError()) {
 						System.out.println(resolver.getMessage());
 						return;
 					}
 					resolver.parse(question, newPaper);
+				}
+				List<Question> questi = newPaper.getQuestions();
+				for (Question q : questi) {
+					for (Item item : q.getItems()) {
+						System.out.println(item);
+					}
 				}
 			}
 

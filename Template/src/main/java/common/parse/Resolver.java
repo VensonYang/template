@@ -8,12 +8,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import common.parse.model.BaseItem;
-import common.parse.model.ComplexItem;
 import common.parse.model.Item;
 import common.parse.model.Paper;
 import common.parse.model.Question;
-import common.parse.model.QuestionImpl;
 
 public class Resolver implements Parse {
 
@@ -128,18 +125,17 @@ public class Resolver implements Parse {
 				if (q.getItems().size() == as.size()) {
 					for (int i = 0; i < q.getItems().size(); i++) {
 						Item item = q.getItems().get(i);
-						// 判断改题是否属于负责题型
-						if (item instanceof ComplexItem) {
-							ComplexItem complex = (ComplexItem) item;
+						// 判断改题是否属于复杂题型
+						if (item.hasItem()) {
 							// 截取答案
 							String[] arr = as.get(i).split(REGEX_COMLLEX_ITEM);
 							List<String> answers = trimArray(arr);
-							int size = complex.getItems().size();
+							int size = item.getItems().size();
 							// 判断小题数目与答案是否一致
 							if (size == answers.size()) {
 								// 保存答案
 								for (int j = 0; j < size; j++) {
-									BaseItem base = (BaseItem) complex.getItems().get(j);
+									Item base = item.getItems().get(j);
 									base.setAnswer(answers.get(j));
 								}
 							} else {
@@ -147,8 +143,7 @@ public class Resolver implements Parse {
 								return;
 							}
 						} else {
-							BaseItem base = (BaseItem) item;
-							base.setAnswer(as.get(i));
+							item.setAnswer(as.get(i));
 						}
 					}
 				} else {
@@ -174,44 +169,33 @@ public class Resolver implements Parse {
 	}
 
 	private void parseComplexItem(Question question, Paper paper) {
-		Question q = new QuestionImpl(question.getType());
-		for (Item it : question.getItems()) {
-			ComplexItem item = new ComplexItem();
-			item.setTitle(it.getTitle());
-			item.setImgPath(item.getImgPath());
+		Question q = new Question(question.getType());
+		for (Item item : question.getItems()) {
 			String text = item.getTitle();
-			parse(item, text);
+			String[] arr = text.split(REGEX_COMLLEX_ITEM);
+			int i = 0;
+			for (String s : arr) {
+				if (i == 0) {
+					// 分离标题与题号
+					item.setTitle(s.replaceAll(REGEX_SMALL_ITEM_START, ""));
+				} else {
+					// 分离章节，难度
+					Item it = new Item();
+					parseInfo(it, s);
+					item.add(it);
+				}
+				i++;
+			}
 			q.add(item);
 		}
 		paper.add(q);
 	}
 
 	/**
-	 * 解析复杂题型，即题中包含小题
-	 */
-	private void parse(ComplexItem item, String text) {
-		// 分离小题
-		String[] arr = text.split(REGEX_COMLLEX_ITEM);
-		int i = 0;
-		for (String s : arr) {
-			if (i == 0) {
-				// 分离标题与题号
-				item.setTitle(s.replaceAll(REGEX_SMALL_ITEM_START, ""));
-			} else {
-				// 分离章节，难度
-				BaseItem baseItem = new BaseItem();
-				parse(baseItem, s);
-				item.add(baseItem);
-			}
-			i++;
-		}
-	}
-
-	/**
 	 * 解析试题中的章节、难度、答案 <br>
 	 * 格式：【九年级下册第四单元第19课，D，难】
 	 */
-	private void parse(BaseItem item, String text) {
+	private void parseInfo(Item item, String text) {
 		Matcher m = patternItem.matcher(text);
 		// 分离章节，难度
 		if (m.find()) {
@@ -242,14 +226,10 @@ public class Resolver implements Parse {
 	 * 解析基本题型
 	 */
 	private void parseBaseItem(Question question, Paper paper) {
-		Question q = new QuestionImpl(question.getType());
+		Question q = new Question(question.getType());
 		for (Item it : question.getItems()) {
-			BaseItem bt = new BaseItem();
-			bt.setImgPath(it.getImgPath());
-			bt.setTitle(it.getTitle());
-			String text = bt.getTitle();
-			parse(bt, text);
-			q.add(bt);
+			parseInfo(it, it.getTitle());
+			q.add(it);
 		}
 		paper.add(q);
 	}

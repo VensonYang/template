@@ -15,12 +15,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import common.parse.model.BaseItem;
 import common.parse.model.Item;
 import common.parse.model.Paper;
-import common.parse.model.PaperImpl;
 import common.parse.model.Question;
-import common.parse.model.QuestionImpl;
 
 public class ParseHtml {
 
@@ -58,9 +55,9 @@ public class ParseHtml {
 	 *            长度
 	 */
 	public Question getQuestions(Elements children, int staIdx, int length, String type) {
-		Question question = new QuestionImpl(type);
+		Question question = new Question(type);
 		StringBuilder builder = new StringBuilder();
-		Item item = new BaseItem();
+		Item item = new Item();
 		StringBuilder path = new StringBuilder();
 		boolean isStart = false;
 		for (int i = 0; i < length; i++) {
@@ -85,7 +82,7 @@ public class ParseHtml {
 				}
 				builder = new StringBuilder();
 				path = new StringBuilder();
-				item = new BaseItem();
+				item = new Item();
 			}
 			if (isStart) {
 				builder.append(text);
@@ -123,9 +120,9 @@ public class ParseHtml {
 	 *            长度
 	 */
 	public Question getAnswer(Elements children, int staIdx, int length) {
-		Question question = new QuestionImpl(Question.ANSWER);
+		Question question = new Question(Question.ANSWER);
 		StringBuilder builder = new StringBuilder();
-		Item item = new BaseItem();
+		Item item = new Item();
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
 			// 这里可以对文本进行处理
@@ -226,7 +223,7 @@ public class ParseHtml {
 	 */
 	public Paper parse(String path, String subject) throws Exception {
 		// 定义一个指定科目的试卷保存对象
-		Paper paper = new PaperImpl(subject);
+		Paper paper = new Paper(subject);
 		// 读取文件
 		Document doc = Jsoup.parse(new File(path), "utf-8");
 		// 获取body标签内的所有子标签
