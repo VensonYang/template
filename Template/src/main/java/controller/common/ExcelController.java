@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
-import common.utils.ExcelUtil;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
 import controller.result.ReturnResult;
 import controller.result.StatusCode;
+import utils.common.ExcelUtil;
 
 @RequestMapping("/excel")
 @Controller

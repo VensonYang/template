@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
@@ -25,6 +24,7 @@ import model.news.NewsVO;
 import model.news.NewsVO.IAddNews;
 import model.news.NewsVO.IModifyNews;
 import service.news.NewsService;
+import utils.bean.BeanDirectorFactory;
 
 @RequestMapping("/news")
 @ResponseBody

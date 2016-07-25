@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import common.utils.MD5Util;
 import dao.BaseDao;
 import service.user.LoginService;
+import utils.common.MD5Util;
 
 @Service("loginService")
 @SuppressWarnings("unchecked")

@@ -9,14 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bean.utils.BeanCopyUtils;
 import common.StaticsConstancts;
-import common.utils.MD5Util;
 import dao.BaseDao;
 import dao.model.TUser;
 import model.common.QueryVO;
 import model.system.UserVO;
 import service.system.UserManageService;
+import utils.bean.BeanCopyUtils;
+import utils.common.MD5Util;
 
 @Service("userManageService")
 public class UserManageServiceImpl implements UserManageService {

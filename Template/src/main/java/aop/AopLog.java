@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import bean.utils.FieldUtil;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
+import utils.bean.FieldUtil;
 
 @Component("aopLog")
 @Aspect

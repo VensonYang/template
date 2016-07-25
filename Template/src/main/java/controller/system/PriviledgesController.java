@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
@@ -23,6 +22,7 @@ import model.system.PriviledgesVO;
 import model.system.PriviledgesVO.IAddPriviledges;
 import model.system.PriviledgesVO.IModifyPriviledges;
 import service.system.PriviledgesService;
+import utils.bean.BeanDirectorFactory;
 
 @ResponseBody
 @RequestMapping("/priviledges")

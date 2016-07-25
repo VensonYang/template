@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
@@ -23,6 +22,7 @@ import model.news.NewsTypeVO;
 import model.news.NewsTypeVO.IAddNewsType;
 import model.news.NewsTypeVO.IModifyNewsType;
 import service.news.NewsTypeService;
+import utils.bean.BeanDirectorFactory;
 
 @RequestMapping("/newsType")
 @ResponseBody

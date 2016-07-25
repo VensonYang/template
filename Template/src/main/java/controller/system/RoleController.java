@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
@@ -24,6 +23,7 @@ import model.system.RoleVO.IAddRole;
 import model.system.RoleVO.IAddRolePriviledges;
 import model.system.RoleVO.IModifyRole;
 import service.system.RoleService;
+import utils.bean.BeanDirectorFactory;
 
 @ResponseBody
 @Controller

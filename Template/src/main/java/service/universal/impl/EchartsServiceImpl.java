@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import common.utils.EchartsUtil;
 import service.universal.EchartsService;
+import utils.common.EchartsUtil;
 
 @Service("echartsService")
 public class EchartsServiceImpl implements EchartsService {

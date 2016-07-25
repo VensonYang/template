@@ -20,9 +20,9 @@ import org.slf4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 
 import common.StaticsConstancts;
-import common.utils.NetworkUtil;
 import controller.result.ReturnResult;
 import controller.result.StatusCode;
+import utils.common.NetworkUtil;
 
 /**
  * controller助手，该类包含了controller类常用的一些常量以及方法

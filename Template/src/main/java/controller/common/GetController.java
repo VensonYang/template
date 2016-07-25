@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.StaticsConstancts;
-import common.utils.CookieUtil;
-import common.utils.VerifyCodeUtil;
 import controller.base.ControllerContext;
 import controller.result.ReturnResult;
 import controller.result.StatusCode;
 import interceptor.Exclude;
+import utils.common.CookieUtil;
+import utils.common.VerifyCodeUtil;
 
 @RequestMapping("/get")
 @ResponseBody

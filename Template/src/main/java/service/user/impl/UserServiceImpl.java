@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import common.utils.MD5Util;
 import dao.BaseDao;
 import model.user.LoginVO;
 import model.user.NodeVO;
@@ -15,6 +14,7 @@ import model.user.PriviledgesVectorVO;
 import service.system.PriviledgesService;
 import service.user.LoginService;
 import service.user.UserService;
+import utils.common.MD5Util;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

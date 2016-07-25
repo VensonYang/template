@@ -24,14 +24,14 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.alibaba.fastjson.JSONObject;
 
 import common.StaticsConstancts;
-import common.utils.CookieUtil;
-import common.utils.MD5Util;
-import common.utils.NetworkUtil;
 import controller.base.ControllerContext;
 import controller.result.ReturnResult;
 import controller.result.StatusCode;
 import model.user.PriviledgesVectorVO;
 import service.user.UserService;
+import utils.common.CookieUtil;
+import utils.common.MD5Util;
+import utils.common.NetworkUtil;
 
 public class LoginFilter implements Filter {
 

@@ -17,12 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
-import common.utils.CookieUtil;
-import common.utils.ImageCutterUtil;
-import common.utils.MD5Util;
-import common.utils.NetworkUtil;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
 import controller.base.ValidParam;
@@ -38,6 +33,11 @@ import model.user.LoginVO.Ilogin;
 import model.user.NodeVO;
 import model.user.PriviledgesVectorVO;
 import service.user.UserService;
+import utils.bean.BeanDirectorFactory;
+import utils.common.CookieUtil;
+import utils.common.ImageCutterUtil;
+import utils.common.MD5Util;
+import utils.common.NetworkUtil;
 
 @SuppressWarnings("unchecked")
 @RequestMapping("/user")

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import common.parse.WordToHtml;
 import controller.base.ControllerContext;
@@ -25,6 +24,7 @@ import model.common.QueryVO;
 import model.universal.BatchFileVO;
 import model.universal.FileVO;
 import service.universal.NetdiskService;
+import utils.bean.BeanDirectorFactory;
 
 @RequestMapping("/netdisk")
 @ResponseBody

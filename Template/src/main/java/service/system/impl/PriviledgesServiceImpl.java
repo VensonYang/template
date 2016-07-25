@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bean.utils.BeanCopyUtils;
 import common.StaticsConstancts;
 import dao.BaseDao;
 import dao.model.TPriviledges;
@@ -23,6 +22,7 @@ import model.user.NodeVO;
 import model.user.PriviledgesVectorVO;
 import service.system.PriviledgesService;
 import service.user.LoginService;
+import utils.bean.BeanCopyUtils;
 
 @Service("priviledgesService")
 public class PriviledgesServiceImpl implements PriviledgesService {

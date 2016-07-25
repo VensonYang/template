@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.utils.BeanDirectorFactory;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
@@ -27,6 +26,7 @@ import model.system.UserVO;
 import model.system.UserVO.IAddUser;
 import model.system.UserVO.IModifyUser;
 import service.system.UserManageService;
+import utils.bean.BeanDirectorFactory;
 
 @ResponseBody
 @RequestMapping("/userManage")

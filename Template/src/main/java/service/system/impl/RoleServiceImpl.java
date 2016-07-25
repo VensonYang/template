@@ -11,9 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bean.utils.BeanCopyUtils;
 import common.StaticsConstancts;
-import common.utils.SQLBudlider;
 import dao.BaseDao;
 import dao.model.TPriviledges;
 import dao.model.TRole;
@@ -22,6 +20,8 @@ import model.system.PriviledgesVO;
 import model.system.RoleVO;
 import service.system.PriviledgesService;
 import service.system.RoleService;
+import utils.bean.BeanCopyUtils;
+import utils.common.SQLBudlider;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {

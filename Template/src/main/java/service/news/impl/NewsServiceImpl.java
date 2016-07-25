@@ -15,16 +15,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import bean.utils.BeanCopyUtils;
 import common.StaticsConstancts;
-import common.utils.DBUtil;
-import common.utils.SQLBudlider;
 import dao.BaseDao;
 import dao.model.TNews;
 import dao.model.TNewsType;
 import model.common.QueryVO;
 import model.news.NewsVO;
 import service.news.NewsService;
+import utils.bean.BeanCopyUtils;
+import utils.common.DBUtil;
+import utils.common.SQLBudlider;
 
 @Service("newsService")
 public class NewsServiceImpl implements NewsService {
