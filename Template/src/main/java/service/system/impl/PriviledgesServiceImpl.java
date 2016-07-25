@@ -17,11 +17,11 @@ import common.StaticsConstancts;
 import dao.BaseDao;
 import dao.model.TPriviledges;
 import model.common.QueryVO;
+import model.system.NodeVO;
 import model.system.PriviledgesVO;
-import model.user.NodeVO;
-import model.user.PriviledgesVectorVO;
+import model.system.PriviledgesVectorVO;
+import service.system.LoginService;
 import service.system.PriviledgesService;
-import service.user.LoginService;
 import utils.bean.BeanCopyUtils;
 
 @Service("priviledgesService")
@@ -33,24 +33,18 @@ public class PriviledgesServiceImpl implements PriviledgesService {
 	private Map<Integer, PriviledgesVectorVO> priviledgesVectors;
 
 	private boolean initPriviledgesVectors(int userId) {
-		// 获取用户的所有权限
 		List<Map<String, Object>> priviledgesResult = loginService.getPriviledgesByUserId(userId);
 		if (priviledgesResult != null) {
-			// 获取用户的所有增删改查权限
 			List<Map<String, Object>> priviledgeMatrixResult = loginService.getPriviledgesMatrixByUserId(userId);
-			// 遍历权限
 			for (Map<String, Object> priviledge : priviledgesResult) {
 				for (Map<String, Object> priviledgeMatrix : priviledgeMatrixResult) {
-					// 寻找对应的增删改查权限
 					if ((Integer) priviledge.get("id") == (Integer) priviledgeMatrix
 							.get(StaticsConstancts.PRIVILEDGES_ID)) {
-						// 保存对应的增删改查权限
 						PriviledgesVectorVO priviledgesVector = new PriviledgesVectorVO();
 						priviledgesVector.setPriviledge(priviledge);
 						Map<String, Boolean> priviledgeMatrixMap = new HashMap<String, Boolean>();
 						for (Entry<String, Object> set : priviledgeMatrix.entrySet()) {
 							String key = set.getKey();
-							// 排除priviledgesID
 							if (!key.equals("priviledgesID")) {
 								priviledgeMatrixMap.put(key, (Boolean) set.getValue());
 							}
@@ -89,6 +83,7 @@ public class PriviledgesServiceImpl implements PriviledgesService {
 		for (TPriviledges priviledge : priviledges) {
 			NodeVO node = new NodeVO(priviledge.getId(), priviledge.getName(), priviledge.getUrl(), priviledge.getPid(),
 					priviledge.getIcon());
+			node.setMemo(priviledge.getMemo());
 			if (node.getPid() == parentNode.getId()) {
 				parentNode.add(node); // 当前节点添加子节点
 				if (pids.contains(node.getId())) { // 查询当前节点是否属于父节点
@@ -120,7 +115,7 @@ public class PriviledgesServiceImpl implements PriviledgesService {
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append(
 				" SELECT new Map(  a.id as id,a.name as name,a.url as url,(CASE a.status WHEN '1' THEN '启用' ELSE '禁用' END) as "
-						+ "status,a.pid as pid,CONCAT('<i class=\"fa ',CONCAT(a.icon,'\"></i>')) as icon,a.isParent as isParent) "
+						+ "status,a.pid as pid,a.icon as icon,a.isParent as isParent) "
 						+ " FROM TPriviledges a  WHERE 1=1 ");
 		totalHQL.append("SELECT COUNT(*) FROM TPriviledges a  WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<String, Object>();

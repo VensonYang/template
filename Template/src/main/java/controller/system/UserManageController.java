@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import controller.base.ValidParam;
 import controller.base.ValidationAware;
 import controller.base.ValidationAwareSupport;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
 import model.common.QueryVO;
 import model.system.UserVO;
 import model.system.UserVO.IAddUser;
@@ -98,11 +98,7 @@ public class UserManageController {
 		if (param == null) {
 			return returnResult;
 		}
-		int userId = Integer.parseInt(param);
-		UserVO userVO = userManageService.getUserVOByUserId(userId);
-		for (Map<String, Object> map : userManageService.getUserRoleByUserId(userId)) {
-			userVO.setRoleId((Integer) map.get("roleId"));
-		}
+		UserVO userVO = userManageService.getUserVOByUserId(Integer.parseInt(param));
 		returnResult.setStatus(StatusCode.SUCCESS).setRows(userVO);
 		logger.debug("get User success");
 		return returnResult;
@@ -122,7 +118,7 @@ public class UserManageController {
 	}
 
 	@RequestMapping("setUserRole")
-	public ReturnResult addUserRole() {
+	public ReturnResult setUserRole() {
 		HttpServletRequest request = ControllerContext.getRequest();
 		ReturnResult returnResult = ControllerContext.getResult();
 		String roleId = request.getParameter("roleId");

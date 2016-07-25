@@ -20,8 +20,8 @@ import com.alibaba.fastjson.JSON;
 
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import utils.common.ExcelUtil;
 
 @RequestMapping("/excel")

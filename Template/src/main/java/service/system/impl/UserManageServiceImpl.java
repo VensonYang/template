@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import common.StaticsConstancts;
 import dao.BaseDao;
+import dao.model.TDepartment;
 import dao.model.TUser;
 import model.common.QueryVO;
 import model.system.UserVO;
@@ -31,10 +32,10 @@ public class UserManageServiceImpl implements UserManageService {
 		dataHQL.append("SELECT new map(id as id,userName as userName,sex as sex,userAccount as userAccount,"
 				+ "(CASE status WHEN '1' THEN '启用' ELSE '停用' END) as status,(select userName from TUser where id=a.creator) as creator,createTime as createTime,"
 				+ " (select userName from TUser where id=a.modifier) as modifier, modifyTime as modifyTime,memo as memo) "
-				+ "FROM TUser a WHERE  userAccount<>'9999' AND  id<>:userId  ");
-		totalHQL.append("SELECT COUNT(*) FROM TUser a WHERE  userAccount<>'9999' AND  id<>:userId ");
+				+ "FROM TUser a WHERE  1=1  ");
+		totalHQL.append("SELECT COUNT(*) FROM TUser a WHERE  1=1  ");
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("userId", userId);
+		// params.put("userId", userId);
 		buildHQL(queryVO, dataHQL, totalHQL, params);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put(StaticsConstancts.DATA,
@@ -69,9 +70,16 @@ public class UserManageServiceImpl implements UserManageService {
 	public Serializable addUser(UserVO obj) {
 		TUser tobj = new TUser();
 		BeanCopyUtils.copyProperties(obj, tobj);
+		// 设置密码
 		String password = MD5Util.getMD5String(tobj.getPassword());
 		tobj.setPassword(password);
+		// 设置部门
+		TDepartment department = new TDepartment();
+		department.setId(obj.getDeptId());
+		tobj.setTDepartment(department);
+		// 保存用户
 		baseDao.save(tobj);
+		// 添加角色
 		addUserRoleByUserId(obj.getRoleId(), tobj.getId());
 		return tobj.getId();
 
@@ -87,21 +95,29 @@ public class UserManageServiceImpl implements UserManageService {
 			password = MD5Util.getMD5String(obj.getPassword());
 		}
 		BeanCopyUtils.copyProperties(obj, tobj);
+		tobj.setPassword(password);
+		// 查看是否有更改角色
 		if (null != obj.getRoleId()) {
 			addUserRoleByUserId(obj.getRoleId(), tobj.getId());
 		}
-		tobj.setPassword(password);
+		// 设置部门
+		TDepartment department = new TDepartment();
+		department.setId(obj.getDeptId());
+		tobj.setTDepartment(department);
 		baseDao.update(tobj);
 	}
 
 	@Override
 	public void deleteUser(int id) {
+		// 删除用户的角色和课程
 		String hql1 = "DELETE TUserRole a WHERE a.TUser.id=:id";
-		String hql2 = "DELETE TUser WHERE id=:id";
+		String hql2 = "DELETE TUserCourse a WHERE a.TUser.id=:id";
+		String hql3 = "DELETE TUser WHERE id=:id";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		baseDao.delete(hql1, params);
 		baseDao.delete(hql2, params);
+		baseDao.delete(hql3, params);
 	}
 
 	@Override
@@ -129,7 +145,6 @@ public class UserManageServiceImpl implements UserManageService {
 
 	@Override
 	public List<Map<String, Object>> getUserRoleByUserId(int userId) {
-		// TODO Auto-generated method stub
 		String sql = "SELECT new Map(a.TRole.id as roleId) FROM TUserRole a WHERE a.TUser.id=:userId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
@@ -139,7 +154,16 @@ public class UserManageServiceImpl implements UserManageService {
 	@Override
 	public UserVO getUserVOByUserId(int id) {
 		UserVO userVO = new UserVO();
-		BeanCopyUtils.copyProperties(getUserByUserId(id), userVO, "password");
+		TUser user = getUserByUserId(id);
+		BeanCopyUtils.copyProperties(user, userVO, "password");
+		// 设置用户角色
+		for (Map<String, Object> map : getUserRoleByUserId(id)) {
+			userVO.setRoleId((Integer) map.get("roleId"));
+		}
+		if (null != user.getTDepartment()) {
+			userVO.setDeptId(user.getTDepartment().getId());
+		}
 		return userVO;
 	}
+
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-6-22 14:06:48 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-7-25 10:41:41 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="dao.model.TRole" table="t_role" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -70,12 +70,6 @@
                 </column>
             </key>
             <one-to-many class="dao.model.TRolePriviledges" />
-        </set>
-        <set name="TUserRoles_1" table="t_user_role" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="roleID" />
-            </key>
-            <one-to-many class="dao.model.TUserRole" />
         </set>
     </class>
 </hibernate-mapping>

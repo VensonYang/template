@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,8 +32,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import interceptor.Exclude;
 import upload.progress.UploadProgress;
 import upload.progress.UploadStatusVO;
@@ -43,12 +46,15 @@ public class AttachmentController {
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentController.class);
 	private static final Set<String> IMAGE_TYPE = new HashSet<String>();
 	private static final Set<String> EXCLE_TYPE = new HashSet<String>();
+	private static final Set<String> WORD_TYPE = new HashSet<String>();
 	static {
 		IMAGE_TYPE.add(ControllerHelper.CONTENT_TYPE_IMAGE_JPG);
 		IMAGE_TYPE.add(ControllerHelper.CONTENT_TYPE_IMAGE_PNG);
 		EXCLE_TYPE.add(ControllerHelper.CONTENT_TYPE_EXCEL);
 		EXCLE_TYPE.add(ControllerHelper.CONTENT_TYPE_EXCEL_93);
 		EXCLE_TYPE.add(ControllerHelper.CONTENT_TYPE_EXCEL_97);
+		WORD_TYPE.add(ControllerHelper.CONTENT_TYPE_WORD_93);
+		WORD_TYPE.add(ControllerHelper.CONTENT_TYPE_WORD_97);
 	}
 
 	@RequestMapping(value = "editorUpload")
@@ -93,6 +99,12 @@ public class AttachmentController {
 	@Exclude
 	public void uploadExcel(@RequestParam(required = false) CommonsMultipartFile[] attachment) throws IOException {
 		processUpload(attachment, true, ControllerHelper.EXCEL_UPLOAD_PATH, EXCLE_TYPE);
+	}
+
+	@RequestMapping(value = "wordUpload")
+	@Exclude
+	public void uploadWord(@RequestParam(required = false) CommonsMultipartFile[] attachment) throws IOException {
+		processUpload(attachment, true, ControllerHelper.WORD_UPLOAD_PATH, WORD_TYPE);
 	}
 
 	private void buildDir(String path) {
@@ -145,7 +157,15 @@ public class AttachmentController {
 	@RequestMapping("attachmentDownload")
 	@Exclude
 	public void downloadAttachment(String fileName, @RequestParam(required = false) String downName) throws Exception {
-		String path = ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_UPLOAD_PATH) + fileName;
+		String path = ControllerHelper.getUploadPath(ControllerHelper.ATTACHMENT_ROOT_PATH) + fileName;
+		processDownload(ControllerHelper.CONTENT_TYPE_STREAM, fileName, downName, path);
+
+	}
+
+	@RequestMapping("wordDownload")
+	@Exclude
+	public void downloadWord(String fileName, @RequestParam(required = false) String downName) throws Exception {
+		String path = ControllerHelper.getUploadPath(ControllerHelper.WORD_UPLOAD_PATH) + fileName;
 		processDownload(ControllerHelper.CONTENT_TYPE_STREAM, fileName, downName, path);
 
 	}
@@ -199,6 +219,12 @@ public class AttachmentController {
 			throws UnsupportedEncodingException, IOException {
 		downName = validDownload(path, fileName, downName);
 		if (downName != null) {
+			// 检测文件类型
+			Path p = Paths.get(path);
+			String mimeType = Files.probeContentType(p);
+			if (StringUtils.isNotBlank(mimeType)) {
+				contentType = mimeType;
+			}
 			ControllerHelper.makeAttachment(contentType,
 					new String[] { ControllerHelper.CONTENT_DISPOSITION_ATTACHMENT, downName }, path);
 		} else {
@@ -291,7 +317,7 @@ public class AttachmentController {
 		List<CommonsMultipartFile> files = new LinkedList<CommonsMultipartFile>();
 		// 文件保存校验
 		for (CommonsMultipartFile file : attachment) {
-			logger.debug("sdfd" + file.getContentType());
+			logger.debug("文件类型：" + file.getContentType());
 			// 检查上传文件类型
 			if (allowType != null) {
 				if (!allowType.contains(file.getContentType())) {
@@ -311,6 +337,7 @@ public class AttachmentController {
 				files.add(file);
 			}
 		}
+		logger.debug("size:" + files.size());
 		return files;
 	}
 

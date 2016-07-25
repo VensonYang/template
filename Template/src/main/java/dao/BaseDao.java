@@ -52,6 +52,12 @@ public interface BaseDao {
 
 	int sqlGet(String sql, Map<String, Object> params);
 
+	Object sqlGet(String sql, Object[] params);
+
+	Object sqlGet(String sql, Object params);
+
+	Object sqlGet(String sql);
+
 	<T> T get(Class<T> entityClass, Integer id);
 
 	<T> List<T> findAll(String hql, Class<T> entityClass);

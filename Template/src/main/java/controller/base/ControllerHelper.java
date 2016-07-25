@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletOutputStream;
@@ -20,8 +21,6 @@ import org.slf4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 
 import common.StaticsConstancts;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
 import utils.common.NetworkUtil;
 
 /**
@@ -38,9 +37,11 @@ public class ControllerHelper {
 	public final static String CONTENT_TYPE_JSON = "application/json";
 	public final static String CONTENT_TYPE_PDF = "application/pdf";
 	public final static String CONTENT_TYPE_XML = "text/xml";
-	public final static String CONTENT_TYPE_EXCEL_93 = "application/vnd.ms-excel";
 	public final static String CONTENT_TYPE_EXCEL = "application/excel";
+	public final static String CONTENT_TYPE_EXCEL_93 = "application/vnd.ms-excel";
 	public final static String CONTENT_TYPE_EXCEL_97 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	public final static String CONTENT_TYPE_WORD_93 = "application/msword";
+	public final static String CONTENT_TYPE_WORD_97 = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 	// 附件下载格式
 	public static final String CONTENT_DISPOSITION = "Content-Disposition";
 	public static final String CONTENT_DISPOSITION_INLINE = "inline";
@@ -50,6 +51,7 @@ public class ControllerHelper {
 	public static final String ATTACHMENT_ROOT_PATH = "/";
 	public static final String EXCEL_UPLOAD_PATH = "/upload/excel";
 	public static final String HTML_UPLOAD_PATH = "/upload/html";
+	public static final String WORD_UPLOAD_PATH = "/upload/word";
 	public static final String IMAGE_UPLOAD_PATH = "/upload/image";
 	public static final String HEAD_IMAGE_UPLOAD_PATH = "/upload/image/headImage";
 
@@ -85,8 +87,35 @@ public class ControllerHelper {
 		if (path == null) {
 			return request.getServletContext().getRealPath("/upload") + File.separator;
 		}
-		return request.getServletContext().getRealPath(path) + File.separator;
+		if (path == ATTACHMENT_ROOT_PATH)
+			return request.getServletContext().getRealPath(path);
+		else
+			return request.getServletContext().getRealPath(path) + File.separator;
 
+	}
+
+	/**
+	 * 获取带部署上下文的域名
+	 * 
+	 */
+	public static String getDeployDomain() {
+		HttpServletRequest request = ControllerContext.getRequest();
+		StringBuffer url = request.getRequestURL();
+		String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length())
+				.append(request.getServletContext().getContextPath()).append("/").toString();
+		return tempContextUrl;
+	}
+
+	/**
+	 * 获取域名
+	 * 
+	 */
+	public static String getDomain() {
+		HttpServletRequest request = ControllerContext.getRequest();
+		StringBuffer url = request.getRequestURL();
+		String tempContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/")
+				.toString();
+		return tempContextUrl;
 	}
 
 	public static String getDownloadPath() {
@@ -105,6 +134,32 @@ public class ControllerHelper {
 	}
 
 	/**
+	 * 
+	 * @Title: processFileName
+	 * 
+	 * @Description: ie,chrom,firfox下处理文件名显示乱码
+	 */
+	public static String processFileName(String fileNames) {
+		HttpServletRequest request = ControllerContext.getRequest();
+		String codedfilename = null;
+		try {
+			String agent = request.getHeader("USER-AGENT");
+			if (null != agent && -1 != agent.indexOf("MSIE") || null != agent && -1 != agent.indexOf("Trident")) {// ie
+
+				String name = java.net.URLEncoder.encode(fileNames, "UTF8");
+
+				codedfilename = name;
+			} else if (null != agent && -1 != agent.indexOf("Mozilla")) {// 火狐,chrome等
+
+				codedfilename = new String(fileNames.getBytes("UTF-8"), "iso-8859-1");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return codedfilename;
+	}
+
+	/**
 	 * 输入下载文件
 	 * 
 	 * @param contentType
@@ -118,8 +173,7 @@ public class ControllerHelper {
 	public static void makeAttachment(String contentType, String header[], byte[] data) throws IOException {
 		HttpServletResponse response = ControllerContext.getResponse();
 		response.setContentType(contentType);
-		response.setHeader(CONTENT_DISPOSITION,
-				header[0] + ";fileName=" + new String(header[1].getBytes("UTF-8"), "ISO-8859-1"));
+		response.setHeader(CONTENT_DISPOSITION, header[0] + ";fileName=" + processFileName(header[1]));
 		ServletOutputStream stream = response.getOutputStream();
 		stream.write(data);
 		stream.flush();
@@ -274,6 +328,17 @@ public class ControllerHelper {
 		Object userId = session.getAttribute(StaticsConstancts.USER_NAME);
 		if (userId != null) {
 			return userId.toString();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static String getSubject() {
+		HttpSession session = ControllerContext.getSession();
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute(StaticsConstancts.USER_INFO);
+		Object subject = (String) userInfo.get("kemu");
+		if (subject != null) {
+			return subject.toString();
 		}
 		return null;
 	}

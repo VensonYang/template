@@ -85,4 +85,5 @@ public interface UserManageService {
 	 *            用户Id
 	 */
 	List<Map<String, Object>> getUserRoleByUserId(int userId);
+
 }

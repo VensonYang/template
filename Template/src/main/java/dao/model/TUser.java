@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-6-22 14:06:48 by Hibernate Tools 4.3.1.Final
+// Generated 2016-7-25 10:41:41 by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import java.util.Set;
 public class TUser implements java.io.Serializable {
 
 	private Integer id;
+	private TDepartment TDepartment;
 	private String userName;
 	private String sex;
 	private String userAccount;
@@ -23,7 +24,6 @@ public class TUser implements java.io.Serializable {
 	private String headImage;
 	private String memo;
 	private Set TUserRoles = new HashSet(0);
-	private Set TUserRoles_1 = new HashSet(0);
 
 	public TUser() {
 	}
@@ -36,9 +36,10 @@ public class TUser implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	public TUser(String userName, String sex, String userAccount, String password, String status, Integer creator,
-			Date createTime, Integer modifier, Date modifyTime, String headImage, String memo, Set TUserRoles,
-			Set TUserRoles_1) {
+	public TUser(TDepartment TDepartment, String userName, String sex, String userAccount, String password,
+			String status, Integer creator, Date createTime, Integer modifier, Date modifyTime, String headImage,
+			String memo, Set TUserRoles) {
+		this.TDepartment = TDepartment;
 		this.userName = userName;
 		this.sex = sex;
 		this.userAccount = userAccount;
@@ -51,7 +52,6 @@ public class TUser implements java.io.Serializable {
 		this.headImage = headImage;
 		this.memo = memo;
 		this.TUserRoles = TUserRoles;
-		this.TUserRoles_1 = TUserRoles_1;
 	}
 
 	public Integer getId() {
@@ -60,6 +60,14 @@ public class TUser implements java.io.Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public TDepartment getTDepartment() {
+		return this.TDepartment;
+	}
+
+	public void setTDepartment(TDepartment TDepartment) {
+		this.TDepartment = TDepartment;
 	}
 
 	public String getUserName() {
@@ -156,14 +164,6 @@ public class TUser implements java.io.Serializable {
 
 	public void setTUserRoles(Set TUserRoles) {
 		this.TUserRoles = TUserRoles;
-	}
-
-	public Set getTUserRoles_1() {
-		return this.TUserRoles_1;
-	}
-
-	public void setTUserRoles_1(Set TUserRoles_1) {
-		this.TUserRoles_1 = TUserRoles_1;
 	}
 
 }

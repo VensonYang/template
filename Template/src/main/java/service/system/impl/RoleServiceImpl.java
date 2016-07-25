@@ -36,8 +36,8 @@ public class RoleServiceImpl implements RoleService {
 		StringBuilder dataHQL = new StringBuilder();
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append(SQLBudlider.bulider(TRole.class));
-		dataHQL.append(" WHERE a.id<>1  ");
-		totalHQL.append("SELECT COUNT(*) FROM TRole a  WHERE a.id<>1 ");
+		dataHQL.append(" WHERE 1=1  ");
+		totalHQL.append("SELECT COUNT(*) FROM TRole a  WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<String, Object>();
 		buildHQL(queryVO, dataHQL, totalHQL, params);
 		Map<String, Object> result = new HashMap<String, Object>();

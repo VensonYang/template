@@ -25,10 +25,10 @@ import com.alibaba.fastjson.JSONObject;
 
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
-import model.user.PriviledgesVectorVO;
-import service.user.UserService;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
+import model.system.PriviledgesVectorVO;
+import service.system.UserService;
 import utils.common.CookieUtil;
 import utils.common.MD5Util;
 import utils.common.NetworkUtil;

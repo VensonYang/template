@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import controller.base.ControllerContext;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import service.universal.EchartsService;
 
 @RequestMapping("/echart")

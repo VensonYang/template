@@ -422,7 +422,6 @@ public class BaseDaoImpl implements BaseDao {
 
 	@Override
 	public Object get(String hql) {
-		// TODO Auto-generated method stub
 		Query query = getSession().createQuery(hql);
 		return query.uniqueResult();
 	}
@@ -433,13 +432,11 @@ public class BaseDaoImpl implements BaseDao {
 
 	@Override
 	public Object get(String hql, Object params) {
-		// TODO Auto-generated method stub
 		return get(hql, new Object[] { params });
 	}
 
 	@Override
 	public Object get(String hql, Object[] params) {
-		// TODO Auto-generated method stub
 		Query query = getSession().createQuery(hql);
 		for (int i = 0; i < params.length; i++) {
 			query.setParameter(i, params[i]);
@@ -459,6 +456,27 @@ public class BaseDaoImpl implements BaseDao {
 		SQLQuery query = getSession().createSQLQuery(sql);
 		return query.executeUpdate();
 
+	}
+
+	@Override
+	public Object sqlGet(String sql) {
+		Query query = getSession().createSQLQuery(sql);
+		return query.uniqueResult();
+	}
+
+	@Override
+	public Object sqlGet(String sql, Object[] params) {
+		Query query = getSession().createSQLQuery(sql);
+		for (int i = 0; i < params.length; i++) {
+			query.setParameter(i, params[i]);
+		}
+		return query.uniqueResult();
+	}
+
+	@Override
+	public Object sqlGet(String sql, Object params) {
+		// TODO Auto-generated method stub
+		return sqlGet(sql, new Object[] { params });
 	}
 
 }

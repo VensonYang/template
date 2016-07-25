@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
-import model.user.PriviledgesVectorVO;
+import model.system.PriviledgesVectorVO;
 
 /**
  * 权限拦截器，通过前台请求参数{@linkplain #PRIVILEDGES_ID priviledgesID}判断该请求是合法请求还是非法请求
@@ -52,6 +52,7 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
 
 		Method method = handlerMethod.getMethod();
 		logger.debug("methodName:" + methodName);
+
 		Exclude annotation = method.getAnnotation(Exclude.class);
 		if (annotation != null)
 			return true;

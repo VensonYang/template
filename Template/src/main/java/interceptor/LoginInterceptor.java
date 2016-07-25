@@ -19,10 +19,10 @@ import com.alibaba.fastjson.JSONObject;
 
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
-import model.user.PriviledgesVectorVO;
-import service.user.UserService;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
+import model.system.PriviledgesVectorVO;
+import service.system.UserService;
 import utils.common.CookieUtil;
 import utils.common.MD5Util;
 import utils.common.NetworkUtil;
@@ -46,7 +46,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if (filterCurrUrl(request)) {
 			response.setContentType("application/json");
 			ReturnResult returnResult = ControllerContext.getResult();
-			returnResult.setStatus(StatusCode.NO_ACCESS.setMessage("非法用户,禁止访问"));
+			returnResult.setStatus(StatusCode.FAIL.setMessage("您还未登录,请先登录！"));
 			logger.debug("非法用户,禁止访问");
 			response.getWriter().print(JSONObject.toJSON(returnResult));
 			return false;

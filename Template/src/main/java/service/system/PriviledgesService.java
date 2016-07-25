@@ -6,9 +6,9 @@ import java.util.Map;
 
 import dao.model.TPriviledges;
 import model.common.QueryVO;
+import model.system.NodeVO;
 import model.system.PriviledgesVO;
-import model.user.NodeVO;
-import model.user.PriviledgesVectorVO;
+import model.system.PriviledgesVectorVO;
 
 public interface PriviledgesService {
 

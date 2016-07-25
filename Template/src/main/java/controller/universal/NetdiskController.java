@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.StaticsConstancts;
-import common.parse.WordToHtml;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import controller.base.ValidParam;
 import controller.base.ValidationAware;
 import controller.base.ValidationAwareSupport;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
 import model.common.QueryVO;
 import model.universal.BatchFileVO;
 import model.universal.FileVO;
 import service.universal.NetdiskService;
 import utils.bean.BeanDirectorFactory;
+import utils.parse.WordToHtml;
 
 @RequestMapping("/netdisk")
 @ResponseBody

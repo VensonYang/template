@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-7-15 8:46:05 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="dao.model.TEnumbank" table="t_enumbank" catalog="tkgl" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="enumtypeid" type="string">
+            <column name="enumtypeid" length="8">
+                <comment>&#195;&#182;&#190;&#217;&#192;&#224;&#208;&#205;&#177;&#224;&#186;&#197;</comment>
+            </column>
+        </property>
+        <property name="enumtypename" type="string">
+            <column name="enumtypename" length="30">
+                <comment>&#195;&#182;&#190;&#217;&#192;&#224;&#208;&#205;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="enumid" type="string">
+            <column name="enumid" length="8">
+                <comment>&#195;&#182;&#190;&#217;&#207;&#238;ID</comment>
+            </column>
+        </property>
+        <property name="enumvalue" type="string">
+            <column name="enumvalue" length="120">
+                <comment>&#195;&#182;&#190;&#217;&#207;&#238;&#214;&#181;</comment>
+            </column>
+        </property>
+        <property name="flag" type="java.lang.Byte">
+            <column name="flag">
+                <comment>&#202;&#199;&#183;&#241;&#191;&#201;&#210;&#212;&#208;&#222;&#184;&#196;&#163;&#172;0&#183;&#241;&#163;&#172;1&#202;&#199;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="30">
+                <comment>&#177;&#184;&#215;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

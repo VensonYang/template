@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-6-22 14:06:48 by Hibernate Tools 4.3.1.Final
+// Generated 2016-7-25 10:41:41 by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +21,6 @@ public class TRole implements java.io.Serializable {
 	private Set TPriviledgesMatrixes_1 = new HashSet(0);
 	private Set TUserRoles = new HashSet(0);
 	private Set TRolePriviledgeses_1 = new HashSet(0);
-	private Set TUserRoles_1 = new HashSet(0);
 
 	public TRole() {
 	}
@@ -32,8 +31,7 @@ public class TRole implements java.io.Serializable {
 	}
 
 	public TRole(String name, Date createTime, Date modifyTime, String status, String memo, Set TRolePriviledgeses,
-			Set TPriviledgesMatrixes, Set TPriviledgesMatrixes_1, Set TUserRoles, Set TRolePriviledgeses_1,
-			Set TUserRoles_1) {
+			Set TPriviledgesMatrixes, Set TPriviledgesMatrixes_1, Set TUserRoles, Set TRolePriviledgeses_1) {
 		this.name = name;
 		this.createTime = createTime;
 		this.modifyTime = modifyTime;
@@ -44,7 +42,6 @@ public class TRole implements java.io.Serializable {
 		this.TPriviledgesMatrixes_1 = TPriviledgesMatrixes_1;
 		this.TUserRoles = TUserRoles;
 		this.TRolePriviledgeses_1 = TRolePriviledgeses_1;
-		this.TUserRoles_1 = TUserRoles_1;
 	}
 
 	public Integer getId() {
@@ -133,14 +130,6 @@ public class TRole implements java.io.Serializable {
 
 	public void setTRolePriviledgeses_1(Set TRolePriviledgeses_1) {
 		this.TRolePriviledgeses_1 = TRolePriviledgeses_1;
-	}
-
-	public Set getTUserRoles_1() {
-		return this.TUserRoles_1;
-	}
-
-	public void setTUserRoles_1(Set TUserRoles_1) {
-		this.TUserRoles_1 = TUserRoles_1;
 	}
 
 }

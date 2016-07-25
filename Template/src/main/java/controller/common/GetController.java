@@ -3,6 +3,7 @@ package controller.common;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -21,10 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
-import controller.result.ReturnResult;
-import controller.result.StatusCode;
+import controller.base.ReturnResult;
+import controller.base.StatusCode;
 import interceptor.Exclude;
 import utils.common.CookieUtil;
+import utils.common.MD5Util;
 import utils.common.VerifyCodeUtil;
 
 @RequestMapping("/get")
@@ -76,9 +78,14 @@ public class GetController {
 	public ReturnResult getUserAccount() throws UnsupportedEncodingException {
 		HttpServletRequest request = ControllerContext.getRequest();
 		ReturnResult returnResult = ControllerContext.getResult();
-		String userAccount = CookieUtil.findCookie(StaticsConstancts.USER_ACCOUNT, request);
-		if (StringUtils.isNotBlank(userAccount)) {
-			returnResult.setStatus(StatusCode.SUCCESS).setRows(userAccount);
+		StringBuffer salt = new StringBuffer();
+		salt.append(Calendar.getInstance().get(1));
+		salt.append(Calendar.getInstance().get(3));
+		String cookie_account = CookieUtil.findCookie(StaticsConstancts.USER_ACCOUNT, request);
+		String cookie_secret_key = CookieUtil.findCookie(StaticsConstancts.SECRET_KEY, request);
+		if (StringUtils.isNotBlank(cookie_account) && StringUtils.isNotBlank(cookie_secret_key)
+				&& MD5Util.getMD5StringWithSalt(cookie_account, salt.toString()).equals(cookie_secret_key)) {
+			return returnResult.setStatus(StatusCode.SUCCESS).setRows(cookie_account);
 		} else {
 			logger.debug("fail");
 			returnResult.setStatus(StatusCode.FAIL);

@@ -24,6 +24,10 @@ public class UserVO {
 	private String status;
 	@NotNull(message = "用户角色不能为空", groups = { IAddUser.class, IModifyUser.class })
 	private Integer roleId;
+	@NotNull(message = "用户部门不能为空", groups = { IAddUser.class, IModifyUser.class })
+	private Integer deptId;
+	private String kemu;
+	private String courseIds;
 	private Integer creator;
 	private Date createTime;
 	private Integer modifier;
@@ -133,6 +137,34 @@ public class UserVO {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getKemu() {
+		return kemu;
+	}
+
+	public void setKemu(String kemu) {
+		this.kemu = kemu;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getCourseIds() {
+		return courseIds;
+	}
+
+	public void setCourseIds(String courseIds) {
+		this.courseIds = courseIds;
 	}
 
 }
