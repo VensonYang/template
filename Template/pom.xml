@@ -264,7 +264,10 @@
 			<properties>
 				<env>dev</env>
 			</properties>
-			
+			<!-- 启用 -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 		</profile>
 		<!-- 用户验收模式 -->
 		<profile>
@@ -272,10 +275,6 @@
 			<properties>
 				<env>uat</env>
 			</properties>
-			<!-- 启用 -->
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 		</profile>
 	</profiles>
 	<build>
