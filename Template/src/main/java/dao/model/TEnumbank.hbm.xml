@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-15 8:46:05 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
-    <class name="dao.model.TEnumbank" table="t_enumbank" catalog="tkgl" optimistic-lock="version">
+    <class name="dao.model.TEnumbank" table="t_enumbank" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />

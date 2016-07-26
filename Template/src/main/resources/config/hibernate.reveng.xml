@@ -3,6 +3,7 @@
 
 <hibernate-reverse-engineering>
   <table-filter match-catalog="template" match-name="t_department"/>
+  <table-filter match-catalog="template" match-name="t_enumbank"/>
   <table-filter match-catalog="template" match-name="t_file"/>
   <table-filter match-catalog="template" match-name="t_news"/>
   <table-filter match-catalog="template" match-name="t_news_type"/>

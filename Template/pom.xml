@@ -1,11 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net</groupId>
-	<artifactId>Tempalte</artifactId>
+	<artifactId>Template</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Tempalte Maven Webapp</name>
+	<name>Template Maven Webapp</name>
 	<properties>
 		<spring-version>4.2.6.RELEASE</spring-version>
 		<hibernate-version>4.3.8.Final</hibernate-version>
@@ -256,69 +256,65 @@
 		
 		<!-- doc2html end -->
 	</dependencies>
+	<!-- 配置文件属性替换 -->
 	<profiles>
+		<!-- 开发模式 -->
 		<profile>
 			<id>dev</id>
 			<properties>
-				<hibernate-env>hibernate-dev</hibernate-env>
-				<hibernate-cfg-env>hibernate.cfg-dev</hibernate-cfg-env>
+				<env>dev</env>
 			</properties>
+			
 		</profile>
+		<!-- 用户验收模式 -->
 		<profile>
 			<id>uat</id>
 			<properties>
-				<hibernate-env>hibernate-uat</hibernate-env>
-				<hibernate-cfg-env>hibernate.cfg-uat</hibernate-cfg-env>
+				<env>uat</env>
 			</properties>
+			<!-- 启用 -->
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
 	</profiles>
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<!-- 获取启用的属性 -->
 		<filters>
-			<filter>src/main/resources/config/${hibernate-env}.properties</filter>
-			<filter>src/main/resources/config/${hibernate-cfg-env}.properties</filter>
+			<filter>src/main/resources/config/${env}.properties</filter>
 		</filters>
+		<!-- 项目名称 -->
+		<finalName>${project.artifactId}</finalName>
+		<!-- 配置属性资源文件 -->
 		<resources>
+			<!-- Hibernate映射文件 -->
 			<resource>
 				<directory>src/main/java</directory>
 				<includes>
 					<include>**/*.hbm.xml</include>
 				</includes>
 			</resource>
+			<!-- 项目配置文件 -->
 			<resource>
 				<directory>src/main/resources</directory>
+				<!-- 包含文件 -->
+				<includes>
+					<include>**/message_en_US.properties</include>
+					<include>**/message_zh_CN.properties</include>
+					<include>**/message.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<!-- 文件所在目录 -->
+				<directory>src/main/resources/config/deploy</directory>
+				<!-- 输出文件夹 -->
+				<targetPath>config</targetPath>
+				<!-- 包含文件 -->
 				<includes>
 					<include>**/*.xml</include>
 					<include>**/*.properties</include>
 				</includes>
-				<excludes>
-					<exclude>**/applicationContext.xml</exclude>
-					<exclude>**/dispatcher-servlet.xml</exclude>
-					<exclude>**/hibernate-dev.properties</exclude>
-					<exclude>**/hibernate-uat.properties</exclude>
-					<exclude>**/hibernate.cfg-dev.properties</exclude>
-					<exclude>**/hibernate.cfg-uat.properties</exclude>
-					<exclude>**/config/deploy/**</exclude>
-				</excludes>
-				<filtering>true</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/applicationContext.xml</include>
-					<include>**/dispatcher-servlet.xml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/config/deploy</directory>
-				<targetPath>config</targetPath>
-				<includes>
-					<include>hibernate.properties</include>
-					<include>hibernate.cfg.xml</include>
-				</includes>
+				<!-- 是否替换占位属性 -->
 				<filtering>true</filtering>
 			</resource>
 		</resources>

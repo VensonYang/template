@@ -56,8 +56,9 @@ public class UserController {
 		ValidationAware va = new ValidationAwareSupport();
 		HttpSession session = ControllerContext.getSession();
 		if ((Map<String, Object>) session.getAttribute(StaticsConstancts.USER_INFO) != null) {
-			logger.debug("用户已经登陆,不允许重复登陆,请先注销");
-			returnResult.setStatus(StatusCode.FAIL.setMessage("用户已经登陆,不允许重复登陆,请先注销"));
+			logger.debug("用户已经登陆,注销用户!");
+			session.invalidate();
+			// returnResult.setStatus(StatusCode.FAIL.setMessage("用户已经登陆,不允许重复登陆,请先进入主页注销"));
 			return returnResult;
 		}
 		LoginVO loginVO = BeanDirectorFactory.getBeanDirector().getDataVO(LoginVO.class, va, Ilogin.class);

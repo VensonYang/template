@@ -48,8 +48,6 @@
 		               <value>WriteNullStringAsEmpty</value>
 		               <!-- Boolean字段如果为null,输出为false,而非null -->
 		               <value>WriteNullBooleanAsFalse</value>
-		               <!-- null String不输出  -->
-		               <value>WriteNullStringAsEmpty</value>
 		               <!-- null String也要输出  -->
 		               <!-- <value>WriteMapNullValue</value> -->
 		               <!-- Date的日期转换器 -->
@@ -72,6 +70,7 @@
             <mvc:exclude-mapping path="/get/createVerifyCode"/>
             <mvc:exclude-mapping path="/get/getUserAccount"/>
             <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/loginOut"/>
             <bean class="interceptor.LoginInterceptor"></bean>
         </mvc:interceptor> 
         <mvc:interceptor>
@@ -79,22 +78,21 @@
             <bean class="interceptor.AuthorityInterceptor"></bean>
         </mvc:interceptor> 
     </mvc:interceptors>
-   
-   
+    <!-- 
+    	改为在web.xml设置
     <mvc:resources location="/upload/" mapping="/upload/**"/> 
 	<mvc:resources location="/download/" mapping="/download/**"/> 
 	<mvc:resources location="/prints/" mapping="/prints/**"/> 
+     -->
 	<!-- 如果是前后台物理分离时，以下配置可以删除 -->
+	<!-- 	
 	<mvc:resources location="/images/" mapping="/images/**"/> 
-	<mvc:resources location="/css/" mapping="/css/**"/> 
-	<mvc:resources location="/js/" mapping="/js/**"/>
-	<mvc:resources location="/common/" mapping="/common/**"/>
-	<mvc:resources location="/news/" mapping="/news/**"/>
-	<mvc:resources location="/system/" mapping="/system/**"/>
-	<mvc:resources location="/universal/" mapping="/universal/**"/>
-	<mvc:resources location="/user/" mapping="/user/**"/>
-	<mvc:resources location="/index.html" mapping="/index.html"/>
-	<mvc:resources location="/login.html" mapping="/login.html"/>
+	<mvc:resources location="/" mapping="/**/*.html"/>
+	<mvc:resources location="/" mapping="/**/*.js"/>
+	<mvc:resources location="/" mapping="/**/*.css"/>
+    -->
+   
+   
     <!-- 返回json 方法二 需要导入 jackson-annotations.jar,jackson-core.jar,jackson-databind.jar 
    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

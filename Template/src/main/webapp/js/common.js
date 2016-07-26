@@ -1,30 +1,122 @@
+$(function () {
+    if ($('select').length > 0) {
+        $.extend($.fn.select2.defaults.defaults, {
+            placeholder: '',
+            allowClear: true,
+            minimumResultsForSearch: Infinity
+        });
+        $('select').each(function () {
+            var $el = $(this);
+            $el.select2({
+                width: function () {
+                    var name = $el.attr('class'),
+                        arr;
+                    arr = name.match(/w\d+/gi);
+                    if (arr.length > 0) {
+                        return arr[0].slice(1);
+                    } else {
+                        return $el.outerWidth();
+                    }
+
+
+                }
+            })
+        });
+    }
+    if ($('#saveForm').length > 0) {
+        $('#saveForm').find("select").each(function () {
+            var $el = $(this);
+            $el.select2({
+                allowClear: false,
+                width: function () {
+                    var name = $el.attr('class'),
+                        arr;
+                    arr = name.match(/w\d+/gi);
+                    if (arr.length > 0) {
+                        return arr[0].slice(1);
+                    } else {
+                        return $el.outerWidth();
+                    }
+
+
+                }
+            })
+        })
+    }
+    if ($('select').length > 0) {
+        $('select').val('').trigger('change');
+    }
+    //全选按钮的全选功能
+    $('.ta-l').prev().click(function () {
+        //全选按钮的全选功能
+        if ($(this)[0].checked) {
+            $('.table').bootstrapTable('checkAll');
+        } else {
+            $('.table').bootstrapTable('uncheckAll');
+        }
+    });
+    //表单清空按钮的清空功能
+    $('.clear-js').click(function () {
+        $('.panel-body .form-inline')[0].reset();
+        if ($('.panel-body .form-inline select').length > 0) {
+            $('.panel-body .form-inline select').val('').trigger('change');
+        }
+    });
+    //获取选中行
+    $('.table').on('click-row.bs.table', function (e, row, $element) {
+        $('.selecttr', $('.table')).removeClass('selecttr');
+        $($element).addClass('selecttr');
+    });
+    //当表格大小变化时，设置iframe的大小
+    $('.table').on('reset-view.bs.table', function () {
+        $(window.parent.document).find('.tab-pane.active').height($('body>div').outerHeight());
+        parent.$(window.parent.document).trigger('resizeHeight');
+        //光标定义到第一行
+        $(".fixed-table-body .table tbody tr").first().addClass('selecttr');
+    });
+})
+
+
 /*
- * venson common.js
+ * common.js
+ * <br>常用功能函数<br>
+ * author:venson
  * 
  * */
 var Comm = {};
-var baseUrl = window.location.protocol + "//" + window.location.host + "/tkglDI/";
-//前台跳转前缀
-var baseUIUrl = window.location.protocol + "//" + window.location.host + "/tkglUI/";
-
-function getUrlParam(name) {
+Comm.getUrlParam= function (name,url) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg); // 匹配目标参数
+    var r=(url)?url:window.location.search.substr(1).match(reg);
     if (r)
         return unescape(r[2]);
     else
         return null; // 返回参数值
 }
+//后台接口前缀
+var baseUrl = window.location.protocol + "//" + window.location.host + "/Template/";
+//前台跳转前缀
+var baseUIUrl = window.location.protocol + "//" + window.location.host + "/Template/";
+//页面权限ID
+var priviledgesID = Comm.getUrlParam("id");
 
-var priviledgesID = getUrlParam("id");
+/* 确认框 */
+Comm.confirm = function (text, handle, messageType) {
+    var option = {};
+    option.type = "confirm";
+    option.onConfirmBtnClick = handle;
+    option.messageType = (!messageType) ? "warning" : messageType;
+    option.content = text;
+    var dialog = new parent.window.CustomDialog(option);
+    return dialog;
+}
 
-Comm.getUrlParam= function (name,url) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
-    var r = url.match(reg); // 匹配目标参数
-    if (r)
-        return unescape(r[2]);
-    else
-        return null; // 返回参数值
+/**提示框*/
+Comm.alert = function (text, messageType) {
+    var option = {};
+    option.type = "alert";
+    option.messageType = (!messageType) ? "warning" : messageType;
+    option.content = text;
+    var dialog = new parent.window.CustomDialog(option);
 }
 
 Comm.deleteObject = function (url, table) {
@@ -36,7 +128,7 @@ Comm.deleteObject = function (url, table) {
     }
     var row = $table.bootstrapTable('getSelections');
     if (row.length <= 0)
-        alert("请勾选要删除的对象！");
+        Comm.alert("请勾选要删除的对象！");
     else {
         this.confirm('是否要删除选择的' + row.length + '个对象', function () {
             $.each(row, function (i, e) {
@@ -51,7 +143,7 @@ Comm.modifyObject = function (url, table) {
     if (obj)
         location.href = url + "?objId=" + obj.id + "&id=" + priviledgesID;
     else
-        alert("请点击要修改的行");
+        Comm.alert("请点击要修改的行");
 
 
 }
@@ -85,11 +177,11 @@ Comm.deleteAjax = function (url, table, ids) {
                         });
                     }
                 } else
-                    alert("错误提示：" + data.message);
+                    Comm.alert("错误提示：" + data.message);
 
             },
             error: function (data) {
-                alert("连接服务器出错，请检查！");
+                Comm.alert("连接服务器出错，请检查！");
             }
         });
     }
@@ -265,7 +357,6 @@ Comm.resetForm = function (id) {
             }
         }
     })
-    console.log(id+"表单被清空");
 }
 
 Comm.setSelectByOption = function (option) {
@@ -371,7 +462,6 @@ Comm.checkDataToParam = function (o, paramName) {
         ids.push(k);
     }
     if (ids.length > 2) {
-        console.log(ids.join(''));
         return ids.join('');
     } else {
         return "";
@@ -424,11 +514,11 @@ Comm.getData = function (url, params, cache) {
                         //                      parent.window.cache[name] = data;
                         Comm.set(name, data);
                     } else {
-                        alert(d.message, "error");
+                        Comm.alert(d.message, "error");
                     }
                 },
                 error: function () {
-                    alert("网络出错，请联系管理员！", "error");
+                    Comm.alert("网络出错，请联系管理员！", "error");
                 }
             });
         } else {
@@ -446,11 +536,11 @@ Comm.getData = function (url, params, cache) {
                 if (d.status == 0) {
                     data = d.rows;
                 } else {
-                    alert(d.message, "error");
+                    Comm.alert(d.message, "error");
                 }
             },
             error: function () {
-                alert("网络出错，请联系管理员！", "error");
+                Comm.alert("网络出错，请联系管理员！", "error");
             }
         });
     }
@@ -742,7 +832,6 @@ Comm.get = function (key) {
     //	try{
     //		data=JSON.parse(data);
     //	}catch (e) {
-    //		console.log(e);
     //	}
     //	return data;
     return parent.window.cache[key];
@@ -878,7 +967,6 @@ Tree.reset=function(id){
 		}
 		removeData(checkNode);
 	}
-	console.log("reset:"+id);
 }
 Tree.getCheckData=function(id,key){
 	var checkNode= $(id).tree('getChecked');
@@ -898,7 +986,6 @@ Tree.getCheckData=function(id,key){
 	if(data.length>0){
 		data=Comm.uniqueArr(data);
 	}
-	console.log(data);
 	return data;
 }
 Tree.build = function getTree(paper) {

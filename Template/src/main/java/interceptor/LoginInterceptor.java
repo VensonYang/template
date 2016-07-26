@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,8 +33,6 @@ import utils.common.NetworkUtil;
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
-	// private static final String PERMIT_URL[] = { "/get/createVerifyCode",
-	// "/get/getUserAccount", "/user/login" };
 
 	@Autowired
 	private UserService userService;
@@ -43,6 +40,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		String path = request.getContextPath();
+		String uri = request.getRequestURI();
+		uri = uri.substring(path.length(), uri.length());
+		logger.debug("当前请求地址:" + uri);
 		if (filterCurrUrl(request)) {
 			response.setContentType("application/json");
 			ReturnResult returnResult = ControllerContext.getResult();
@@ -72,8 +73,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	 * 
 	 * @throws IOException
 	 */
-	private boolean filterCurrUrl(ServletRequest request) throws IOException {
-		HttpServletRequest res = (HttpServletRequest) request;
+	private boolean filterCurrUrl(HttpServletRequest res) throws IOException {
 		HttpSession session = res.getSession();
 		if (null == session.getAttribute(StaticsConstancts.USER_INFO)) {
 			StringBuffer salt = new StringBuffer();
@@ -106,12 +106,4 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		}
 	}
 
-	/**
-	 * 获取当前请求URL
-	 * 
-	 * private String currentUrl(ServletRequest request) { HttpServletRequest
-	 * res = (HttpServletRequest) request; String path = res.getContextPath();
-	 * String uri = res.getRequestURI(); uri = uri.substring(path.length(),
-	 * uri.length()); logger.debug("当前请求地址:" + uri); return uri; }
-	 */
 }
