@@ -24,6 +24,15 @@ public class Item {
 
 	private List<Item> items = new LinkedList<Item>();
 
+	public Item() {
+	}
+
+	public Item(String title, String imgPath, String question) {
+		this.title = title;
+		this.imgPath = imgPath;
+		this.question = question;
+	}
+
 	public void add(Item e) {
 		items.add(e);
 	}
@@ -116,6 +125,12 @@ public class Item {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [title=" + title + ", answer=" + answer + ", imgPath=" + imgPath + ", difficulty=" + difficulty
+				+ ", explain=" + explain + "]";
 	}
 
 }

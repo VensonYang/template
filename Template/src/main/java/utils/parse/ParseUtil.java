@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
 
 import com.alibaba.fastjson.JSON;
 
@@ -24,7 +25,6 @@ public class ParseUtil {
 	private static List<Question> sortQuestion(List<Question> questions, String[] Order) {
 		List<Question> newQ = new LinkedList<Question>();
 		for (String order : Order) {
-			System.out.println(order);
 			for (Question q : questions) {
 				if (q.getName().equals(order)) {
 					newQ.add(q);
@@ -48,7 +48,7 @@ public class ParseUtil {
 					if (isOrigin) {
 						leaf.setOrigin(it);
 					}
-					String title = it.getTitle();
+					String title = Jsoup.parse(it.getTitle()).text();
 					title = title.length() > 10 ? title.substring(0, 10) : title;
 					leaf.setText(title + "...");
 					branch.add(leaf);
@@ -74,6 +74,7 @@ public class ParseUtil {
 	}
 
 	public static List<Item> treeToItems(String tree) {
+		System.out.println(tree);
 		return treeToItems(JSON.parseObject(tree, Tree.class));
 	}
 
@@ -155,13 +156,19 @@ public class ParseUtil {
 	public static String createHtml(Paper paper, CreatePaperVO vo) {
 		String paperTitle = paper.getName();
 		StringBuilder html = new StringBuilder();
-		html.append("<!DOCTYPE html>");
+		html.append("<html>");
 		html.append("<html lang='zh-CN'>");
 		html.append("<head>");
 		html.append("<title>" + paperTitle + "</title>");
 		html.append("<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />");
+		// 样式
+		html.append(
+				"<style type='text/css'> .underline{text-decoration:underline;}td{border:solid 1px;text-align:center;} "
+						+ "tr{keep-together:always;}table{table-layout:fixed;border-collapse:collapse;border-spacing:0;}"
+						+ "</style>");
+
 		html.append("</head>");
-		html.append("<body>");
+		html.append("<body class='b1 b2'>");
 		// 卷头
 		if (vo.hasHead()) {
 			html.append("<div class='paperTitle' style='text-align:center; font-weight:bolder;'><h2>" + vo.getHead()
@@ -198,12 +205,12 @@ public class ParseUtil {
 			if (question.isComplex()) {
 				for (Item item : items) {
 					// 添加标题
-					html_title.append("<!--复合题开始--><div >" + no + "." + item.getTitle().replaceAll("\n", "<br>"));
+					html_title.append("<!--复合题开始--><div >" + no + "." + item.getTitle());
 					// 添加图片
 					if (StringUtils.isNotBlank(item.getImgPath())) {
 						for (String imgPath : item.getImgPath().split(",")) {
 							if (StringUtils.isNotBlank(imgPath)) {
-								html_title.append("<img src='" + imgPath + "'>");
+								html_title.append(imgPath);
 							}
 						}
 					}
@@ -213,14 +220,14 @@ public class ParseUtil {
 						Item it = its.get(k);
 						// 添加标题
 						html_title.append("<!--复合题小题开始--><div id='item_" + it.getId() + "' class='item'>(" + (k + 1)
-								+ ")" + it.getTitle().replaceAll("\n", "<br>"));
+								+ ")" + it.getTitle());
 						// 添加答案
 						if (StringUtils.isNotBlank(it.getAnswer())) {
 							if (vo.isAfter()) {
-								html_title.append("<br>答案：" + it.getAnswer().replaceAll("\n", "<br>"));
+								html_title.append("<br>答案：" + it.getAnswer());
 								html_title.append("<br><br>");
 							} else {
-								html_answer.append("<br>(" + (k + 1) + ")" + it.getAnswer().replaceAll("\n", "<br>"));
+								html_answer.append("<br>(" + (k + 1) + ")" + it.getAnswer());
 							}
 						}
 						html_title.append("</div><!--复合题小题结束-->");
@@ -234,24 +241,23 @@ public class ParseUtil {
 				for (int k = 0; k < items.size(); k++) {
 					Item it = items.get(k);
 					// 添加标题
-					html_title.append("<!--普通题开始--><div id='item_" + it.getId() + "' class='item'>" + no + "."
-							+ it.getTitle().replaceAll("\n", "<br>"));
+					html_title.append(
+							"<!--普通题开始--><div id='item_" + it.getId() + "' class='item'>" + no + "." + it.getTitle());
 					// 添加图片
 					if (StringUtils.isNotBlank(it.getImgPath())) {
 						for (String imgPath : it.getImgPath().split(",")) {
 							if (StringUtils.isNotBlank(imgPath)) {
-								html_title.append("<img src='" + imgPath + "'>");
+								html_title.append(imgPath);
 							}
 						}
 					}
 					// 添加答案
 					if (StringUtils.isNotBlank(it.getAnswer())) {
 						if (vo.isAfter()) {
-							html_title.append("<br>答案：" + it.getAnswer().replaceAll("\n", "<br>"));
+							html_title.append("<br>答案：" + it.getAnswer());
 							html_title.append("<br><br>");
 						} else {
-							html_answer.append("<!--普通题答案开始--><div  class='itemAnswer'>" + no + "."
-									+ it.getAnswer().replaceAll("\n", "<br>"));
+							html_answer.append("<!--普通题答案开始--><div  class='itemAnswer'>" + no + "." + it.getAnswer());
 							html_answer.append("</div><!--普通题答案结束-->");
 						}
 					}
@@ -276,7 +282,7 @@ public class ParseUtil {
 			html.append(answer);
 		}
 		html.append("</body></html>");
-		return html.toString();
+		return html.toString().replaceAll("\n", "<br>");
 	}
 
 	public static String createHtml(Paper paper) {

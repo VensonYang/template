@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+
 import model.parse.Item;
 import model.parse.Paper;
 import model.parse.Question;
@@ -32,13 +34,16 @@ public class Resolver implements Parse {
 	// 匹配一、XX题二、XX题 题型(试卷大题，答案区小题)
 	public static final String REGEX_BIG_QUESTION = REGEX_BIG_NUM + "[\u4e00-\u9fa5]*题";
 	// 小题正则
-	private Pattern patternItem;
+	private final Pattern patternItem = Pattern.compile(REGEX_ITEM_INFO);
 
 	private Resolver() {
-		patternItem = Pattern.compile(REGEX_ITEM_INFO);
 	}
 
-	private static Resolver instance = new Resolver();
+	private final static Resolver instance;
+
+	static {
+		instance = new Resolver();
+	}
 
 	public static Resolver getInstance() {
 		return instance;
@@ -51,10 +56,8 @@ public class Resolver implements Parse {
 			return;
 		}
 		if (checkQuestion(question)) {
-			System.out.println("--------------------复杂解析" + question.getName() + "--------------------");
 			parseComplexItem(question, paper);
 		} else {
-			System.out.println("--------------------基本解析" + question.getName() + "--------------------");
 			parseBaseItem(question, paper);
 		}
 	}
@@ -62,7 +65,7 @@ public class Resolver implements Parse {
 	private boolean checkQuestion(Question question) {
 		// 检查题型，如果小题数目和试题信息数目一致时，则该题型为负责题型
 		for (Item item : question.getItems()) {
-			String text = item.getTitle();
+			String text = Jsoup.parse(item.getTitle()).text();
 			int infoCount = getFindCount(REGEX_ITEM_INFO, text);
 			int itemCount = getFindCount(REGEX_COMLLEX_ITEM, text);
 			// System.err.println("-----------" + infoCount + "-----------" +
@@ -137,10 +140,6 @@ public class Resolver implements Parse {
 									base.setAnswer(answers.get(j));
 								}
 							} else {
-								// for (Item t : item.getItems()) {
-								// System.out.println(t.getTitle() +
-								// "------------");
-								// }
 								paper.setMessage(q.getName() + "小题个数和答案个数不一致" + size + "," + answers.size());
 								return;
 							}
@@ -200,9 +199,10 @@ public class Resolver implements Parse {
 	 * 解析试题中的章节、难度、答案 <br>
 	 * 格式：【九年级下册第四单元第19课，D，难】
 	 */
-	private void parseInfo(Item item, String text) {
+	private void parseInfo(Item item, String html) {
+		String text = Jsoup.parse(html).text();
 		Matcher m = patternItem.matcher(text);
-		String title = text.replaceAll(REGEX_ITEM_INFO, "");
+		String title = html.replaceAll(REGEX_ITEM_INFO, "");
 		// 分离题号不在此处处理
 		// item.setTitle(title.replaceAll(REGEX_SMALL_ITEM_START, ""));
 		item.setTitle(title);

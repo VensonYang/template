@@ -16,7 +16,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import controller.base.ControllerHelper;
 import model.parse.Item;
 import model.parse.Paper;
 import model.parse.ParseHtmlVO;
@@ -24,12 +23,14 @@ import model.parse.Question;
 
 public class ParseHtml {
 
-	private String filePath;
-
 	private ParseHtml() {
 	}
 
-	private static ParseHtml instance = new ParseHtml();
+	private final static ParseHtml instance;
+
+	static {
+		instance = new ParseHtml();
+	}
 
 	public static ParseHtml getIntance() {
 		return instance;
@@ -43,7 +44,7 @@ public class ParseHtml {
 	 * @param headers
 	 *            匹配的起始头
 	 */
-	public boolean matches(String text) {
+	private boolean matches(String text) {
 		if (text.matches(Resolver.REGEX_SMALL_ITEM_START + ".*"))
 			return true;
 		return false;
@@ -59,70 +60,61 @@ public class ParseHtml {
 	 * @param length
 	 *            长度
 	 */
-	public Question getQuestions(Elements children, int staIdx, int length, String name) {
+	private Question getQuestions(Elements children, int staIdx, int length, String name) {
 		Question question = new Question(name);
-		StringBuilder builder = new StringBuilder();
-		Item item = new Item();
-		item.setQuestion(name);
-		StringBuilder path = new StringBuilder();
+		StringBuilder title = new StringBuilder();
+		StringBuilder imgSrc = new StringBuilder();
 		boolean isStart = false;
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
-			// 这里可以对文本进行处理
-			String text = e.text();
-			// 将全角空格替换成半角空格
-			text = text.replace((char) 12288, ' ').trim();
-			text = text.replace((char) 160, ' ').trim();
-			// 过滤字符如：（X分），图X
-			text = text.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[）)]", "");
-			text = text.replaceAll("图\\d{1,2}", "图");
-			String html = e.html();
-			if (matches(text)) {
+			if (matches(e.text())) {
 				isStart = true;
-				if (StringUtils.isNotBlank(builder.toString())) {
-					String imgPath = path.toString();
-					imgPath = StringUtils.isBlank(imgPath) ? null : imgPath;
-					item.setTitle(builder.toString());
-					item.setImgPath(imgPath);
-					question.add(item);
+				String itemTitle = title.toString();
+				if (StringUtils.isNotBlank(itemTitle)) {
+					question.add(new Item(itemTitle, imgSrc.toString(), name));
 				}
-				builder = new StringBuilder();
-				path = new StringBuilder();
-				item = new Item();
-				item.setQuestion(name);
+				title.setLength(0);
+				imgSrc.setLength(0);
 			}
 			if (isStart) {
-				builder.append(text);
-				builder.append("\n");
-			}
-			if (html.contains("img")) {
-				Elements elems = e.children();
-				for (Element em : elems) {
-					if (em.nodeName().equals("img")) {
-						String src = em.attr("src");
-						String imgPath = getRootImagePath(src);
-						path.append(imgPath);
-						path.append(",");
-					}
+				// 处理图片
+				findPicture(imgSrc, e.children());
+				// 查看是否有表格
+				if (e.tagName().equals("table")) {
+					title.append(e.outerHtml().replaceAll("\n", ""));
+				} else {
+					title.append(e.text());
+					title.append("\n");
 				}
 			}
 			staIdx++;
 		}
-		if (StringUtils.isNotBlank(builder.toString())) {
-			String imgPath = path.toString();
-			imgPath = StringUtils.isBlank(imgPath) ? null : imgPath;
-			item.setTitle(builder.toString());
-			item.setImgPath(imgPath);
-			question.add(item);
+		String itemTitle = title.toString();
+		if (StringUtils.isNotBlank(itemTitle)) {
+			if (StringUtils.isNotBlank(itemTitle)) {
+				question.add(new Item(title.toString(), imgSrc.toString(), name));
+			}
 		}
 		return question;
 	}
 
-	private String getRootImagePath(String src) {
-		String imgPath = filePath.substring(ControllerHelper.getUploadPath("/").length());
-		imgPath = imgPath.substring(0, imgPath.lastIndexOf("/")).replaceAll("\\\\", "/");
-		imgPath = ControllerHelper.getDeployDomain() + imgPath + "/" + src;
-		return imgPath;
+	/*
+	 * 查看是否存在图片
+	 */
+	private void findPicture(StringBuilder path, Elements elems) {
+		if (elems.outerHtml().contains("img")) {
+			for (Element em : elems) {
+				if (em.nodeName().equals("img")) {
+					path.append(em);
+					path.append(",");
+					em.remove();
+				}
+				Elements child = em.children();
+				if (child.size() > 0) {
+					findPicture(path, child);
+				}
+			}
+		}
 	}
 
 	/**
@@ -135,36 +127,19 @@ public class ParseHtml {
 	 * @param length
 	 *            长度
 	 */
-	public Question getAnswer(Elements children, int staIdx, int length) {
+	private Question getAnswer(Elements children, int staIdx, int length) {
 		Question question = new Question(Question.ANSWER);
-		StringBuilder builder = new StringBuilder();
+		StringBuilder answer = new StringBuilder();
 		Item item = new Item();
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
-			// 这里可以对文本进行处理
-			String text = e.text();
-			// 将全角空格替换成半角空格
-			text = text.replace((char) 12288, ' ').trim();
-			text = text.replace((char) 160, ' ').trim();
-			// 过滤字符如：（X分），图X
-			text = text.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[）)]", "");
-			text = text.replaceAll("图\\d{1,2}", "图");
-			builder.append(text);
-			String html = e.html();
-			if (html.contains("img")) {
-				Elements elems = e.children();
-				for (Element em : elems) {
-					if (em.nodeName().equals("img")) {
-						String src = em.attr("src");
-						String imgPath = getRootImagePath(src);
-						builder.append(imgPath);
-					}
-				}
-			}
+			answer.append(e.text());
+			findPicture(answer, e.children());
 			staIdx++;
 		}
-		if (StringUtils.isNotBlank(builder.toString())) {
-			item.setTitle(builder.toString());
+		String itemAnswer = answer.toString();
+		if (StringUtils.isNotBlank(itemAnswer)) {
+			item.setTitle(itemAnswer);
 			question.add(item);
 		}
 		return question;
@@ -176,11 +151,11 @@ public class ParseHtml {
 	 * @param children
 	 *            节点
 	 */
-	public Map<String, String> getType(Elements children) {
+	private Map<String, String> getType(Elements children) {
 		Map<String, String> map = new HashMap<String, String>();
 		for (Element e : children) {
 			// 从试卷里面查找题型
-			String text = e.text();
+			String text = e.text().replaceAll("\\s*", "");
 			if (text.contains(Question.ANSWER)) {
 				// 如果文档中包含答案区，则不再往下查找
 				map.put(String.valueOf(e.elementSiblingIndex()), Question.ANSWER);
@@ -188,7 +163,8 @@ public class ParseHtml {
 			} else {
 				Pattern p = Pattern.compile("^" + Resolver.REGEX_BIG_QUESTION);
 				Matcher m = p.matcher(text);
-				if (m.find()) {
+				boolean flag = m.find();
+				if (flag) {
 					String name = m.group().replaceAll(Resolver.REGEX_BIG_NUM, "").replace((char) 12288, ' ').trim();
 					map.put(String.valueOf(e.elementSiblingIndex()), name);
 				}
@@ -207,7 +183,7 @@ public class ParseHtml {
 	 * @param map
 	 *            题型键值对
 	 */
-	public String[] sortIndex(Map<String, String> map) {
+	private String[] sortIndex(Map<String, String> map) {
 		if (map == null) {
 			return null;
 		}
@@ -238,14 +214,21 @@ public class ParseHtml {
 	 * @throws Exception
 	 */
 	public Paper parse(ParseHtmlVO vo) throws Exception {
-		filePath = vo.getPath();
 		// 定义一个指定科目的试卷保存对象
 		Paper paper = new Paper(vo.getSubject());
 		// 读取文件
-		Document doc = Jsoup.parse(new File(filePath), "utf-8");
+		Document doc = Jsoup.parse(new File(vo.getPath()), "utf-8");
+		// 格式化文档
+		FormatHtml.getInstanct().format(doc);
 		// 获取body标签内的所有子标签
 		Element body = doc.body();
 		Elements children = body.children();
+		// 判断是否是07格式
+		if (body.children().get(0).tagName().equals("div")) {
+			children = body.children().get(0).children();
+		} else {
+			children = body.children();
+		}
 		// 获取试卷内包含的题型
 		Map<String, String> map = getType(children);
 		// 将题型索引按升序排序
@@ -256,7 +239,7 @@ public class ParseHtml {
 		}
 		Set<String> subjectQuestion = vo.getQuestions();
 		for (String name : map.values()) {
-			if (!subjectQuestion.contains(name) && !name.equals("***答案区***")) {
+			if (!subjectQuestion.contains(name) && !name.equals(Question.ANSWER)) {
 				return paper.setMessage("解析出错:题型[" + name + "]未保存！");
 			}
 		}
@@ -273,7 +256,7 @@ public class ParseHtml {
 				// 匹配已有题型和试卷题型
 				Question question;
 				String name = map.get(array[i]);
-				if (name == Question.ANSWER) {
+				if (Question.ANSWER.equals(name)) {
 					question = getAnswer(children, staIdx, length);
 				} else {
 					question = getQuestions(children, staIdx, length, name);
@@ -288,14 +271,13 @@ public class ParseHtml {
 		boolean isNull = false;
 		for (Question question : paper.getQuestions()) {
 			if (!question.getName().equals(Question.ANSWER)) {
-				System.out.println(question.getName());
 				List<Item> items = question.getItems();
 				if (items.size() != 0)
 					isNull = true;
 			}
 		}
 		if (!isNull)
-			return paper.setMessage("解析出错:文档中未找到可以解析的题型");
+			return paper.setMessage("解析出错:题型出错");
 		return paper;
 	}
 

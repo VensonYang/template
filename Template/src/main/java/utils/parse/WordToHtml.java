@@ -18,8 +18,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +34,7 @@ import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.ImageTranscoder;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
@@ -46,7 +45,9 @@ import org.apache.poi.xwpf.converter.core.FileURIResolver;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLConverter;
 import org.apache.poi.xwpf.converter.xhtml.XHTMLOptions;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.freehep.graphicsio.emf.EMFInputStream;
 import org.freehep.graphicsio.emf.EMFPanel;
 import org.freehep.graphicsio.emf.EMFRenderer;
@@ -59,6 +60,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import controller.base.ControllerHelper;
 import net.arnx.wmf2svg.gdi.svg.SvgGdi;
 import net.arnx.wmf2svg.gdi.wmf.WmfParser;
 
@@ -69,22 +71,14 @@ public class WordToHtml {
 	private WordToHtml() {
 	}
 
-	private static WordToHtml instance = new WordToHtml();
+	private final static WordToHtml instance;
+
+	static {
+		instance = new WordToHtml();
+	}
 
 	public static WordToHtml getInstance() {
 		return instance;
-	}
-
-	public static void main(String args[]) throws Exception {
-		// toHtml("f:/", "test.doc", "f:/", "sd.html");
-		// instance.toHtml("f://word/", "数学试卷.doc", "f://word/", "数学试卷.html");
-		String text = "七年级下册第四单元第六章第4节";
-		Pattern p = Pattern.compile(".{0,8}第");
-		Matcher m = p.matcher(text);
-		if (m.find()) {
-			System.out.println(m.group().replace("第", ""));
-		}
-
 	}
 
 	public void convertTxtToHtml(String inPath, String inFileName, String outPath, String outFileName) {
@@ -121,8 +115,8 @@ public class WordToHtml {
 			throws IOException, ParserConfigurationException, TransformerException {
 		STUnderline.Enum.forInt(1);
 		HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(inPath + inFileName));
-		Range range = wordDocument.getRange();
 		// TODO此处将文档中的半角空格转为全角空格（为了保存文档中的空格和样式下划线）
+		Range range = wordDocument.getRange();
 		range.replaceText(" ", "　");
 		WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(
 				DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument());
@@ -137,7 +131,6 @@ public class WordToHtml {
 		OutputStream outStream = new FileOutputStream(new File(outPath + outFileName));
 		DOMSource domSource = new DOMSource(htmlDocument);
 		StreamResult streamResult = new StreamResult(outStream);
-
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer serializer = tf.newTransformer();
 		serializer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
@@ -291,21 +284,6 @@ public class WordToHtml {
 		sout.close();
 	}
 
-	/**
-	 * 重新设置图片大小
-	 *
-	 * @param doc
-	 *            文档
-	 */
-	// private static void scaleSVG(Document doc, int width, int height) {
-	//
-	// doc.getElementsByTagName("svg").item(0).getAttributes().getNamedItem("width").setNodeValue((int)
-	// width + "");
-	// doc.getElementsByTagName("svg").item(0).getAttributes().getNamedItem("height").setNodeValue((int)
-	// height + "");
-	//
-	// }
-
 	public boolean doGenerateSysOut(String inPath, String inFileName, String outPath, String outFileName)
 			throws IOException {
 		boolean flag = true;
@@ -314,6 +292,15 @@ public class WordToHtml {
 			String outFileNameNoable = outFileName.split(".htm")[0];
 			String fileOutName = outPath + outFileName;
 			XWPFDocument document = new XWPFDocument(new FileInputStream(inPath + inFileName));
+			List<XWPFParagraph> ps = document.getParagraphs();
+			for (XWPFParagraph p : ps) {
+				List<XWPFRun> rs = p.getRuns();
+				for (XWPFRun r : rs) {
+					String text = r.text();
+					text = text.replaceAll(" ", "　");
+					r.setText(text, 0);
+				}
+			}
 			XHTMLOptions options = XHTMLOptions.create().indent(4);
 			// Extract image 创建存储图片文件夹
 			File imageFolder = new File(outPath + outFileNameNoable);
@@ -511,62 +498,43 @@ public class WordToHtml {
 	public void toHtml(String inPath, String inFileName, String outPath, String outFileName) throws Exception {
 		logger.debug("文件:" + inFileName + "转换开始....");
 		if (!new File(inPath + inFileName).exists()) {
-			System.out.println(inPath + inFileName + " 文件不存在");
 			return;
 		}
 		if (!new File(outPath).exists()) {
 			new File(outPath).mkdirs();
 		}
-		boolean isDoc = false;
 		if (inFileName.endsWith(".docx") || inFileName.endsWith(".DOCX")) {
 			// 07
 			convertDocxToHtml(inPath, inFileName, outPath, outFileName);
-			isDoc = true;
+			String filePath = outPath + outFileName;
+			hadleImgSrc(filePath);
 		} else if (inFileName.endsWith(".doc") || inFileName.endsWith(".DOC")) {
 			// 03
 			wordToHtml03(inPath, inFileName, outPath, outFileName);
-			// WordDocumentUtils.convertToHTML(inPath, inFileName, outPath,
-			// outFileName);
-			isDoc = true;
-
+			String filePath = outPath + outFileName;
+			hadleImgSrc(filePath);
 		} else {
 			convertTxtToHtml(inPath, inFileName, outPath, outFileName);
-		}
-		if (isDoc) {
-			updateImgSrc(outPath, outFileName);
 		}
 		logger.debug("文件:" + outFileName + "转换结束....");
 	}
 
-	private void updateImgSrc(String outPath, String outFileName) throws IOException, FileNotFoundException {
-		org.jsoup.nodes.Document doc = Jsoup.parse(new File(outPath + outFileName), "utf-8");
+	private void hadleImgSrc(String filePath) throws IOException {
+		org.jsoup.nodes.Document doc = Jsoup.parse(new File(filePath), "utf-8");
 		Element body = doc.body();
 		Elements links = body.getElementsByTag("img");
 		if (links != null && links.size() > 0) {
 			for (Element link : links) {
 				String oldSrc = link.attr("src");
-				oldSrc = oldSrc.substring(oldSrc.lastIndexOf("\\") + 1);
-				String folder = outFileName.substring(0, outFileName.lastIndexOf("."));
-				String newSrc = null;
-				if (oldSrc.contains(folder)) {
-					newSrc = oldSrc;
-				} else {
-					newSrc = folder + File.separator + oldSrc;
-				}
-				newSrc = newSrc.replaceAll("\\\\", "/");
-				// String baseUrl =
-				// "http://192.168.0.200:8080/DITemplate/upload/html/";
-				// link.attr("src", baseUrl + newSrc);
-				if (newSrc.toLowerCase().contains("wmf")) {
-					newSrc = newSrc.substring(0, newSrc.lastIndexOf(".")) + ".png";
-				}
-				link.attr("src", newSrc);
+				String imgPath = oldSrc.substring(ControllerHelper.getUploadPath("/").length(), oldSrc.length());
+				imgPath = ControllerHelper.getDeployDomain() + imgPath;
+				link.attr("src", imgPath.replaceAll("\\\\", "/"));
 			}
-			FileOutputStream fos = new FileOutputStream(outPath + outFileName);
-			fos.write(doc.toString().getBytes());
-			fos.flush();
-			fos.close();
 		}
+		// 替换文档字符
+		String html = doc.toString();
+		html = html.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[)）]", "").replaceAll("图\\d{1,2}", "图").replaceAll(" ", " ");
+		FileUtils.writeStringToFile(new File(filePath), html, "utf-8");
 	}
 
 }
