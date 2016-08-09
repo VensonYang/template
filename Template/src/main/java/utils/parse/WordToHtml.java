@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,9 +37,16 @@ import org.apache.batik.transcoder.image.ImageTranscoder;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ddf.DefaultEscherRecordFactory;
+import org.apache.poi.ddf.EscherBSERecord;
+import org.apache.poi.ddf.EscherBlipRecord;
+import org.apache.poi.ddf.EscherRecord;
+import org.apache.poi.ddf.EscherRecordFactory;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.converter.PicturesManager;
 import org.apache.poi.hwpf.converter.WordToHtmlConverter;
+import org.apache.poi.hwpf.usermodel.CharacterRun;
+import org.apache.poi.hwpf.usermodel.Picture;
 import org.apache.poi.hwpf.usermodel.PictureType;
 import org.apache.poi.hwpf.usermodel.Range;
 import org.apache.poi.xwpf.converter.core.FileImageExtractor;
@@ -67,6 +76,10 @@ import net.arnx.wmf2svg.gdi.wmf.WmfParser;
 public class WordToHtml {
 
 	private static final Logger logger = LoggerFactory.getLogger(WordToHtml.class);
+	public static final String CHAR_FULL_SPACE = (char) 12288 + "";
+	public static final String CHAR_SPACE = " ";
+	public static final String HTML_SPACE = "&nbsp;";
+	public static final String UNDERLINE = "_";
 
 	private WordToHtml() {
 	}
@@ -86,7 +99,6 @@ public class WordToHtml {
 			String content = getStringFormTxt(inPath + inFileName);
 			writeHtml(content, outPath, outFileName);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -117,7 +129,15 @@ public class WordToHtml {
 		HWPFDocument wordDocument = new HWPFDocument(new FileInputStream(inPath + inFileName));
 		// TODO此处将文档中的半角空格转为全角空格（为了保存文档中的空格和样式下划线）
 		Range range = wordDocument.getRange();
-		range.replaceText(" ", "　");
+		// 查找下划线
+		for (int j = 0; j < range.numCharacterRuns(); j++) {
+			CharacterRun that = range.getCharacterRun(j);
+			if (that.getUnderlineCode() == 1) {
+				that.replaceText(CHAR_SPACE, UNDERLINE);
+			} else {
+				that.replaceText(CHAR_SPACE, CHAR_FULL_SPACE);
+			}
+		}
 		WordToHtmlConverter wordToHtmlConverter = new WordToHtmlConverter(
 				DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument());
 		wordToHtmlConverter.setPicturesManager(new PicturesManager() {
@@ -127,7 +147,9 @@ public class WordToHtml {
 			}
 		});
 		wordToHtmlConverter.processDocument(wordDocument);
+
 		Document htmlDocument = wordToHtmlConverter.getDocument();
+
 		OutputStream outStream = new FileOutputStream(new File(outPath + outFileName));
 		DOMSource domSource = new DOMSource(htmlDocument);
 		StreamResult streamResult = new StreamResult(outStream);
@@ -179,16 +201,79 @@ public class WordToHtml {
 		return null;
 	}
 
+	private void searchForPictures(List<EscherRecord> escherRecords, List<Picture> pictures, byte[] _mainStream) {
+		for (EscherRecord escherRecord : escherRecords) {
+			if (escherRecord instanceof EscherBSERecord) {
+				EscherBSERecord bse = (EscherBSERecord) escherRecord;
+				EscherBlipRecord blip = bse.getBlipRecord();
+				if (blip != null) {
+					pictures.add(new Picture(blip));
+				} else if (bse.getOffset() > 0) {
+					try {
+						// Blip stored in delay stream, which in a word doc, is
+						// the main stream
+						EscherRecordFactory recordFactory = new DefaultEscherRecordFactory();
+						EscherRecord record = recordFactory.createRecord(_mainStream, bse.getOffset());
+						if (record instanceof EscherBlipRecord) {
+							record.fillFields(_mainStream, bse.getOffset(), recordFactory);
+							blip = (EscherBlipRecord) record;
+							pictures.add(new Picture(blip));
+						}
+					} catch (Exception exc) {
+						logger.debug("Unable to load picture from BLIB record at offset #",
+								Integer.valueOf(bse.getOffset()), exc);
+					}
+				}
+			}
+			// Recursive call.
+			searchForPictures(escherRecord.getChildRecords(), pictures, _mainStream);
+		}
+	}
+
+	public Picture extractPicture(CharacterRun run, boolean fillBytes, HWPFDocument _document) {
+		if (_document.getPicturesTable().hasPicture(run)) {
+			return new Picture(run.getPicOffset(), _document.getDataStream(), fillBytes);
+		}
+		return null;
+	}
+
+	public List<Picture> getAllPictures(HWPFDocument _document) {
+		ArrayList<Picture> pictures = new ArrayList<Picture>();
+		Range range = _document.getOverallRange();
+		List<Integer> offsets = new LinkedList<>();
+		for (int i = 0; i < range.numCharacterRuns(); i++) {
+			CharacterRun run = range.getCharacterRun(i);
+			if (run == null) {
+				continue;
+			}
+			Picture picture = extractPicture(run, false, _document);
+			if (picture != null) {
+				int offset = run.getStartOffset();
+				offsets.add(offset);
+				pictures.add(picture);
+			}
+		}
+		System.out.println(offsets);
+		for (Integer start : offsets) {
+			new Range(start - 20, start + 100, _document).insertAfter(" 赫赫合乎赫赫 ");
+		}
+		searchForPictures(_document.getEscherRecordHolder().getEscherRecords(), pictures, _document.getMainStream());
+
+		return pictures;
+	}
+
 	private void scaleImg(byte[] in, float width, float height, String path, String ext) throws IOException {
 		InputStream buffin = new ByteArrayInputStream(in);
 		BufferedImage bImage = ImageIO.read(buffin);
-		Image img = bImage.getScaledInstance((int) width, (int) height, Image.SCALE_SMOOTH);
-		BufferedImage bi = new BufferedImage((int) width, (int) height, BufferedImage.SCALE_SMOOTH);
-		Graphics2D g = (Graphics2D) bi.getGraphics();
-		g.drawImage(img, 0, 0, null);
-		g.dispose();
-		bi.flush();
-		ImageIO.write(bi, ext, new File(path));
+		if (bImage != null) {
+			Image img = bImage.getScaledInstance((int) width, (int) height, Image.SCALE_SMOOTH);
+			BufferedImage bi = new BufferedImage((int) width, (int) height, BufferedImage.SCALE_SMOOTH);
+			Graphics2D g = (Graphics2D) bi.getGraphics();
+			g.drawImage(img, 0, 0, null);
+			g.dispose();
+			bi.flush();
+			ImageIO.write(bi, ext, new File(path));
+		}
 	}
 
 	/**
@@ -256,7 +341,6 @@ public class WordToHtml {
 		parser.parse(new ByteArrayInputStream(content), gdi);
 
 		Document doc = gdi.getDocument();
-		// scaleSVG(doc, (int) width, (int) height);
 		ByteArrayOutputStream sout = new ByteArrayOutputStream();
 		TransformerFactory factory = TransformerFactory.newInstance();
 		Transformer transformer = factory.newTransformer();
@@ -289,35 +373,37 @@ public class WordToHtml {
 		boolean flag = true;
 		try {
 			// 例：outFileName = aa.html,outFileNameNoable = aa
-			String outFileNameNoable = outFileName.split(".htm")[0];
-			String fileOutName = outPath + outFileName;
+			String fileName = outFileName.split(".html")[0];
+			String filePath = outPath + outFileName;
 			XWPFDocument document = new XWPFDocument(new FileInputStream(inPath + inFileName));
 			List<XWPFParagraph> ps = document.getParagraphs();
 			for (XWPFParagraph p : ps) {
 				List<XWPFRun> rs = p.getRuns();
 				for (XWPFRun r : rs) {
 					String text = r.text();
-					text = text.replaceAll(" ", "　");
+					text = text.replaceAll(CHAR_SPACE, CHAR_FULL_SPACE);
 					r.setText(text, 0);
 				}
 			}
 			XHTMLOptions options = XHTMLOptions.create().indent(4);
 			// Extract image 创建存储图片文件夹
-			File imageFolder = new File(outPath + outFileNameNoable);
+			File imageFolder = new File(outPath + fileName);
 			options.setExtractor(new FileImageExtractor(imageFolder));
 			// URI resolver
 			options.URIResolver(new FileURIResolver(imageFolder));
-			File outFile = new File(fileOutName);
+			File outFile = new File(filePath);
 			outFile.getParentFile().mkdirs();
 			OutputStream out = new FileOutputStream(outFile);
 			XHTMLConverter.getInstance().convert(document, out, options);
-			String imgPath = outPath + outFileNameNoable + File.separator + "word" + File.separator + "media";
+			String imgPath = outPath + fileName + File.separator + "word" + File.separator + "media";
 			List<XWPFPictureData> pits = document.getAllPictures();
+			System.out.println(pits.size());
 			for (XWPFPictureData pit : pits) {
+
 				if (pit.suggestFileExtension().equalsIgnoreCase(PictureType.WMF.getExtension())) {
-					String fileName = imgPath + File.separator
+					String wfileName = imgPath + File.separator
 							+ pit.getFileName().substring(0, pit.getFileName().lastIndexOf(".")) + ".png";
-					wmf2Png(pit.getData(), fileName, 100, 100);
+					wmf2Png(pit.getData(), wfileName, 100, 100);
 				}
 			}
 		} catch (Exception e) {
@@ -325,25 +411,6 @@ public class WordToHtml {
 			e.printStackTrace();
 		}
 		return flag;
-	}
-
-	public void imgBitchConvert(String path) throws Exception {
-		File file = new File(path);
-		File[] files = file.listFiles();
-		for (File f : files) {
-			FileInputStream fis = new FileInputStream(f);
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			byte[] b = new byte[1024];
-			int n;
-			while ((n = fis.read(b)) != -1) {
-				bos.write(b, 0, n);
-			}
-			fis.close();
-			bos.close();
-			wmf2Png(bos.toByteArray(),
-					path + File.separator + f.getName().substring(0, f.getName().lastIndexOf(".")) + ".png", 100, 100);
-			f.delete();
-		}
 	}
 
 	/**
@@ -507,21 +574,32 @@ public class WordToHtml {
 			// 07
 			convertDocxToHtml(inPath, inFileName, outPath, outFileName);
 			String filePath = outPath + outFileName;
-			hadleImgSrc(filePath);
+			handleImgSrc(filePath);
 		} else if (inFileName.endsWith(".doc") || inFileName.endsWith(".DOC")) {
 			// 03
 			wordToHtml03(inPath, inFileName, outPath, outFileName);
 			String filePath = outPath + outFileName;
-			hadleImgSrc(filePath);
+			handleImgSrc(filePath);
 		} else {
 			convertTxtToHtml(inPath, inFileName, outPath, outFileName);
 		}
 		logger.debug("文件:" + outFileName + "转换结束....");
 	}
 
-	private void hadleImgSrc(String filePath) throws IOException {
+	private void handleImgSrc(String filePath) throws IOException {
 		org.jsoup.nodes.Document doc = Jsoup.parse(new File(filePath), "utf-8");
 		Element body = doc.body();
+		// 替换图片路径
+		replaceImgSrc(body);
+		// 替换文档字符
+		String html = doc.toString();
+		html = html.replaceAll("（", "(").replaceAll("）", ")").replaceAll("．", ".")
+				.replaceAll("\\(.{0,6}\\d{1,2}分.{0,7}\\)", "").replaceAll("图\\d{1,2}", "")
+				.replaceAll(CHAR_FULL_SPACE, HTML_SPACE);
+		FileUtils.writeStringToFile(new File(filePath), html, "utf-8");
+	}
+
+	private void replaceImgSrc(Element body) {
 		Elements links = body.getElementsByTag("img");
 		if (links != null && links.size() > 0) {
 			for (Element link : links) {
@@ -531,10 +609,6 @@ public class WordToHtml {
 				link.attr("src", imgPath.replaceAll("\\\\", "/"));
 			}
 		}
-		// 替换文档字符
-		String html = doc.toString();
-		html = html.replaceAll("[(（].{0,6}\\d{1,2}分.{0,7}[)）]", "").replaceAll("图\\d{1,2}", "图").replaceAll(" ", " ");
-		FileUtils.writeStringToFile(new File(filePath), html, "utf-8");
 	}
 
 }

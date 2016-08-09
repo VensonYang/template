@@ -2,6 +2,9 @@ package model.parse;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 试题筛选条件
+ */
 public class QueryItem {
 
 	public interface IQueryItem {
@@ -11,20 +14,32 @@ public class QueryItem {
 	}
 
 	@NotNull(message = "课程不能为空！", groups = { IQueryItem.class, IDifficulty.class })
+	// 课程
 	private String course;
 	@NotNull(message = "题型不能为空", groups = { IQueryItem.class, IDifficulty.class })
+	// 题型
 	private String question;
 	@NotNull(message = "难度不能为空", groups = { IDifficulty.class })
+	// 难度
 	private String difficulty;
 	@NotNull(message = "章节不能为空", groups = { IQueryItem.class, IDifficulty.class })
+	// 章节
 	private String section;
+	// 课程
 	private String subject;
+	// 试题数量
 	private Integer itemCount;
+	// 过滤日期
 	private String filterdate;
+	// 开始年份
 	private String beginyear;
+	// 结束年份
 	private String endyear;
+	// 等级
 	private String level;
+	// 来源
 	private String comfrom;
+	// 优先使用较少的试题
 	private boolean useLess = false;
 
 	public String getCourse() {

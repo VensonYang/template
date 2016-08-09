@@ -2,17 +2,32 @@ package model.parse;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 
+ * 创建试卷条件
+ * 
+ * @author venson
+ */
 public class CreatePaperVO {
 
+	// 试题ids
 	@NotNull(message = "ids不能为空")
 	private String ids;
+	// 试卷标题
 	private String title;
+	// 样式
 	private String style;
+	// 卷头
 	private String head;
+	// 试题排序
 	private String sort;
+	// 答案
 	private boolean answer = true;
+	// 内容
 	private boolean content = true;
+	// 是否在答案后面
 	private boolean after = false;
+	// 每道大题下的小题编号从1开始
 	private boolean startOne = false;
 
 	public String getIds() {

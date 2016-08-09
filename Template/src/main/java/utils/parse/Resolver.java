@@ -22,15 +22,15 @@ public class Resolver implements Parse {
 	// 匹配（1）（2）（2）题型(简答题中的小题)
 	// public static final String REGEX_COMLLEX_ITEM =
 	// "[(（][1-9][）)]|[(（]\\d{1,2}+(?!分)";
-	public static final String REGEX_COMLLEX_ITEM = "[(（]\\d{1,2}(?:[）)]|)(?!分)";
+	public static final String REGEX_COMLLEX_ITEM = "\\(\\d{1,2}(?!分)(?:\\)|)";
 	// 匹配1．2．3．题型(答案区小题)
-	public static final String REGEX_SMALL_ITEM = "\\d{1,2}[.、．]";
+	public static final String REGEX_SMALL_ITEM = "\\d{1,2}[.、]";
 	// 匹配1．2．3．题型(答案区小题)
-	public static final String REGEX_SMALL_ITEM_ANSWER = "\\d{1,2}[.．](?!png)";
+	public static final String REGEX_SMALL_ITEM_ANSWER = "\\d{1,2}\\.(?!png)";
 	// 匹配起始头为1．2．3．题型(试卷小题)
 	public static final String REGEX_SMALL_ITEM_START = "^" + REGEX_SMALL_ITEM;
 	// 匹配一、二、题型
-	public static final String REGEX_BIG_NUM = "[一二三四五六七八九十][、.．]";
+	public static final String REGEX_BIG_NUM = "[一二三四五六七八九十][、.]";
 	// 匹配一、XX题二、XX题 题型(试卷大题，答案区小题)
 	public static final String REGEX_BIG_QUESTION = REGEX_BIG_NUM + "[\u4e00-\u9fa5]*题";
 	// 小题正则

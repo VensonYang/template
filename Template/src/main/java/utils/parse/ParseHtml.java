@@ -78,7 +78,7 @@ public class ParseHtml {
 			}
 			if (isStart) {
 				// 处理图片
-				findPicture(imgSrc, e.children());
+				savePicture(imgSrc, e);
 				// 查看是否有表格
 				if (e.tagName().equals("table")) {
 					title.append(e.outerHtml().replaceAll("\n", ""));
@@ -101,19 +101,15 @@ public class ParseHtml {
 	/*
 	 * 查看是否存在图片
 	 */
-	private void findPicture(StringBuilder path, Elements elems) {
-		if (elems.outerHtml().contains("img")) {
-			for (Element em : elems) {
-				if (em.nodeName().equals("img")) {
-					path.append(em);
-					path.append(",");
-					em.remove();
-				}
-				Elements child = em.children();
-				if (child.size() > 0) {
-					findPicture(path, child);
-				}
-			}
+	private void savePicture(StringBuilder path, Element elem) {
+		Elements links = elem.getElementsByTag("img");
+		if (links.isEmpty()) {
+			return;
+		}
+		for (Element link : links) {
+			path.append(link);
+			path.append(",");
+			link.remove();
 		}
 	}
 
@@ -134,7 +130,7 @@ public class ParseHtml {
 		for (int i = 0; i < length; i++) {
 			Element e = children.get(staIdx);
 			answer.append(e.text());
-			findPicture(answer, e.children());
+			savePicture(answer, e);
 			staIdx++;
 		}
 		String itemAnswer = answer.toString();

@@ -40,6 +40,10 @@ public class FormatHtml {
 			// 清除空格
 			clearHtmlLabel(body.children());
 		}
+		// 去除多余的空格
+		String html = body.html().replaceAll("(&nbsp;){3,}",
+				WordToHtml.HTML_SPACE + WordToHtml.HTML_SPACE + WordToHtml.HTML_SPACE);
+		body.html(html);
 	}
 
 	//
@@ -59,7 +63,6 @@ public class FormatHtml {
 				}
 			}
 			ele.html(text);
-			System.out.println(ele);
 		}
 
 	}
@@ -83,22 +86,22 @@ public class FormatHtml {
 	private void replaceStyle(Map<String, String> className, Elements elems) {
 		for (Element ele : elems) {
 			// 替换样式
-			String claname = ele.className();
-			if (!claname.isEmpty()) {
-				ele.removeAttr("class");
-				if (className.containsKey(claname)) {
-					String style = className.get(claname);
-					if (style.contains("text-decoration:underline")) {
-						String html = ele.html();
-						ele.html(html.replaceAll(" ", "_"));
-					}
-
-				}
-			}
+			// String claname = ele.className();
+			ele.removeAttr("class");
+			// if (!claname.isEmpty()) {
+			// if (className.containsKey(claname)) {
+			// String style = className.get(claname);
+			// if (style.contains("text-decoration:underline")) {
+			// String html = ele.html();
+			// ele.html(html.replaceAll(WordToHtml.HTML_SPACE, "_"));
+			// }
+			//
+			// }
+			// }
 			String style = ele.attr("style");
 			if (style.contains("text-decoration:underline")) {
 				String html = ele.html();
-				ele.html(html.replaceAll("　", "_"));
+				ele.html(html.replaceAll(WordToHtml.HTML_SPACE, "_"));
 			}
 			ele.removeAttr("style");
 			if (ele.children().size() > 0) {

@@ -22,6 +22,9 @@ import model.parse.Tree;
 public class ParseUtil {
 	public static final String[] BIG_NUM = new String[] { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
 
+	/**
+	 * 排序题型
+	 */
 	private static List<Question> sortQuestion(List<Question> questions, String[] Order) {
 		List<Question> newQ = new LinkedList<Question>();
 		for (String order : Order) {
@@ -34,6 +37,15 @@ public class ParseUtil {
 		return newQ;
 	}
 
+	/**
+	 * 将试卷对象转tree目录类型数据
+	 * 
+	 * @param paper
+	 *            试卷对象
+	 * @param isOrigin
+	 *            是否保留数据源
+	 * @see model.parse.Paper
+	 */
 	public static Tree paperToTree(Paper paper, boolean isOrigin) {
 		Tree tree = new Tree();
 		tree.setText(paper.getName());
@@ -102,6 +114,15 @@ public class ParseUtil {
 
 	}
 
+	/**
+	 * 将章节数据转为tree目录数据
+	 * 
+	 * @param subject
+	 *            科目
+	 * @param sections
+	 *            数据源
+	 * 
+	 */
 	public static Tree sectionToTree(String subject, List<Map<String, Object>> sections) {
 		Tree tree = new Tree();
 		tree.setText(subject);
@@ -153,6 +174,14 @@ public class ParseUtil {
 
 	}
 
+	/**
+	 * 根据试卷对象和条件对象创建html
+	 * 
+	 * @param paper
+	 * @param vo
+	 * @see model.parse.Paper
+	 * @see model.parse.CreatePaperVO
+	 */
 	public static String createHtml(Paper paper, CreatePaperVO vo) {
 		String paperTitle = paper.getName();
 		StringBuilder html = new StringBuilder();
@@ -287,7 +316,28 @@ public class ParseUtil {
 
 	public static String createHtml(Paper paper) {
 		CreatePaperVO vo = new CreatePaperVO();
+		vo.setSort(calculateQuesionSort(paper));
 		return createHtml(paper, vo);
+	}
+
+	/**
+	 * 根据题型类型来排序题型顺序
+	 */
+	private static String calculateQuesionSort(Paper paper) {
+		List<Question> qs = paper.getQuestions();
+		StringBuilder simple = new StringBuilder();
+		StringBuilder complex = new StringBuilder();
+		for (Question q : qs) {
+			if (q.isComplex()) {
+				complex.append(q.getName());
+				complex.append(",");
+			} else {
+				simple.append(q.getName());
+				simple.append(",");
+			}
+		}
+		String result = simple.toString() + complex.toString();
+		return result.substring(0, result.length() - 1);
 	}
 
 	public static Tree dataToTree(List<Map<String, Object>> data, String text) {

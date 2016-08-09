@@ -27,15 +27,15 @@ public class TestHtml {
 
 	public static void main(String[] args) {
 
-		testParseHtml();
+		// testParseHtml();
 		// testRegx();
-		// testToHtml();
+		testToHtml();
 
 	}
 
 	private static void testToHtml() {
 		try {
-			WordToHtml.getInstance().toHtml("f:/", "test.docx", "f:/", "test.html");
+			WordToHtml.getInstance().toHtml("f:/", "test.doc", "f:/", "test.html");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,8 +62,8 @@ public class TestHtml {
 	}
 
 	private static void testRegx() {
-		String text = "27.（11分）现出明显的区域特征，即南方地区(1)部的贸易和交流(1频（1具体史实。（3分）";
-		Pattern p = Pattern.compile(Resolver.REGEX_COMLLEX_ITEM);
+		String text = "27.（11分）现出明显的区域特征，(1即南方地区(1)部的贸易和交流(1频（1具体史实。（3分）";
+		Pattern p = Pattern.compile("[(（]\\d{1,2}(?:[)）]|)(?!\\b[^分])");
 		Matcher m = p.matcher(text);
 		while (m.find()) {
 			System.out.println(m.group());
