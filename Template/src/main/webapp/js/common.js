@@ -86,16 +86,16 @@ $(function () {
 var Comm = {};
 Comm.getUrlParam= function (name,url) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
-    var r=(url)?url:window.location.search.substr(1).match(reg);
+    var r=(url)?url.match(reg):window.location.search.substr(1).match(reg);
     if (r)
         return unescape(r[2]);
     else
         return null; // 返回参数值
 }
 //后台接口前缀
-var baseUrl = window.location.protocol + "//" + window.location.host + "/Template/";
+var baseUrl = window.location.protocol + "//" + window.location.host + "/tkglDI/";
 //前台跳转前缀
-var baseUIUrl = window.location.protocol + "//" + window.location.host + "/Template/";
+var baseUIUrl = window.location.protocol + "//" + window.location.host + "/tkglUI/";
 //页面权限ID
 var priviledgesID = Comm.getUrlParam("id");
 
@@ -296,7 +296,6 @@ Comm.checkError = function (id) {
         var hasError = false;
         $("#" + id + " :input").not(":button").not(":file").each(function (i, e) {
             var $label = $(this).prev("label");
-            //            if ($label.children("span").hasClass("c-red")) {
             if ($(this).data('require')) {
                 if ($.trim(e.value).length == 0) {
                     if (e.lang) {
@@ -419,6 +418,13 @@ Comm.setFormData = function (data, id) {
                 $(this).val(data[e.name])
             } else if ($(this).is("select")) {
                 $(this).val(data[e.name]).trigger('change');
+            }else if($(this).is("input[type='radio']")){
+            	if($(this).val()==data[e.name]){
+            		this.checked=true;
+            	}else{
+            		this.checked=false;
+            	}
+            	
             }
         })
     }
@@ -649,10 +655,11 @@ Comm.post = function (url, response, params) {
  * */
 var queryParam = {};
 queryParam.priviledgesID = priviledgesID;
-Comm.queryData = function () {
+Comm.queryData = function (id) {
+	id = (id) ? id : "searchForm";
     queryParam = {};
     queryParam.priviledgesID = priviledgesID;
-    $("#searchForm :input").not(":button").each(function (i, e) {
+    $("#"+id+" :input").not(":button").each(function (i, e) {
         if ($(this).is("input[type='checkbox']")) {
             if (this.checked) {
                 queryParam[e.name] = $(this).val();
@@ -710,7 +717,7 @@ Comm.HighChartPie=function(option){
 	            text: ' '
 	        },
 	        tooltip: {
-	            pointFormat: '{series.name}: <b>{point.y:1f} 题</b>'
+	        	 pointFormat: '{series.name}: <b>{point.y:1f} 题</b>'
 	        },
 	        credits: {
 		        enabled: false
@@ -741,7 +748,10 @@ Comm.HighChartBar=function(option){
 			title: { text: '' }, 
 			xAxis: { categories: [ '' ] }, 
 			yAxis: { min: 0, title: { text: '' } }, 
-			tooltip: { headerFormat: '<span style="font-size:10px">{point.key}</span><table>', pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:1f} 题</b></td></tr>', footerFormat: '</table>',  useHTML: true }, 
+			tooltip: { 
+				headerFormat: '<span style="font-size:10px">{point.key}</span><table>', 
+				pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:1f} 题</b></td></tr>', 
+				footerFormat: '</table>',  useHTML: true }, 
 			plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } }, 
 			series: option.data }
 	return param;
@@ -772,13 +782,13 @@ Comm.uploadFile = function (type, handle, tag) {
         $(tag).text($(":file").val())
     }
     if (type == "photo") {
-        url = "attachment/uploadImg";
+        url = "attachment/uploadImg?timestamp="+ new Date().getTime();
     } else if (type == "excel") {
-        url = "attachment/excelUpload";
+        url = "attachment/excelUpload?timestamp="+ new Date().getTime();
     } else if (type == "word") {
-        url = "attachment/wordUpload";
+        url = "attachment/wordUpload?timestamp="+ new Date().getTime();
     } else {
-        url = "attachment/uploadAttachment";
+        url = "attachment/uploadAttachment?timestamp="+ new Date().getTime();
     }
     var options = {
         success: handle, // 提交后的回调函数
@@ -820,21 +830,21 @@ Comm.uniqueArr = function (arr) {
 }
 
 Comm.set = function (key, value) {
-    //	if( typeof(value)=="object" ){
-    //		window.localStorage.setItem(key, JSON.stringify(value));
-    //	}else{
-    //		window.localStorage.setItem(key, value);
-    //	}
-    parent.window.cache[key] = value;
+    	if( typeof(value)=="object" ){
+    		window.sessionStorage.setItem(key, JSON.stringify(value));
+    	}else{
+    		window.sessionStorage.setItem(key, value);
+    	}
 }
 Comm.get = function (key) {
-    //	var data=window.localStorage.getItem(key);
-    //	try{
-    //		data=JSON.parse(data);
-    //	}catch (e) {
-    //	}
-    //	return data;
-    return parent.window.cache[key];
+		var data;
+    	var obj=window.sessionStorage.getItem(key);
+    	try{
+    		data=JSON.parse(obj);
+    	}catch (e) {
+    		data=obj;
+    	}
+    	return data;
 }
 Comm.indexOfArr = function (arr, val) {
     for (var i = 0; i < arr.length; i++) {
