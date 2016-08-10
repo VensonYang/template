@@ -625,6 +625,7 @@ Comm.postByForm = function (URL, PARAMS) {
     temp.action = baseUrl + URL;
     PARAMS.priviledgesID = priviledgesID;
     temp.method = "post";
+    temp.target = "_blank";
     temp.style.display = "none";
     for (var x in PARAMS) {
         var opt = document.createElement("textarea");

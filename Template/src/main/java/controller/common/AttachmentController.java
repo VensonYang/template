@@ -301,7 +301,8 @@ public class AttachmentController {
 			return null;
 		}
 		if (!new File(path).exists()) {
-			returnResult.setStatus(StatusCode.FAIL.setMessage("file not exist"));
+			returnResult.setStatus(
+					StatusCode.FAIL.setMessage(ControllerHelper.getMessage("messages.error.file.not.exist")));
 			return null;
 		}
 		if (StringUtils.isBlank(downName)) {
