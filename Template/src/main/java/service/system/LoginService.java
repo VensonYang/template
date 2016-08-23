@@ -20,7 +20,7 @@ public interface LoginService {
 	 * @param id
 	 *            用户Id
 	 */
-	List<Map<String, Object>> getPriviledgesByUserId(int id);
+	List<Map<String, Object>> getPrivilegesByUserId(int id);
 
 	/**
 	 * 根据用户Id获取用户权限矩阵
@@ -28,5 +28,5 @@ public interface LoginService {
 	 * @param id
 	 *            用户Id
 	 */
-	List<Map<String, Object>> getPriviledgesMatrixByUserId(int id);
+	List<Map<String, Object>> getPrivilegesMatrixByUserId(int id);
 }

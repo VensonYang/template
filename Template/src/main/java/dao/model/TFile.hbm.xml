@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
 <hibernate-mapping>
     <class name="dao.model.TFile" table="t_file" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -9,43 +9,48 @@
             <generator class="identity" />
         </id>
         <property name="fileDesc" type="string">
-            <column name="fileDesc" length="65535">
-                <comment>&#195;&#232;&#202;&#246;</comment>
+            <column name="file_desc" length="65535">
+                <comment>&#230;&#143;&#143;&#232;&#191;&#176;</comment>
             </column>
         </property>
         <property name="fileName" type="string">
-            <column name="fileName" length="200" not-null="true">
-                <comment>&#206;&#196;&#188;&#254;&#195;&#251;&#179;&#198;</comment>
+            <column name="file_name" length="200" not-null="true">
+                <comment>&#230;&#150;&#135;&#228;&#187;&#182;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
             </column>
         </property>
         <property name="fileType" type="string">
-            <column name="fileType" length="100">
-                <comment>&#206;&#196;&#188;&#254;&#192;&#224;&#208;&#205;</comment>
+            <column name="file_type" length="100">
+                <comment>&#230;&#150;&#135;&#228;&#187;&#182;&#231;&#177;&#187;&#229;&#158;&#139;</comment>
             </column>
         </property>
         <property name="fileSize" type="java.lang.Integer">
-            <column name="fileSize">
-                <comment>&#206;&#196;&#188;&#254;&#180;&#243;&#208;&#161;</comment>
+            <column name="file_size">
+                <comment>&#230;&#150;&#135;&#228;&#187;&#182;&#229;&#164;&#167;&#229;&#176;&#143;</comment>
             </column>
         </property>
         <property name="filePath" type="string">
-            <column name="filePath" length="200" not-null="true">
-                <comment>&#206;&#196;&#188;&#254;&#194;&#183;&#190;&#182;</comment>
+            <column name="file_path" length="200" not-null="true">
+                <comment>&#230;&#150;&#135;&#228;&#187;&#182;&#232;&#183;&#175;&#229;&#190;&#132;</comment>
             </column>
         </property>
-        <property name="createor" type="java.lang.Integer">
-            <column name="createor">
-                <comment>&#180;&#180;&#189;&#168;&#200;&#203;</comment>
+        <property name="creator" type="java.lang.Integer">
+            <column name="creator">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="createTime" type="timestamp">
-            <column name="createTime" length="19">
-                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            <column name="create_time" length="19">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
             </column>
         </property>
-        <property name="memo" type="string">
-            <column name="memo" length="100">
-                <comment>&#177;&#184;&#215;&#162;</comment>
+        <property name="state" type="java.lang.Character">
+            <column name="state" length="1">
+                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="100">
+                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
             </column>
         </property>
     </class>

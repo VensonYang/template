@@ -6,7 +6,7 @@ import java.util.Map;
 
 import dao.model.TRole;
 import model.common.QueryVO;
-import model.system.PriviledgesVO;
+import model.system.PrivilegesVO;
 import model.system.RoleVO;
 
 public interface RoleService {
@@ -68,8 +68,8 @@ public interface RoleService {
 	 * @param obj
 	 *            值模型对象
 	 */
-	Serializable addRolePriviledges(RoleVO obj);
+	Serializable addRolePrivileges(RoleVO obj);
 
-	List<PriviledgesVO> getPriviledgesVOByRoleId(int id);
+	List<PrivilegesVO> getPrivilegesVOByRoleId(int id);
 
 }

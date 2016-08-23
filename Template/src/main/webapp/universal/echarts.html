@@ -36,7 +36,7 @@
         $.ajax({
 	  		type:"post",
 	  		url:baseUrl+"echart/barOption",
-	  		data:{"priviledgesID":priviledgesID},
+	  		data:{"privilegesID":privilegesID},
 	  		success:function(data){
 	  			if(data.status==0){
 	  				barChart.setOption(data.rows);
@@ -47,7 +47,7 @@
         $.ajax({
 	  		type:"post",
 	  		url:baseUrl+"echart/pieOption",
-	  		data:{"priviledgesID":priviledgesID},
+	  		data:{"privilegesID":privilegesID},
 	  		success:function(data){
 	  			if(data.status==0){
 	  		        pieChart.setOption(data.rows);
@@ -58,7 +58,7 @@
 	    $.ajax({
 		  		type:"post",
 		  		url:baseUrl+"echart/lineOption",
-		  		data:{"priviledgesID":priviledgesID},
+		  		data:{"privilegesID":privilegesID},
 		  		success:function(data){
 		  			if(data.status==0){
 		  		        lineChart.setOption(data.rows);

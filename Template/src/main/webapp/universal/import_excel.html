@@ -49,7 +49,7 @@
 	  			$.ajax({
 	  				type:"post",
 	  				url:baseUrl+"excel/importExcel",
-	  				data:data.rows+"&priviledgesID="+priviledgesID,
+	  				data:data.rows+"&privilegesID="+privilegesID,
 	  				success:function(response){
 	  					if(response.status==0){
 	  						alert("导入成功");

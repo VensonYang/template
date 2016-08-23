@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 
 import common.StaticsConstancts;
 import dao.BaseDao;
-import dao.model.TPriviledges;
+import dao.model.TPrivileges;
 import dao.model.TRole;
 import model.common.QueryVO;
-import model.system.PriviledgesVO;
+import model.system.PrivilegesVO;
 import model.system.RoleVO;
-import service.system.PriviledgesService;
+import service.system.PrivilegesService;
 import service.system.RoleService;
 import utils.bean.BeanCopyUtils;
 import utils.common.SQLBudlider;
@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private BaseDao baseDao;
 	@Autowired
-	private PriviledgesService priviledgesService;
+	private PrivilegesService privilegesService;
 
 	@Override
 	public Map<String, Object> queryRole(QueryVO queryVO) {
@@ -85,8 +85,8 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public void deleteRole(int id) {
 		String hql1 = "DELETE TUserRole a WHERE a.TRole.id=:id";
-		String hql2 = "DELETE TRolePriviledges a WHERE a.TRole.id=:id";
-		String hql3 = "DELETE TPriviledgesMatrix a WHERE a.TRole.id=:id";
+		String hql2 = "DELETE TRolePrivileges a WHERE a.TRole.id=:id";
+		String hql3 = "DELETE TPrivilegesMatrix a WHERE a.TRole.id=:id";
 		String hql4 = "DELETE TRole WHERE id=:id";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("id", id);
@@ -116,21 +116,21 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public Serializable addRolePriviledges(RoleVO obj) {
-		String delHQL1 = "DELETE FROM TRolePriviledges a where a.TRole.id=:roleId";
-		String delHQL2 = "DELETE FROM TPriviledgesMatrix a where a.TRole.id=:roleId";
-		String saveSQL1 = "insert into t_role_priviledges(priviledgesID,roleID) values(:id,:roleId)";
-		String saveSQL2 = "insert into t_priviledges_matrix(roleID,priviledgesID,iscreate,isdelete,ismodify,isselect,isprint,isimport,isexport,memo) values(:roleId,:id,1,1,1,1,1,1,1,'auto')";
+	public Serializable addRolePrivileges(RoleVO obj) {
+		String delHQL1 = "DELETE FROM TRolePrivileges a where a.TRole.id=:roleId";
+		String delHQL2 = "DELETE FROM TPrivilegesMatrix a where a.TRole.id=:roleId";
+		String saveSQL1 = "insert into t_role_privileges(privilegesID,roleID) values(:id,:roleId)";
+		String saveSQL2 = "insert into t_privileges_matrix(roleID,privilegesID,iscreate,isdelete,ismodify,isselect,isprint,isimport,isexport,memo) values(:roleId,:id,1,1,1,1,1,1,1,'auto')";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("roleId", obj.getId());
 		baseDao.delete(delHQL1, params);
 		baseDao.delete(delHQL2, params);
-		int[] ids = obj.getPriviledgesIds();
+		int[] ids = obj.getPrivilegesIds();
 		if (ids != null) {
 			for (int id : ids) {
 				params.put("id", id);
 				baseDao.save(saveSQL1, params);
-				if (!priviledgesService.getPriviledgesVOById(id).getUrl().trim().equals("#")) {
+				if (!privilegesService.getPrivilegesVOById(id).getUrl().trim().equals("#")) {
 					baseDao.save(saveSQL2, params);
 				}
 
@@ -140,13 +140,13 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<PriviledgesVO> getPriviledgesVOByRoleId(int id) {
-		List<PriviledgesVO> PriviledgesVO = new LinkedList<PriviledgesVO>();
-		for (TPriviledges Priviledges : priviledgesService.getPriviledgesByRoleId(id)) {
-			PriviledgesVO vo = new PriviledgesVO();
-			BeanCopyUtils.copyProperties(Priviledges, vo);
-			PriviledgesVO.add(vo);
+	public List<PrivilegesVO> getPrivilegesVOByRoleId(int id) {
+		List<PrivilegesVO> PrivilegesVO = new LinkedList<PrivilegesVO>();
+		for (TPrivileges Privileges : privilegesService.getPrivilegesByRoleId(id)) {
+			PrivilegesVO vo = new PrivilegesVO();
+			BeanCopyUtils.copyProperties(Privileges, vo);
+			PrivilegesVO.add(vo);
 		}
-		return PriviledgesVO;
+		return PrivilegesVO;
 	}
 }

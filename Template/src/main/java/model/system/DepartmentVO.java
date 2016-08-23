@@ -10,63 +10,30 @@ public class DepartmentVO {
 	}
 
 	private Integer id;
-	private String name;
+	private String deptName;
 	private Integer pid;
 	private String deptNo;
-	private Date createTime;
 	private String creator;
-	private String status;
-	private String memo;
-
-	public DepartmentVO() {
-	}
+	private Date createTime;
+	private Integer modifier;
+	private Date modifyTime;
+	private String state;
+	private String remark;
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getDeptName() {
+		return deptName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getCreator() {
-		return this.creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getMemo() {
-		return this.memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 	public Integer getPid() {
@@ -83,6 +50,54 @@ public class DepartmentVO {
 
 	public void setDeptNo(String deptNo) {
 		this.deptNo = deptNo;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getModifier() {
+		return modifier;
+	}
+
+	public void setModifier(Integer modifier) {
+		this.modifier = modifier;
+	}
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

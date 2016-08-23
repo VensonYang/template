@@ -5,7 +5,7 @@ import java.util.Map;
 
 import model.system.LoginVO;
 import model.system.NodeVO;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVectorVO;
 
 public interface UserService {
 
@@ -67,7 +67,7 @@ public interface UserService {
 	 * @param id
 	 *            用户Id
 	 */
-	Map<Integer, PriviledgesVectorVO> getPriviledgesVectors(int userId);
+	Map<Integer, PrivilegesVectorVO> getPrivilegesVectors(int userId);
 
 	/**
 	 * 根据用户Id获取用户菜单

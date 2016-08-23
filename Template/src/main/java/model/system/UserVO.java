@@ -21,7 +21,7 @@ public class UserVO {
 	@NotNull(message = "性别不能为空", groups = { IAddUser.class, IModifyUser.class })
 	private String sex;
 	@NotNull(message = "状态不能为空", groups = { IAddUser.class, IModifyUser.class })
-	private String status;
+	private String state;
 	@NotNull(message = "用户角色不能为空", groups = { IAddUser.class, IModifyUser.class })
 	private Integer roleId;
 	@NotNull(message = "用户部门不能为空", groups = { IAddUser.class, IModifyUser.class })
@@ -33,7 +33,12 @@ public class UserVO {
 	private Integer modifier;
 	private Date modifyTime;
 	private String headImage = "../images/default-img.gif";
-	private String memo;
+
+	private String email;
+	private String mobile;
+	private Date loginDate;
+	private String loginIp;
+	private String remark;
 
 	public Integer getId() {
 		return id;
@@ -67,12 +72,52 @@ public class UserVO {
 		this.password = password;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getSex() {
+		return sex;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getKemu() {
+		return kemu;
+	}
+
+	public void setKemu(String kemu) {
+		this.kemu = kemu;
+	}
+
+	public String getCourseIds() {
+		return courseIds;
+	}
+
+	public void setCourseIds(String courseIds) {
+		this.courseIds = courseIds;
 	}
 
 	public Integer getCreator() {
@@ -115,56 +160,44 @@ public class UserVO {
 		this.headImage = headImage;
 	}
 
-	public String getMemo() {
-		return memo;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getSex() {
-		return sex;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
-	public Integer getRoleId() {
-		return roleId;
+	public Date getLoginDate() {
+		return loginDate;
 	}
 
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setLoginDate(Date loginDate) {
+		this.loginDate = loginDate;
 	}
 
-	public Integer getDeptId() {
-		return deptId;
+	public String getLoginIp() {
+		return loginIp;
 	}
 
-	public void setDeptId(Integer deptId) {
-		this.deptId = deptId;
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
 	}
 
-	public String getKemu() {
-		return kemu;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setKemu(String kemu) {
-		this.kemu = kemu;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getCourseIds() {
-		return courseIds;
-	}
-
-	public void setCourseIds(String courseIds) {
-		this.courseIds = courseIds;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

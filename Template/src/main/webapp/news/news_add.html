@@ -73,11 +73,11 @@
     <script type="text/javascript" charset="utf-8" src="../js/ueditor/ueditor.all.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../js/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript">
-	var newsId=getUrlParam("priviledgesID");
+	var newsId=getUrlParam("privilegesID");
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"newsType/getNewTypes",
-		   data:{"priviledgesID":newsId},
+		   data:{"privilegesID":newsId},
 		   cache: false,
 		   success: function(data){
 			   var htmlCode='<option value="">新闻类型</option>';
@@ -94,7 +94,7 @@
 			return;
 		var options={
 			    success : responseResult,    // 提交后的回调函数
-			    url : baseUrl+"attachment/editorUpload?priviledgesID="+newsId,    //默认是form的action，如果申明，则会覆盖
+			    url : baseUrl+"attachment/editorUpload?privilegesID="+newsId,    //默认是form的action，如果申明，则会覆盖
 			    type : "POST",    // 默认值是form的method("GET" or "POST")，如果声明，则会覆盖
 			    dataType : "html",   // html（默认）、xml、script、json接受服务器端返回的类型
 			}
@@ -147,7 +147,7 @@
 					imageUrl:imgUrl,
 					content:editor.getContent(),
 					summary:vsummary,
-					priviledgesID:newsId
+					privilegesID:newsId
 			}
 			return params;
 		}else{
@@ -163,7 +163,7 @@
 		  imageCompressBorder: 800, /* 图片压缩最长边限制 */
 		  imageInsertAlign: "none", /* 插入的图片浮动方式 */
 		  imageUrlPrefix: baseUrl, /* 图片访问路径前缀 */
-	      serverUrl:baseUrl+"attachment/editorUpload?priviledgesID="+newsId,//图片上传提交后台对应的地址
+	      serverUrl:baseUrl+"attachment/editorUpload?privilegesID="+newsId,//图片上传提交后台对应的地址
 	      
 	      autoHeightEnabled:false,
 	      toolbars: [
@@ -263,7 +263,7 @@
 	});
 	/*
 	editor.addListener( 'ready', function( editor ) {
-		reSizeFun(priviledgesID);
+		reSizeFun(privilegesID);
 	 } );
 	*/
 	</script>

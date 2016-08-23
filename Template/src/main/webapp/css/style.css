@@ -690,38 +690,38 @@ input[type='checkbox']:focus {
 /*用户管理页面*/
 
 #modify-user .modal-dialog,
-#assign-priviledges .modal-dialog,
-#modify-priviledges .modal-dialog {
+#assign-privileges .modal-dialog,
+#modify-privileges .modal-dialog {
     width: 532px;
 }
 
 #modify-user .form-group label,
-#modify-priviledges .form-group label {
+#modify-privileges .form-group label {
     width: 68px;
     text-align: right;
 }
 
 #modify-user select,
 #modify-user textarea,
-#modify-priviledges select,
-#modify-priviledges textarea {
+#modify-privileges select,
+#modify-privileges textarea {
     padding-left: 3px;
 }
 
 #modify-user textarea,
-#modify-priviledges textarea {
+#modify-privileges textarea {
     width: 408px;
     height: 61px;
     resize: none;
 }
 
 #modify-user .modal-body,
-#modify-priviledges .modal-body {
+#modify-privileges .modal-body {
     padding: 20px 0 24px 18px;
 }
 
 #modify-user .modal-footer,
-#modify-priviledges .modal-footer {
+#modify-privileges .modal-footer {
     padding: 0 0 23px 0;
     text-align: center;
 }
@@ -781,35 +781,35 @@ input[type='checkbox']:focus {
 
 #modify-role .modal-footer,
 #modify-newsType .modal-footer,
-#assign-priviledges .modal-footer {
+#assign-privileges .modal-footer {
     padding: 0 0 9px 0;
     text-align: center;
 }
 
-#assign-priviledges .modal-body {
+#assign-privileges .modal-body {
     padding: 20px 23px 0 22px;
 }
 
-#assign-priviledges .row1 {
+#assign-privileges .row1 {
     padding: 0 0 9px 7px;
     border-bottom: 1px dashed #b4c4d1;
 }
 
-#assign-priviledges .row2 {
+#assign-privileges .row2 {
     padding: 3px 0 3px 7px;
 }
 
-#assign-priviledges .row3,
-#assign-priviledges .row4 {
+#assign-privileges .row3,
+#assign-privileges .row4 {
     padding: 5px 0 9px 18px;
 }
 
-#assign-priviledges .row4 {
+#assign-privileges .row4 {
     padding-bottom: 34px;
 }
 
-#assign-priviledges .row3 .checkbox,
-#assign-priviledges .row4 .checkbox {
+#assign-privileges .row3 .checkbox,
+#assign-privileges .row4 .checkbox {
     margin-right: 27px;
 }
 

@@ -3,7 +3,7 @@
     	function getProcess() {
 			  $.ajax({
 			    url:baseUrl+'attachment/getUploadProcess',
-			    data:{'timestamp': new Date().getTime(),"priviledgesID":priviledgesID},
+			    data:{'timestamp': new Date().getTime(),"privilegesID":privilegesID},
 			    type:'get',
 			    success:function(data){
 			    	if(data.status==0){

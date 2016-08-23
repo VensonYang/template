@@ -76,7 +76,7 @@ jQuery(function($) {
 		     if(response.status==0){
 		    	 	var userId = response.data.userId;
 		    	 	if(userId!=null&&userId!=""){
-		        		$.post("/student/priviledges/getByUserId", { id: userId },function(menu) {
+		        		$.post("/student/privileges/getByUserId", { id: userId },function(menu) {
 			    			if(menu.status==-1) {
 			    				window.location.href=baseUrl+"/portalUI/login.html"
 			    			} else {

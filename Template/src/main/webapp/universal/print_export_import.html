@@ -51,13 +51,13 @@
 		$table.bootstrapTable({
 			url: baseUrl+'news/showQueryNews',
 			queryParams:function(params){
-				params.priviledgesID=priviledgesID;
+				params.privilegesID=privilegesID;
 				param=params;
 	    		return params;
 	    	}
 		});
 		function openWindow(){
-			var openUrl = 'print.html?offset='+param.offset+'&limit='+param.limit+'&id='+param.priviledgesID;//弹出窗口的url
+			var openUrl = 'print.html?offset='+param.offset+'&limit='+param.limit+'&id='+param.privilegesID;//弹出窗口的url
 			var iWidth=1086; //弹出窗口的宽度;
 			var iHeight=756; //弹出窗口的高度;
 			var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
@@ -65,14 +65,14 @@
 			window.open(openUrl,"","height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft); 
 		}
 		function exportExcel(){
-			window.location.href=baseUrl+'excel/exportExcel?offset='+param.offset+'&limit='+param.limit+'&priviledgesID='+param.priviledgesID;//弹出窗口的url
+			window.location.href=baseUrl+'excel/exportExcel?offset='+param.offset+'&limit='+param.limit+'&privilegesID='+param.privilegesID;//弹出窗口的url
 		}
 		function importExcel(){
 			var diag = new Dialog();
 			diag.Title = "导入excel";
 			diag.Width = 400;
 			diag.Height = 100;
-			diag.URL="import_excel.html?id="+param.priviledgesID;
+			diag.URL="import_excel.html?id="+param.privilegesID;
 			diag.show();
 		}
 	</script>

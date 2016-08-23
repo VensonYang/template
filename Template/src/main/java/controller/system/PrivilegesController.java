@@ -18,92 +18,92 @@ import controller.base.ValidParam;
 import controller.base.ValidationAware;
 import controller.base.ValidationAwareSupport;
 import model.common.QueryVO;
-import model.system.PriviledgesVO;
-import model.system.PriviledgesVO.IAddPriviledges;
-import model.system.PriviledgesVO.IModifyPriviledges;
-import service.system.PriviledgesService;
+import model.system.PrivilegesVO;
+import model.system.PrivilegesVO.IAddPrivileges;
+import model.system.PrivilegesVO.IModifyPrivileges;
+import service.system.PrivilegesService;
 import utils.bean.BeanDirectorFactory;
 
 @ResponseBody
-@RequestMapping("/priviledges")
+@RequestMapping("/privileges")
 @Controller
-public class PriviledgesController {
-	private static final Logger logger = LoggerFactory.getLogger(PriviledgesController.class);
+public class PrivilegesController {
+	private static final Logger logger = LoggerFactory.getLogger(PrivilegesController.class);
 	@Autowired
-	private PriviledgesService priviledgesService;
+	private PrivilegesService privilegesService;
 
-	@RequestMapping("showQueryPriviledges")
-	public ReturnResult showQueryPriviledges() {
+	@RequestMapping("showQueryPrivileges")
+	public ReturnResult showQueryPrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
-		Map<String, Object> result = priviledgesService.queryPriviledges(queryVO);
+		Map<String, Object> result = privilegesService.queryPrivileges(queryVO);
 		returnResult.setStatus(StatusCode.SUCCESS).setRows(result.get(StaticsConstancts.DATA))
 				.setTotal(result.get(StaticsConstancts.TOTAL));
-		logger.debug("showPriviledges success");
+		logger.debug("showPrivileges success");
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addPriviledges")
-	public ReturnResult addPriviledges() {
+	@RequestMapping(value = "addPrivileges")
+	public ReturnResult addPrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
-		PriviledgesVO priviledgesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PriviledgesVO.class, va,
-				IAddPriviledges.class);
-		if (ControllerHelper.checkError(priviledgesVO, va, returnResult, logger)) {
+		PrivilegesVO privilegesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PrivilegesVO.class, va,
+				IAddPrivileges.class);
+		if (ControllerHelper.checkError(privilegesVO, va, returnResult, logger)) {
 			return returnResult;
 		}
-		priviledgesVO.setCreator(ControllerHelper.getUserId());
-		priviledgesService.addPriviledges(priviledgesVO);
+		privilegesVO.setCreator(ControllerHelper.getUserId());
+		privilegesService.addPrivileges(privilegesVO);
 		returnResult.setStatus(StatusCode.SUCCESS);
-		logger.debug("save Priviledgessuccess");
+		logger.debug("save Privilegessuccess");
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyPriviledges")
-	public ReturnResult modifyPriviledges() {
+	@RequestMapping(value = "modifyPrivileges")
+	public ReturnResult modifyPrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
-		PriviledgesVO priviledgesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PriviledgesVO.class, va,
-				IModifyPriviledges.class);
-		if (ControllerHelper.checkError(priviledgesVO, va, returnResult, logger)) {
+		PrivilegesVO privilegesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PrivilegesVO.class, va,
+				IModifyPrivileges.class);
+		if (ControllerHelper.checkError(privilegesVO, va, returnResult, logger)) {
 			return returnResult;
 		}
-		priviledgesService.modifyPriviledges(priviledgesVO);
+		privilegesService.modifyPrivileges(privilegesVO);
 		returnResult.setStatus(StatusCode.SUCCESS);
-		logger.debug("modify Priviledgessuccess");
+		logger.debug("modify Privilegessuccess");
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deletePriviledges")
-	public ReturnResult deletePriviledges() {
+	@RequestMapping(value = "deletePrivileges")
+	public ReturnResult deletePrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
 			return returnResult;
 		}
-		priviledgesService.deletePriviledges(Integer.parseInt(param));
+		privilegesService.deletePrivileges(Integer.parseInt(param));
 		returnResult.setStatus(StatusCode.SUCCESS);
-		logger.debug("deletePriviledges success");
+		logger.debug("deletePrivileges success");
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getPriviledges")
-	public ReturnResult getPriviledges() {
+	@RequestMapping(value = "getPrivileges")
+	public ReturnResult getPrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
 			return returnResult;
 		}
 		returnResult.setStatus(StatusCode.SUCCESS)
-				.setRows(priviledgesService.getPriviledgesVOById(Integer.parseInt(param)));
-		logger.debug("get Priviledgessuccess");
+				.setRows(privilegesService.getPrivilegesVOById(Integer.parseInt(param)));
+		logger.debug("get Privilegessuccess");
 		return returnResult;
 	}
 
 	@RequestMapping(value = "getMenu")
 	public ReturnResult getMenu() {
 		ReturnResult returnResult = ControllerContext.getResult();
-		returnResult.setStatus(StatusCode.SUCCESS).setRows(priviledgesService.getMenu());
+		returnResult.setStatus(StatusCode.SUCCESS).setRows(privilegesService.getMenu());
 		logger.debug("get Menusuccess");
 		return returnResult;
 	}

@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final
+// Generated 2016-8-23 9:45:27 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -16,13 +16,17 @@ public class TUser implements java.io.Serializable {
 	private String sex;
 	private String userAccount;
 	private String password;
-	private String status;
+	private String email;
+	private String mobile;
 	private Integer creator;
 	private Date createTime;
 	private Integer modifier;
 	private Date modifyTime;
 	private String headImage;
-	private String memo;
+	private Date loginDate;
+	private String loginIp;
+	private String state;
+	private String remark;
 	private Set TUserRoles = new HashSet(0);
 
 	public TUser() {
@@ -37,20 +41,24 @@ public class TUser implements java.io.Serializable {
 	}
 
 	public TUser(TDepartment TDepartment, String userName, String sex, String userAccount, String password,
-			String status, Integer creator, Date createTime, Integer modifier, Date modifyTime, String headImage,
-			String memo, Set TUserRoles) {
+			String email, String mobile, Integer creator, Date createTime, Integer modifier, Date modifyTime,
+			String headImage, Date loginDate, String loginIp, String state, String remark, Set TUserRoles) {
 		this.TDepartment = TDepartment;
 		this.userName = userName;
 		this.sex = sex;
 		this.userAccount = userAccount;
 		this.password = password;
-		this.status = status;
+		this.email = email;
+		this.mobile = mobile;
 		this.creator = creator;
 		this.createTime = createTime;
 		this.modifier = modifier;
 		this.modifyTime = modifyTime;
 		this.headImage = headImage;
-		this.memo = memo;
+		this.loginDate = loginDate;
+		this.loginIp = loginIp;
+		this.state = state;
+		this.remark = remark;
 		this.TUserRoles = TUserRoles;
 	}
 
@@ -102,12 +110,20 @@ public class TUser implements java.io.Serializable {
 		this.password = password;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMobile() {
+		return this.mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public Integer getCreator() {
@@ -150,12 +166,36 @@ public class TUser implements java.io.Serializable {
 		this.headImage = headImage;
 	}
 
-	public String getMemo() {
-		return this.memo;
+	public Date getLoginDate() {
+		return this.loginDate;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setLoginDate(Date loginDate) {
+		this.loginDate = loginDate;
+	}
+
+	public String getLoginIp() {
+		return this.loginIp;
+	}
+
+	public void setLoginIp(String loginIp) {
+		this.loginIp = loginIp;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Set getTUserRoles() {

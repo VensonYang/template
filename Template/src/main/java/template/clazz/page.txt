@@ -151,7 +151,7 @@
 			        	var options={backdrop:true};
 			        	var id=row.id;
 			        	$('#modify-#{entity}').modal(options);
-			        	$.ajax({ type: "POST",url: baseUrl+"#{entity}/get#{Entity}",data:{"id":id,"priviledgesID":priviledgesID}, 
+			        	$.ajax({ type: "POST",url: baseUrl+"#{entity}/get#{Entity}",data:{"id":id,"privilegesID":privilegesID}, 
 			        		//async: false, 
 			        		success: function(data){
 		        			$("#name").val(data.rows.name);
@@ -194,7 +194,7 @@
 			$table.bootstrapTable({
 				url: baseUrl+'#{entity}/query#{Entity}',
 				queryParams:function(params){
-					params.priviledgesID=priviledgesID;
+					params.privilegesID=privilegesID;
 					params.search=searchName;
 		    		return params;
 		    	}

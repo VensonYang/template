@@ -70,7 +70,7 @@ function getUrlParam(name) {
 		return unescape(r[2]);
 	return null; // 返回参数值
 }
-var priviledgesID=getUrlParam("id");
+var privilegesID=getUrlParam("id");
 function reSizeFun(obj){
 	if(document.body.scrollHeight<300){
 		$(window.parent.document).find("#iframepage_"+obj).height(document.body.scrollHeight+400);
@@ -84,7 +84,7 @@ $('#table').on('load-success.bs.table', function () {
 	$.ajax({
 		   type: "get",
 		   url: baseUrl+"user/getUOP",
-		   data:{"priviledgesID":priviledgesID},
+		   data:{"privilegesID":privilegesID},
 		   cache: false,
 		   success: function(data){
 			   if(data.status==0){
@@ -110,7 +110,7 @@ function setRole(){
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"role/showRole",
-		   data:{"priviledgesID":priviledgesID},
+		   data:{"privilegesID":privilegesID},
 		   cache: false,
 		   success: function(data){
 			   var htmlCode='<option value="">角色设置</option>';
@@ -138,7 +138,7 @@ function deleteAjax(url,table,ids){
 		$.ajax({
 		   type: "POST",
 		   url: baseUrl+url,
-		   data:{id:ids,"priviledgesID":priviledgesID},
+		   data:{id:ids,"privilegesID":privilegesID},
 		   //async:false,
 		   success: function(response){
 			  if(response.status==0){
@@ -153,7 +153,7 @@ function deleteAjax(url,table,ids){
 	}
 
 function saveAjax(url,params,tip){
-	params.priviledgesID=priviledgesID;
+	params.privilegesID=privilegesID;
 	$.ajax({
 		   type: "POST",		
 		   url: baseUrl+url,

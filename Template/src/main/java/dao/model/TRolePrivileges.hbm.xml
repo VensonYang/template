@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
+<hibernate-mapping>
+    <class name="dao.model.TRolePrivileges" table="t_role_privileges" catalog="template" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="TPrivileges" class="dao.model.TPrivileges" fetch="select">
+            <column name="privileges_id" not-null="true">
+                <comment>&#230;&#157;&#131;&#233;&#153;&#144;ID</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="TRole" class="dao.model.TRole" fetch="select">
+            <column name="role_id" not-null="true">
+                <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

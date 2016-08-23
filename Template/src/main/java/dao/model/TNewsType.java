@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final
+// Generated 2016-8-23 9:45:27 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,38 +11,38 @@ import java.util.Set;
 public class TNewsType implements java.io.Serializable {
 
 	private Integer id;
-	private String name;
-	private String status;
-	private Date createTime;
-	private Date modifyTime;
+	private String typeName;
 	private int creator;
+	private Date createTime;
 	private Integer modifier;
+	private Date modifyTime;
 	private int sort;
-	private String memo;
+	private String state;
+	private String remark;
 	private Set TNewses = new HashSet(0);
 	private Set TNewses_1 = new HashSet(0);
 
 	public TNewsType() {
 	}
 
-	public TNewsType(String name, String status, Date createTime, int creator, int sort) {
-		this.name = name;
-		this.status = status;
-		this.createTime = createTime;
+	public TNewsType(String typeName, int creator, Date createTime, int sort, String state) {
+		this.typeName = typeName;
 		this.creator = creator;
+		this.createTime = createTime;
 		this.sort = sort;
+		this.state = state;
 	}
 
-	public TNewsType(String name, String status, Date createTime, Date modifyTime, int creator, Integer modifier,
-			int sort, String memo, Set TNewses, Set TNewses_1) {
-		this.name = name;
-		this.status = status;
-		this.createTime = createTime;
-		this.modifyTime = modifyTime;
+	public TNewsType(String typeName, int creator, Date createTime, Integer modifier, Date modifyTime, int sort,
+			String state, String remark, Set TNewses, Set TNewses_1) {
+		this.typeName = typeName;
 		this.creator = creator;
+		this.createTime = createTime;
 		this.modifier = modifier;
+		this.modifyTime = modifyTime;
 		this.sort = sort;
-		this.memo = memo;
+		this.state = state;
+		this.remark = remark;
 		this.TNewses = TNewses;
 		this.TNewses_1 = TNewses_1;
 	}
@@ -55,36 +55,12 @@ public class TNewsType implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getTypeName() {
+		return this.typeName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Date getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getModifyTime() {
-		return this.modifyTime;
-	}
-
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 	public int getCreator() {
@@ -95,12 +71,28 @@ public class TNewsType implements java.io.Serializable {
 		this.creator = creator;
 	}
 
+	public Date getCreateTime() {
+		return this.createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 	public Integer getModifier() {
 		return this.modifier;
 	}
 
 	public void setModifier(Integer modifier) {
 		this.modifier = modifier;
+	}
+
+	public Date getModifyTime() {
+		return this.modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
 	}
 
 	public int getSort() {
@@ -111,12 +103,20 @@ public class TNewsType implements java.io.Serializable {
 		this.sort = sort;
 	}
 
-	public String getMemo() {
-		return this.memo;
+	public String getState() {
+		return this.state;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Set getTNewses() {

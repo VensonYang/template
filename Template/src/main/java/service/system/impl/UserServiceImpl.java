@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import dao.BaseDao;
 import model.system.LoginVO;
 import model.system.NodeVO;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVectorVO;
 import service.system.LoginService;
-import service.system.PriviledgesService;
+import service.system.PrivilegesService;
 import service.system.UserService;
 import utils.common.MD5Util;
 
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private LoginService loginService;
 	@Autowired
-	private PriviledgesService priviledgesService;
+	private PrivilegesService privilegesService;
 	@Autowired
 	private BaseDao baseDao;
 
@@ -66,15 +66,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<Integer, PriviledgesVectorVO> getPriviledgesVectors(int userId) {
-		// TODO Auto-generated method stub
-		return priviledgesService.getPriviledgesVectors(userId);
+	public Map<Integer, PrivilegesVectorVO> getPrivilegesVectors(int userId) {
+		return privilegesService.getPrivilegesVectors(userId);
 	}
 
 	@Override
 	public NodeVO getMenuByUserId(int userId) {
 		// TODO Auto-generated method stub
-		return priviledgesService.getMenuByUserId(userId);
+		return privilegesService.getMenuByUserId(userId);
 	}
 
 	@Override

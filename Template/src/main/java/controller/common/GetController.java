@@ -63,7 +63,7 @@ public class GetController {
 	public ReturnResult getPriviledgeVector() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		HttpSession session = ControllerContext.getSession();
-		Object map = session.getAttribute(StaticsConstancts.PRIVILEDGES_VECTOR);
+		Object map = session.getAttribute(StaticsConstancts.PRIVILEGES_VECTOR);
 		if (null == map) {
 			returnResult.setStatus(StatusCode.FAIL);
 		} else {

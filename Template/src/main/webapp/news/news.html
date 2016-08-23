@@ -131,7 +131,7 @@
 				id:"-111",
 				title:"增加新闻",
 				icon :"fa-pencil",
-				url:"../news/news_add.html?priviledgesID="+priviledgesID,
+				url:"../news/news_add.html?privilegesID="+privilegesID,
 				close:true
 		};
 		addTabs(setting);
@@ -161,13 +161,13 @@
 	    				id:"-112",
 	    				title:"编辑新闻",
 	    				icon :"fa-pencil",
-	    				url:"../news/news_edit.html?priviledgesID="+priviledgesID+"&newsId="+row.id,
+	    				url:"../news/news_edit.html?privilegesID="+privilegesID+"&newsId="+row.id,
 	    				close:true
 	    		};
 	    		addTabs(setting);
 	        },
 	        'click .view': function (e, value, row, index) {
-	        	window.open(baseUIUrl+"news/news_view.html?newsId="+row.id+"&priviledgesID="+priviledgesID,"_blank");
+	        	window.open(baseUIUrl+"news/news_view.html?newsId="+row.id+"&privilegesID="+privilegesID,"_blank");
 	        }
 	    };
 	var searchName,searchStatus;
@@ -184,7 +184,7 @@
 	$table.bootstrapTable({
 		url: baseUrl+'news/showQueryNews',
 		queryParams:function(params){
-			params.priviledgesID=priviledgesID;
+			params.privilegesID=privilegesID;
 			params.search=searchName;
 			params.status=searchStatus;
     		return params;

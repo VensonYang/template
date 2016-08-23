@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
 <hibernate-mapping>
     <class name="dao.model.TNews" table="t_news" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -9,53 +9,68 @@
             <generator class="identity" />
         </id>
         <many-to-one name="TNewsType" class="dao.model.TNewsType" fetch="select">
-            <column name="newtypeID" not-null="true">
-                <comment>&#208;&#194;&#206;&#197;&#192;&#224;&#208;&#205;</comment>
+            <column name="type_id" not-null="true">
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#231;&#177;&#187;&#229;&#158;&#139;</comment>
             </column>
         </many-to-one>
         <property name="title" type="string">
             <column name="title" length="50" not-null="true">
-                <comment>&#208;&#194;&#206;&#197;&#177;&#234;&#204;&#226;</comment>
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#230;&#160;&#135;&#233;&#162;&#152;</comment>
             </column>
         </property>
         <property name="publisher" type="string">
             <column name="publisher" length="10" not-null="true">
-                <comment>&#183;&#162;&#178;&#188;&#213;&#223;</comment>
+                <comment>&#229;&#143;&#145;&#229;&#184;&#131;&#232;&#128;&#133;</comment>
             </column>
         </property>
         <property name="content" type="string">
             <column name="content" length="65535" not-null="true">
-                <comment>&#208;&#194;&#206;&#197;&#196;&#218;&#200;&#221;</comment>
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#229;&#134;&#133;&#229;&#174;&#185;</comment>
             </column>
         </property>
         <property name="source" type="string">
             <column name="source" length="50">
-                <comment>&#208;&#194;&#206;&#197;&#192;&#180;&#212;&#180;</comment>
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#230;&#157;&#165;&#230;&#186;&#144;</comment>
             </column>
         </property>
         <property name="imageUrl" type="string">
-            <column name="imageUrl" length="100">
-                <comment>&#208;&#194;&#206;&#197;&#205;&#188;&#198;&#172;</comment>
+            <column name="image_url" length="100">
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#229;&#155;&#190;&#231;&#137;&#135;</comment>
             </column>
         </property>
         <property name="summary" type="string">
             <column name="summary" length="1000">
-                <comment>&#208;&#194;&#206;&#197;&#213;&#170;&#210;&#170;</comment>
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#230;&#145;&#152;&#232;&#166;&#129;</comment>
+            </column>
+        </property>
+        <property name="creator" type="java.lang.Integer">
+            <column name="creator">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="createTime" type="timestamp">
-            <column name="createTime" length="19">
-                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            <column name="create_time" length="19">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
+            </column>
+        </property>
+        <property name="modifier" type="java.lang.Integer">
+            <column name="modifier">
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="modifyTime" type="timestamp">
-            <column name="modifyTime" length="19">
-                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            <column name="modify_time" length="19">
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
             </column>
         </property>
-        <property name="status" type="string">
-            <column name="status" length="2" not-null="true">
-                <comment>&#208;&#194;&#206;&#197;&#215;&#180;&#204;&#172;</comment>
+        <property name="state" type="string">
+            <column name="state" length="2" not-null="true">
+                <comment>&#230;&#150;&#176;&#233;&#151;&#187;&#231;&#138;&#182;&#230;&#128;&#129;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="100">
+                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
             </column>
         </property>
     </class>

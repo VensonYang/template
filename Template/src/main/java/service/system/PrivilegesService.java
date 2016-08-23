@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import dao.model.TPriviledges;
+import dao.model.TPrivileges;
 import model.common.QueryVO;
 import model.system.NodeVO;
-import model.system.PriviledgesVO;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVO;
+import model.system.PrivilegesVectorVO;
 
-public interface PriviledgesService {
+public interface PrivilegesService {
 
 	/**
 	 * 分页获取所有对象
@@ -18,7 +18,7 @@ public interface PriviledgesService {
 	 * @param queryVO
 	 *            查询条件
 	 */
-	Map<String, Object> queryPriviledges(QueryVO queryVO);
+	Map<String, Object> queryPrivileges(QueryVO queryVO);
 
 	/**
 	 * 根据用户Id获取用户权限矩阵集
@@ -26,7 +26,7 @@ public interface PriviledgesService {
 	 * @param userId
 	 *            用户Id
 	 */
-	Map<Integer, PriviledgesVectorVO> getPriviledgesVectors(int userId);
+	Map<Integer, PrivilegesVectorVO> getPrivilegesVectors(int userId);
 
 	/**
 	 * 根据用户Id获取用户权限
@@ -34,7 +34,7 @@ public interface PriviledgesService {
 	 * @param userId
 	 *            用户Id
 	 */
-	List<TPriviledges> getPriviledgesByUserId(int userId);
+	List<TPrivileges> getPrivilegesByUserId(int userId);
 
 	/**
 	 * 根据角色Id获取角色权限
@@ -42,7 +42,7 @@ public interface PriviledgesService {
 	 * @param roleId
 	 *            角色Id
 	 */
-	List<TPriviledges> getPriviledgesByRoleId(int roleId);
+	List<TPrivileges> getPrivilegesByRoleId(int roleId);
 
 	/**
 	 * 根据用户Id获取用户菜单
@@ -63,7 +63,7 @@ public interface PriviledgesService {
 	 * @param obj
 	 *            值模型对象
 	 */
-	Serializable addPriviledges(PriviledgesVO obj);
+	Serializable addPrivileges(PrivilegesVO obj);
 
 	/**
 	 * 修改对象
@@ -71,26 +71,26 @@ public interface PriviledgesService {
 	 * @param obj
 	 *            值模型对象
 	 */
-	void modifyPriviledges(PriviledgesVO obj);
+	void modifyPrivileges(PrivilegesVO obj);
 
 	/**
 	 * 根据Id删除对象
 	 * 
 	 * @param id
 	 */
-	void deletePriviledges(int id);
+	void deletePrivileges(int id);
 
 	/**
 	 * 根据Id获取对象
 	 * 
 	 * @param id
 	 */
-	TPriviledges getPriviledgesById(int id);
+	TPrivileges getPrivilegesById(int id);
 
 	/**
 	 * 根据Id获取对象
 	 * 
 	 * @param id
 	 */
-	PriviledgesVO getPriviledgesVOById(int id);
+	PrivilegesVO getPrivilegesVOById(int id);
 }
