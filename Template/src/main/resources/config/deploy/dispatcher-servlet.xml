@@ -9,8 +9,12 @@
 		default-lazy-init="true">
 		
 
-    <!-- 激活组件扫描功能,在包controller及其子包下面自动扫描通过注解配置的组件 --> 
-    <context:component-scan base-package="controller"></context:component-scan>
+    <!-- 启用注解，并定义组件查找规则 ，mvc层只负责扫描@Controller -->  
+    <context:component-scan base-package="controller"  
+        use-default-filters="false">  
+        <context:include-filter type="annotation"  
+            expression="org.springframework.stereotype.Controller" />  
+    </context:component-scan>
     
 	<!-- 自定义文件上传进度条功能的解析器 -->
 	<bean id="multipartResolver" class="upload.progress.MultipartListenerResolver" >
@@ -19,11 +23,17 @@
 		<property name="resolveLazily" value="false" />
 		<property name="defaultEncoding"><value>UTF-8</value></property> 
 	</bean>
-	<!-- mvc配置 -->
+	<!-- 国际化资源文件 -->  
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">    
+           <property name="basenames">    
+                <list>    
+                   <value>message</value>     
+               </list>    
+           </property>    
+    </bean> 
 	<!-- 启动Springmvc注解驱动 -->
-	<mvc:annotation-driven/>
  	<!-- 返回json 方法一 需要导入 fastjson.jar包 -->  
-	<mvc:annotation-driven>
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
         <mvc:message-converters register-defaults="false">
             <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
             <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -52,20 +62,53 @@
 		               <!-- <value>WriteMapNullValue</value> -->
 		               <!-- Date的日期转换器 -->
 		               <value>WriteDateUseDateFormat</value>
+		               <!-- 循环数据引用禁用 -->
+		               <value>DisableCircularReferenceDetect</value>
 		            </list>
          		</property>
             </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
-	 <!-- 拦截器  -->
+       <!-- 使用XML格式输出数据 -->
+            <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+		        <constructor-arg>
+		        	<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+				        <property name="streamDriver">
+				            <bean class="com.thoughtworks.xstream.io.xml.StaxDriver"/>
+				        </property>
+				    </bean>
+		        </constructor-arg>
+		        <property name="supportedMediaTypes" value="application/xml"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="mediaTypes" >
+	        <map> 
+                <entry key="xml" value="application/xml"/> 
+                <entry key="json" value="application/json"/> 
+            </map>
+	    </property>
+        <property name="ignoreAcceptHeader" value="true"/>
+        <property name="favorPathExtension" value="true"/>
+	</bean>
+     
+      <!-- 视图处理器 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+     <!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
+	<mvc:default-servlet-handler />
+	 <!-- 拦截器配置，拦截顺序：先执行后定义的，排在第一位的最后执行。-->
     <mvc:interceptors>
-    	<!-- 
+         <!-- 
+	        <mvc:interceptor>
+	            <mvc:mapping path="/**" />
+	            <bean class="interceptor.RequestTypeInterceptor"></bean>
+	        </mvc:interceptor>
+         --> 
         <mvc:interceptor>
-            <mvc:mapping path="/**" />
-            <bean class="interceptor.RequestTypeInterceptor"></bean>
-        </mvc:interceptor>
-         -->
-         <mvc:interceptor>
             <mvc:mapping path="/**" />
             <mvc:exclude-mapping path="/get/createVerifyCode"/>
             <mvc:exclude-mapping path="/get/getUserAccount"/>
@@ -73,10 +116,10 @@
             <mvc:exclude-mapping path="/user/loginOut"/>
             <bean class="interceptor.LoginInterceptor"></bean>
         </mvc:interceptor> 
-        <mvc:interceptor>
+         <mvc:interceptor>
             <mvc:mapping path="/**" />
             <bean class="interceptor.AuthorityInterceptor"></bean>
-        </mvc:interceptor> 
+        </mvc:interceptor>
     </mvc:interceptors>
     <!-- 
     	改为在web.xml设置
