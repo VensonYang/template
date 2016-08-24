@@ -16,13 +16,13 @@ public class NewsTypeVO {
 	@NotNull(message = "名称不能为空", groups = { IAddNewsType.class, IModifyNewsType.class })
 	private String name;
 	@NotNull(message = "状态不能为空", groups = { IAddNewsType.class, IModifyNewsType.class })
-	private String status;
+	private String state;
 	private Date createTime;
 	private Date modifyTime;
 	private int creator;
 	private Integer modifier;
 	private int sort;
-	private String memo;
+	private String remark;
 
 	public Integer getId() {
 		return id;
@@ -40,12 +40,12 @@ public class NewsTypeVO {
 		this.name = name;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getState() {
+		return state;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public Date getCreateTime() {
@@ -88,12 +88,12 @@ public class NewsTypeVO {
 		this.sort = sort;
 	}
 
-	public String getMemo() {
-		return memo;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

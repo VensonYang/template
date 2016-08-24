@@ -58,10 +58,10 @@ public class NewsServiceImpl implements NewsService {
 			params.put("keyword", keyword);
 		}
 
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getSort())) {
 			dataHQL.append("Order By " + queryVO.getSort() + " " + queryVO.getOrder());
@@ -108,7 +108,7 @@ public class NewsServiceImpl implements NewsService {
 	public Map<String, Object> getNewsVOById(int id) {
 		// TODO Auto-generated method stub
 		return (Map<String, Object>) baseDao.get(
-				"SELECT new Map(a.title as title,a.summary as summary, a.publisher as publisher,a.content as content,a.source as source,DATE_FORMAT(a.createTime,'%Y-%m-%d %H:%i:%s') as createTime,b.name as newsTypeName) FROM TNews a LEFT JOIN a.TNewsType b WHERE a.id=?",
+				"SELECT new Map(a.title as title,a.summary as summary, a.publisher as publisher,a.content as content,a.source as source,DATE_FORMAT(a.createTime,'%Y-%m-%d %H:%i:%s') as createTime,b.typeName as newsTypeName) FROM TNews a LEFT JOIN a.TNewsType b WHERE a.id=?",
 				id);
 	}
 
@@ -117,7 +117,7 @@ public class NewsServiceImpl implements NewsService {
 		try {
 			DBUtil.beginTransaction();
 			Connection conn = DBUtil.getConnection();
-			String sql = "insert into template.t_news(title,publisher,newtypeID,content,source,status,createTime) values(?,?,?,?,?,?,?)";
+			String sql = "insert into template.t_news(title,publisher,newtypeID,content,source,state,createTime) values(?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			for (Map<String, String> map : data) {
 				pstmt.setString(1, (String) map.get("title"));

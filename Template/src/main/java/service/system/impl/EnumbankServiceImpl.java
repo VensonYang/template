@@ -28,8 +28,8 @@ public class EnumbankServiceImpl implements EnumbankService {
 		StringBuilder dataHQL = new StringBuilder();
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append("SELECT new map(id as id,sex as sex,"
-				+ "(CASE status WHEN '1' THEN '启用' ELSE '停用' END) as status,DATE_FORMAT(createTime,'%Y-%m-%d') as createTime,"
-				+ "  DATE_FORMAT(modifyTime,'%Y-%m-%d') as modifyTime,memo as memo) FROM TEnumbank a WHERE  1=1  ");
+				+ "(CASE state WHEN '1' THEN '启用' ELSE '停用' END) as state,DATE_FORMAT(createTime,'%Y-%m-%d') as createTime,"
+				+ "  DATE_FORMAT(modifyTime,'%Y-%m-%d') as modifyTime,remark as remark) FROM TEnumbank a WHERE  1=1  ");
 		totalHQL.append("SELECT COUNT(*) FROM TEnumbank a WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<String, Object>();
 		buildHQL(queryVO, dataHQL, totalHQL, params);
@@ -41,10 +41,10 @@ public class EnumbankServiceImpl implements EnumbankService {
 	}
 
 	private void buildHQL(QueryVO queryVO, StringBuilder dataHQL, StringBuilder totalHQL, Map<String, Object> params) {
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getName())) {
 			String keyword = "%" + queryVO.getName() + "%";
@@ -95,33 +95,15 @@ public class EnumbankServiceImpl implements EnumbankService {
 
 	@Override
 	public List<Map<String, Object>> getEnumByEnumTypeId(String typeId) {
-		String hql = "SELECT new Map(a.id as id,a.enumvalue as text) FROM TEnumbank a  WHERE a.enumtypeid=:typeId";
+		String hql = "SELECT new Map(a.id as id,a.enumValue as text) FROM TEnumbank a  WHERE a.typeId=:typeId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("typeId", typeId);
 		return baseDao.findAll(hql, params);
 	}
 
 	@Override
-	public void deleteSubject(Object Id) {
-		// 删除科目下的课程以及章节
-		String hql1 = "DELETE TCourse WHERE kemu=:subject";
-		String hql2 = "DELETE TCourseSection WHERE kemu=:subject";
-		String hql3 = "DELETE TEnumbank WHERE id=:id";
-		TEnumbank enumbank = getEnumbankById(Id);
-		String subject = enumbank.getEnumvalue();
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("subject", subject);
-		baseDao.delete(hql1, params);
-		baseDao.delete(hql2, params);
-		params.clear();
-		params.put("id", Id);
-		baseDao.delete(hql3, params);
-
-	}
-
-	@Override
 	public List<Map<String, Object>> getSelectByTypeId(String typeId) {
-		String hql = "SELECT new Map(a.enumvalue as id,a.enumvalue as text) FROM TEnumbank a  WHERE a.enumtypeid=:typeId";
+		String hql = "SELECT new Map(a.enumValue as id,a.enumValue as text) FROM TEnumbank a  WHERE a.typeId=:typeId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("typeId", typeId);
 		return baseDao.findAll(hql, params);

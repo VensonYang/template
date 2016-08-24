@@ -76,7 +76,7 @@
                                             <label>全选/反选</label>
                                         </li>
                                         <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" data-toggle='modal' data-backdrop="static" data-target="#modify-newsType">增加</a></li>
-                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('newsType/deleteNewsType','#table')">删除</a></li>
+                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('newsType/delete','#table')">删除</a></li>
                                     </ul>
                                 </div>
                                 <form>
@@ -113,7 +113,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>描述:</label>
-                                                            <textarea id="memo" class="form-control"></textarea>
+                                                            <textarea id="remark" class="form-control"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -138,7 +138,7 @@
 												<th data-field="modifyTime" data-align="center">修改时间</th>
 												<th data-field="status" data-align="center">状态</th>
 												<th data-field="sort" data-align="center">排序</th>
-												<th data-field="memo" data-align="center">描述</th>
+												<th data-field="remark" data-align="center">描述</th>
 												<th data-formatter="operateFormatter" data-align="center" data-events="operateEvents">操作</th>
                                             </tr>
                                         </thead>
@@ -167,7 +167,7 @@
     	$("#saveId").off('click').on('click',function(){
     		params=getParameter($(this));
     		if(params!=null){
-				saveAjax("newsType/addNewsType",params,$(this))
+				saveAjax("newsType/save",params,$(this))
 			}
 	    });
     	
@@ -187,19 +187,19 @@
 	        	var options={backdrop:true};
 	        	var id=row.id;
 	        	$('#modify-newsType').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"newsType/getNewsType",data:{"id":id,"privilegesID":privilegesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"newsType/get",data:{"id":id,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#name").val(data.rows.name);
         			$("#status").val(data.rows.status);
         			$("#sort").val(data.rows.sort);
-        			$("#memo").val(data.rows.memo);
+        			$("#remark").val(data.rows.remark);
         		}});
 	        	$("#saveId").off('click').on('click',function(){
 	        		params=getParameter($(this));
 					if(params!=null){
 						params.id=id;
-						saveAjax("newsType/modifyNewsType",params,$(this))
+						saveAjax("newsType/update",params,$(this))
 					}
 			    });
 	        }
@@ -209,7 +209,7 @@
 		var vname=$("#name").val();
 		var vstatus=$("#status").val();
 		var vsort=$("#sort").val();
-		var vmemo=$("#memo").val();
+		var vremark=$("#remark").val();
 		var vlidArr=[vname,vstatus];
 		var msgArr1=["名称不能为空","状态不能为空"];
 		if(isNull(vlidArr,msgArr1,tip)){
@@ -217,7 +217,7 @@
 					name:vname,
 					status:vstatus,
 					sort:vsort,
-					memo:vmemo
+					remark:vremark
 			}
 			return params;
 		}else{
@@ -236,7 +236,7 @@
 			});
 	}
 	$table.bootstrapTable({
-		url: baseUrl+'newsType/showQueryNewsType',
+		url: baseUrl+'newsType/query',
 		queryParams:function(params){
 			params.privilegesID=privilegesID;
 			params.search=searchName;

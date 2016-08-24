@@ -49,10 +49,10 @@ public class NewsTypeServiceImpl implements NewsTypeService {
 			params.put("keyword", keyword);
 		}
 
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getSort())) {
 			dataHQL.append("Order By " + queryVO.getSort() + " " + queryVO.getOrder());
@@ -101,7 +101,7 @@ public class NewsTypeServiceImpl implements NewsTypeService {
 
 	@Override
 	public List<Map<String, Object>> getNewsTypes() {
-		String hql = "SELECT new Map(a.id as id,a.name as name) FROM  TNewsType a order by a.sort";
+		String hql = "SELECT new Map(a.id as id,a.typeName as name) FROM  TNewsType a order by a.sort";
 		return baseDao.findAll(hql);
 	}
 

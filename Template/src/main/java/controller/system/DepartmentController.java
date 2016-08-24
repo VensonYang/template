@@ -33,8 +33,8 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService departmentService;
 
-	@RequestMapping("showQueryDepartment")
-	public ReturnResult showQueryDepartment() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = departmentService.queryDepartment(queryVO);
@@ -44,8 +44,8 @@ public class DepartmentController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addDepartment")
-	public ReturnResult addDepartment() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		DepartmentVO departmentVO = BeanDirectorFactory.getBeanDirector().getDataVO(DepartmentVO.class, va,
@@ -61,8 +61,8 @@ public class DepartmentController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyDepartment")
-	public ReturnResult modifyDepartment() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		DepartmentVO departmentVO = BeanDirectorFactory.getBeanDirector().getDataVO(DepartmentVO.class, va,
@@ -76,8 +76,8 @@ public class DepartmentController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteDepartment")
-	public ReturnResult deleteDepartment() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -94,8 +94,8 @@ public class DepartmentController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getDepartment")
-	public ReturnResult getDepartment() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

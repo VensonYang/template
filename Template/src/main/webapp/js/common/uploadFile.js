@@ -78,7 +78,7 @@
 	  			params.push("&floder=netdisk");
 	  			$.ajax({
 					type:"post",
-					url:baseUrl+"netdisk/saveFile",
+					url:baseUrl+"netdisk/save",
 					data:params.join(""),
 					//async:false,
 					success:function(response){

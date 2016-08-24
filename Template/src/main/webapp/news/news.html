@@ -76,7 +76,7 @@
                                             <label>全选/反选</label>
                                         </li>
                                         <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" >增加</a></li>
-                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('news/deleteNews','#table')">删除</a></li>
+                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('news/delete','#table')">删除</a></li>
                                     </ul>
                                 </div>
                                 <div class="table-responsive">
@@ -182,7 +182,7 @@
 			});
 	}
 	$table.bootstrapTable({
-		url: baseUrl+'news/showQueryNews',
+		url: baseUrl+'news/query',
 		queryParams:function(params){
 			params.privilegesID=privilegesID;
 			params.search=searchName;

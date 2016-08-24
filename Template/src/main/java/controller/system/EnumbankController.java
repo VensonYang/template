@@ -1,6 +1,5 @@
 package controller.system;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,13 +18,11 @@ import controller.base.ValidParam;
 import controller.base.ValidationAware;
 import controller.base.ValidationAwareSupport;
 import model.common.QueryVO;
-import model.parse.Tree;
 import model.system.EnumbankVO;
 import model.system.EnumbankVO.IAddEnumbank;
 import model.system.EnumbankVO.IModifyEnumbank;
 import service.system.EnumbankService;
 import utils.bean.BeanDirectorFactory;
-import utils.parse.ParseUtil;
 
 @RequestMapping("/enumbank")
 @ResponseBody
@@ -35,8 +32,8 @@ public class EnumbankController {
 	@Autowired
 	private EnumbankService enumbankService;
 
-	@RequestMapping("showQueryEnumbank")
-	public ReturnResult showQueryEnumbank() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = enumbankService.queryEnumbank(queryVO);
@@ -46,8 +43,8 @@ public class EnumbankController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addEnumbank")
-	public ReturnResult addEnumbank() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		EnumbankVO enumbankVO = BeanDirectorFactory.getBeanDirector().getDataVO(EnumbankVO.class, va,
@@ -61,8 +58,8 @@ public class EnumbankController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyEnumbank")
-	public ReturnResult modifyEnumbank() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		EnumbankVO enumbankVO = BeanDirectorFactory.getBeanDirector().getDataVO(EnumbankVO.class, va,
@@ -76,8 +73,8 @@ public class EnumbankController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteEnumbank")
-	public ReturnResult deleteEnumbank() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -94,26 +91,8 @@ public class EnumbankController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteSubject")
-	public ReturnResult deleteSubject() {
-		ReturnResult returnResult = ControllerContext.getResult();
-		String param = ControllerHelper.checkParam(ValidParam.NUM);
-		if (param == null) {
-			return returnResult;
-		}
-		try {
-			enumbankService.deleteSubject(Integer.parseInt(param));
-			returnResult.setStatus(StatusCode.SUCCESS);
-			logger.debug("deleteSubject success");
-		} catch (Exception e) {
-			returnResult.setStatus(StatusCode.FAIL.setMessage("已被引用，无法删除"));
-			logger.debug("deleteSubject fail");
-		}
-		return returnResult;
-	}
-
-	@RequestMapping(value = "getEnumbank")
-	public ReturnResult getEnumbank() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -145,22 +124,6 @@ public class EnumbankController {
 		}
 		returnResult.setStatus(StatusCode.SUCCESS).setRows(enumbankService.getSelectByTypeId(param));
 		logger.debug("getEnumByEnumTypeId success");
-		return returnResult;
-	}
-
-	@RequestMapping(value = "getAllSubject")
-	public ReturnResult getAllSubject() {
-		ReturnResult returnResult = ControllerContext.getResult();
-		if (ControllerHelper.getUserId() == 1) {
-			List<Map<String, Object>> data = enumbankService.getEnumByEnumTypeId("0001");
-			Tree tree = ParseUtil.dataToTree(data, "科目");
-			returnResult.setStatus(StatusCode.SUCCESS).setRows(tree);
-		} else {
-			Tree tree = new Tree();
-			tree.setText(ControllerHelper.getSubject());
-			returnResult.setStatus(StatusCode.SUCCESS).setRows(tree);
-		}
-		logger.debug("getAllSubject success");
 		return returnResult;
 	}
 

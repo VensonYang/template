@@ -139,7 +139,7 @@ public class UserController {
 		HttpServletRequest request = ControllerContext.getRequest();
 		ReturnResult returnResult = ControllerContext.getResult();
 		HttpSession session = ControllerContext.getSession();
-		if (((String) userMap.get("status")).equalsIgnoreCase("0")) {
+		if (((String) userMap.get("state")).equalsIgnoreCase("0")) {
 			logger.debug("用户已被禁用,请联系系统管理员");
 			return returnResult.setStatus(StatusCode.FAIL.setMessage("用户已被禁用,请联系系统管理员"));
 		}

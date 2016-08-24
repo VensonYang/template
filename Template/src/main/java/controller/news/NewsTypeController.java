@@ -32,8 +32,8 @@ public class NewsTypeController {
 	@Autowired
 	private NewsTypeService newsTypeService;
 
-	@RequestMapping("showQueryNewsType")
-	public ReturnResult showQueryNewsType() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = newsTypeService.queryNewsType(queryVO);
@@ -43,8 +43,8 @@ public class NewsTypeController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addNewsType")
-	public ReturnResult addNewsType() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		NewsTypeVO NewsTypeVO = BeanDirectorFactory.getBeanDirector().getDataVO(NewsTypeVO.class, va,
@@ -58,8 +58,8 @@ public class NewsTypeController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyNewsType")
-	public ReturnResult modifyNewsType() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		NewsTypeVO NewsTypeVO = BeanDirectorFactory.getBeanDirector().getDataVO(NewsTypeVO.class, va,
@@ -73,8 +73,8 @@ public class NewsTypeController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteNewsType")
-	public ReturnResult deleteNewsType() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -90,8 +90,8 @@ public class NewsTypeController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getNewsType")
-	public ReturnResult getNewsType() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

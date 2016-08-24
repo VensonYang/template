@@ -178,7 +178,7 @@
 		        	var url=null;
 		        	$.ajax({
 						   type: "POST",
-						   url: baseUrl+"netdisk/getFile",
+						   url: baseUrl+"netdisk/get",
 						   data:{"id":row.id,"privilegesID":privilegesID},
 						   async:false,
 						   success: function(data){
@@ -208,7 +208,7 @@
 		        	$("#OKConfirm").off("click").on("click",function(){
 		        		$.ajax({
 							   type: "POST",
-							   url: baseUrl+"netdisk/deleteAttachment",
+							   url: baseUrl+"netdisk/delete",
 							   data:{"id":row.id,"privilegesID":privilegesID},
 							   success: function(response){
 								  if(response.status==0){
@@ -241,7 +241,7 @@
    			});
     	}
     	$table.bootstrapTable({
-    				url: baseUrl+'netdisk/showQueryFiles',
+    				url: baseUrl+'netdisk/query',
     				queryParams:function(params){
     					params.privilegesID=privilegesID;
     					params.name=vfileName;

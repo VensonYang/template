@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Map<String, Object>> getUserRoleByUserId(int id) {
-		String hql = "SELECT new map(b.id as id,b.name as name) FROM TUserRole a LEFT JOIN a.TRole b WHERE a.TUser.id=:id";
+		String hql = "SELECT new map(b.id as id,b.roleName as name) FROM TUserRole a LEFT JOIN a.TRole b WHERE a.TUser.id=:id";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		return baseDao.findAll(hql, params);

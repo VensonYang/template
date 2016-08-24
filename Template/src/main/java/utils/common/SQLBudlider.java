@@ -36,8 +36,8 @@ public class SQLBudlider {
 			if (base_type.contains(field.getType().getName())) {
 				if (!filterField.contains(field.getName())) {
 					if (flag) {
-						if (field.getName().equals("status")) {
-							buffer.append("(CASE a.status WHEN '1' THEN '启用' ELSE '停用' END) as status ");
+						if (field.getName().equals("state")) {
+							buffer.append("(CASE a.state WHEN '1' THEN '启用' ELSE '停用' END) as state ");
 						} else {
 							buffer.append("a.");
 							buffer.append(field.getName());
@@ -46,8 +46,8 @@ public class SQLBudlider {
 						}
 						flag = false;
 					} else {
-						if (field.getName().equals("status")) {
-							buffer.append(",(CASE a.status WHEN '1' THEN '启用' ELSE '停用' END) as status ");
+						if (field.getName().equals("state")) {
+							buffer.append(",(CASE a.state WHEN '1' THEN '启用' ELSE '停用' END) as state ");
 						} else {
 							buffer.append(" , a.");
 							buffer.append(field.getName());

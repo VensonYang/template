@@ -36,8 +36,8 @@ public class NewsController {
 	@Autowired
 	private NewsService newsService;
 
-	@RequestMapping("showQueryNews")
-	public ReturnResult showQueryNews() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = newsService.queryNews(queryVO);
@@ -47,8 +47,8 @@ public class NewsController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addNews")
-	public ReturnResult addNews() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		HttpSession session = ControllerContext.getSession();
@@ -64,8 +64,8 @@ public class NewsController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyNews")
-	public ReturnResult modifyNews() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		NewsVO NewsVO = BeanDirectorFactory.getBeanDirector().getDataVO(NewsVO.class, va, IModifyNews.class);
@@ -78,8 +78,8 @@ public class NewsController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteNews")
-	public ReturnResult deleteNews() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -90,8 +90,8 @@ public class NewsController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getNews")
-	public ReturnResult getNews() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

@@ -50,14 +50,14 @@ public class RoleServiceImpl implements RoleService {
 	private void buildHQL(QueryVO queryVO, StringBuilder dataHQL, StringBuilder totalHQL, Map<String, Object> params) {
 		if (StringUtils.isNotBlank(queryVO.getName())) {
 			String keyword = "%" + queryVO.getName() + "%";
-			dataHQL.append("AND a.name LIKE :keyword  ");
-			totalHQL.append("AND a.name LIKE :keyword  ");
+			dataHQL.append("AND a.roleName LIKE :keyword  ");
+			totalHQL.append("AND a.roleName LIKE :keyword  ");
 			params.put("keyword", keyword);
 		}
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getSort())) {
 			dataHQL.append("Order By " + queryVO.getSort() + " " + queryVO.getOrder());
@@ -111,7 +111,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<Map<String, Object>> getRoles() {
-		String hql = "SELECT new Map(id as id,name as text) FROM TRole";
+		String hql = "SELECT new Map(id as id,roleName as text) FROM TRole";
 		return baseDao.findAll(hql);
 	}
 
@@ -120,7 +120,7 @@ public class RoleServiceImpl implements RoleService {
 		String delHQL1 = "DELETE FROM TRolePrivileges a where a.TRole.id=:roleId";
 		String delHQL2 = "DELETE FROM TPrivilegesMatrix a where a.TRole.id=:roleId";
 		String saveSQL1 = "insert into t_role_privileges(privilegesID,roleID) values(:id,:roleId)";
-		String saveSQL2 = "insert into t_privileges_matrix(roleID,privilegesID,iscreate,isdelete,ismodify,isselect,isprint,isimport,isexport,memo) values(:roleId,:id,1,1,1,1,1,1,1,'auto')";
+		String saveSQL2 = "insert into t_privileges_matrix(roleID,privilegesID,iscreate,isdelete,ismodify,isselect,isprint,isimport,isexport,remark) values(:roleId,:id,1,1,1,1,1,1,1,'auto')";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("roleId", obj.getId());
 		baseDao.delete(delHQL1, params);

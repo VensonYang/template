@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
+<!-- Generated 2016-8-24 20:31:25 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="dao.model.TRole" table="t_role" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -10,43 +10,43 @@
         </id>
         <property name="roleName" type="string">
             <column name="role_name" length="20" not-null="true">
-                <comment>&#232;&#167;&#146;&#232;&#137;&#178;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
+                <comment>&#189;&#199;&#201;&#171;&#195;&#251;&#179;&#198;</comment>
             </column>
         </property>
         <property name="creator" type="java.lang.Integer">
             <column name="creator">
-                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#228;&#186;&#186;</comment>
+                <comment>&#180;&#180;&#189;&#168;&#200;&#203;</comment>
             </column>
         </property>
         <property name="createTime" type="timestamp">
             <column name="create_time" length="19" not-null="true">
-                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
+                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
             </column>
         </property>
         <property name="modifier" type="java.lang.Integer">
             <column name="modifier">
-                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#228;&#186;&#186;</comment>
+                <comment>&#208;&#222;&#184;&#196;&#200;&#203;</comment>
             </column>
         </property>
         <property name="modifyTime" type="timestamp">
             <column name="modify_time" length="19">
-                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
+                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
             </column>
         </property>
         <property name="state" type="string">
             <column name="state" length="2">
-                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
+                <comment>&#215;&#180;&#204;&#172;</comment>
             </column>
         </property>
         <property name="remark" type="string">
             <column name="remark" length="100">
-                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
+                <comment>&#177;&#184;&#215;&#162;</comment>
             </column>
         </property>
         <set name="TRolePrivilegeses" table="t_role_privileges" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="role_id" not-null="true">
-                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
+                    <comment>&#189;&#199;&#201;&#171;ID</comment>
                 </column>
             </key>
             <one-to-many class="dao.model.TRolePrivileges" />
@@ -54,7 +54,7 @@
         <set name="TPrivilegesMatrixes" table="t_privileges_matrix" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="role_id" not-null="true">
-                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
+                    <comment>&#189;&#199;&#201;&#171;ID</comment>
                 </column>
             </key>
             <one-to-many class="dao.model.TPrivilegesMatrix" />
@@ -62,7 +62,7 @@
         <set name="TPrivilegesMatrixes_1" table="t_privileges_matrix" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="role_id" not-null="true">
-                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
+                    <comment>&#189;&#199;&#201;&#171;ID</comment>
                 </column>
             </key>
             <one-to-many class="dao.model.TPrivilegesMatrix" />
@@ -70,7 +70,7 @@
         <set name="TUserRoles" table="t_user_role" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="role_id">
-                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;id</comment>
+                    <comment>&#189;&#199;&#201;&#171;id</comment>
                 </column>
             </key>
             <one-to-many class="dao.model.TUserRole" />
@@ -78,7 +78,7 @@
         <set name="TRolePrivilegeses_1" table="t_role_privileges" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="role_id" not-null="true">
-                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
+                    <comment>&#189;&#199;&#201;&#171;ID</comment>
                 </column>
             </key>
             <one-to-many class="dao.model.TRolePrivileges" />

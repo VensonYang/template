@@ -72,7 +72,7 @@ public class PrivilegesServiceImpl implements PrivilegesService {
 	@Override
 	public List<TPrivileges> getPrivilegesByUserId(int userId) {
 		String hql = "SELECT DISTINCT a FROM TPrivileges a,TRolePrivileges b,TUserRole c "
-				+ "WHERE a.id=b.TPrivileges.id AND b.TRole.id=c.TRole.id AND c.TUser.id=:userId AND a.status=1";
+				+ "WHERE a.id=b.TPrivileges.id AND b.TRole.id=c.TRole.id AND c.TUser.id=:userId AND a.state=1";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
 		return baseDao.findAll(hql, TPrivileges.class, params);
@@ -115,9 +115,8 @@ public class PrivilegesServiceImpl implements PrivilegesService {
 		StringBuilder dataHQL = new StringBuilder();
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append(
-				" SELECT new Map(  a.id as id,a.name as name,a.url as url,(CASE a.status WHEN '1' THEN '启用' ELSE '禁用' END) as "
-						+ "status,a.pid as pid,a.icon as icon,a.isParent as isParent) "
-						+ " FROM TPrivileges a  WHERE 1=1 ");
+				" SELECT new Map(  a.id as id,a.privilegesName as name,a.url as url,(CASE a.state WHEN '1' THEN '启用' ELSE '禁用' END) as "
+						+ "state,a.pid as pid,a.icon as icon,a.target as target) " + " FROM TPrivileges a  WHERE 1=1 ");
 		totalHQL.append("SELECT COUNT(*) FROM TPrivileges a  WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<String, Object>();
 		buildHQL(queryVO, dataHQL, totalHQL, params);
@@ -132,14 +131,14 @@ public class PrivilegesServiceImpl implements PrivilegesService {
 		if (queryVO != null) {
 			if (StringUtils.isNotBlank(queryVO.getName())) {
 				String keyword = "%" + queryVO.getName() + "%";
-				dataHQL.append("AND a.name LIKE :keyword  ");
-				totalHQL.append("AND a.name LIKE :keyword  ");
+				dataHQL.append("AND a.privileges_name LIKE :keyword  ");
+				totalHQL.append("AND a.privileges_name LIKE :keyword  ");
 				params.put("keyword", keyword);
 			}
-			if (StringUtils.isNotBlank(queryVO.getStatus())) {
-				dataHQL.append("AND a.status=:status  ");
-				totalHQL.append("AND a.status=:status  ");
-				params.put("status", queryVO.getStatus());
+			if (StringUtils.isNotBlank(queryVO.getState())) {
+				dataHQL.append("AND a.state=:state  ");
+				totalHQL.append("AND a.state=:state  ");
+				params.put("state", queryVO.getState());
 			}
 			if (StringUtils.isNotBlank(queryVO.getSort())) {
 				dataHQL.append("Order By " + queryVO.getSort() + " " + queryVO.getOrder());

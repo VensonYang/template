@@ -87,7 +87,7 @@
                                             <label>全选/反选</label>
                                         </li>
                                          <li class="tool-list-item" onclick="add()"><a class="add" data-toggle='modal' data-backdrop="static" data-target="#modify-user">增加</a></li>
-                                        <li class="tool-list-item" onclick="deleteObject('userManage/deleteUser','#table')"><span class="delete">删除</span></li>
+                                        <li class="tool-list-item" onclick="deleteObject('userManage/delete','#table')"><span class="delete">删除</span></li>
                                     </ul>
                                 </div>
                                 <div class="modal dialog" id="modify-user">
@@ -138,7 +138,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>备注:</label>
-                                                        <textarea id="memo" class="form-control"></textarea>
+                                                        <textarea id="remark" class="form-control"></textarea>
                                                     </div>
                                                 </form>
                                             </div>
@@ -165,7 +165,7 @@
 												<th data-field="createTime" data-align="center">创建日期</th>
 												<th data-field="modifier" data-align="center">修改人</th>
 												<th data-field="modifyTime" data-align="center">修改日期</th>
-												<th data-field="memo" data-align="center">备注</th>
+												<th data-field="remark" data-align="center">备注</th>
 												<th data-formatter="operateFormatter" data-align="center" data-events="operateEvents">操作</th>
                                             </tr>
                                         </thead>
@@ -193,7 +193,7 @@
     		params=getParameter($(this));
     		if(params!=null){
     			params.password=$("#password").val();
-				saveAjax("userManage/addUser",params,$(this))
+				saveAjax("userManage/save",params,$(this))
 			}
 	    });
     }
@@ -218,7 +218,7 @@
 	        	var options={backdrop:true};
 	        	var userId=row.id;
 	        	$('#modify-user').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"userManage/getUser",data:{"id":userId,"privilegesID":privilegesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"userManage/get",data:{"id":userId,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#userName").val(data.rows.userName);
@@ -229,14 +229,14 @@
         			$("#department").val(data.rows.department);
         			$("#courses").val(data.rows.courses);
         			$("#roleId").val(data.rows.roleId);
-        			$("#memo").val(data.rows.memo);
+        			$("#remark").val(data.rows.remark);
         			$("#password").parent("div").hide();
         		}});
 	        	$("#saveId").off('click').on('click',function(){
 	        		params=getParameter($(this));
 					if(params!=null){
 						params.id=userId;
-						saveAjax("userManage/modifyUser",params,$(this))
+						saveAjax("userManage/update",params,$(this))
 					}
 			    });
 	        },
@@ -265,7 +265,7 @@
 		var vdepartment=$("#department").val();
 		var vgrade=$("#grade").val();
 		var vcourses=$("#courses").val();
-		var vmemo=$("#memo").val();
+		var vremark=$("#remark").val();
 		var vlidArr=[vuserName,vsex,vuserAccount,vroleId,vstatus];
 		var msgArr1=["名称不能为空","性别不能为空","账号不能为空","用户角色不能为空","状态不能为空"];
 		if(isNull(vlidArr,msgArr1,tip)){
@@ -278,7 +278,7 @@
 					department:vdepartment,
 					grade:vgrade,
 					courses:vcourses,
-					memo:vmemo
+					remark:vremark
 			}
 			return params;
 		}else{
@@ -299,7 +299,7 @@
 			});
 	}
 	$table.bootstrapTable({
-		url: baseUrl+'userManage/showQueryUser',
+		url: baseUrl+'userManage/query',
 		queryParams:function(params){
 			params.search=searchName;
 			params.account=searchAccount;

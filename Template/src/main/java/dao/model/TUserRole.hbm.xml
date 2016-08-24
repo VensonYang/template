@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
+<!-- Generated 2016-8-24 20:31:25 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="dao.model.TUserRole" table="t_user_role" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -10,12 +10,12 @@
         </id>
         <many-to-one name="TRole" class="dao.model.TRole" fetch="select">
             <column name="role_id">
-                <comment>&#232;&#167;&#146;&#232;&#137;&#178;id</comment>
+                <comment>&#189;&#199;&#201;&#171;id</comment>
             </column>
         </many-to-one>
         <many-to-one name="TUser" class="dao.model.TUser" fetch="select">
             <column name="user_id">
-                <comment>&#231;&#148;&#168;&#230;&#136;&#183;id</comment>
+                <comment>&#211;&#195;&#187;&#167;id</comment>
             </column>
         </many-to-one>
     </class>

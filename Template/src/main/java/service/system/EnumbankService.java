@@ -42,13 +42,6 @@ public interface EnumbankService {
 	void deleteEnumbank(Object enumbankId);
 
 	/**
-	 * 根据Id删除对象
-	 * 
-	 * @param Id
-	 */
-	void deleteSubject(Object Id);
-
-	/**
 	 * 根据Id获取表对象
 	 * 
 	 * @param enumbankId

@@ -26,7 +26,7 @@
 	var privilegesID=getUrlParam("privilegesID");
 	$.ajax({
 		   type: "POST",
-		   url: baseUrl+"news/getNews",
+		   url: baseUrl+"news/get",
 		   data:{"privilegesID":privilegesID,"id":newsId},
 		   cache: false,
 		   success: function(data){

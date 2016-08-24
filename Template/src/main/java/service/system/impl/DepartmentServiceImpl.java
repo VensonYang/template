@@ -28,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		StringBuilder dataHQL = new StringBuilder();
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append("SELECT new map(id as id,name as name,deptNo as deptNo,"
-				+ "(CASE status WHEN '1' THEN '启用' ELSE '停用' END) as status,DATE_FORMAT(createTime,'%Y-%m-%d') as createTime)"
+				+ "(CASE state WHEN '1' THEN '启用' ELSE '停用' END) as state,DATE_FORMAT(createTime,'%Y-%m-%d') as createTime)"
 				+ " FROM TDepartment a WHERE  1=1  ");
 		totalHQL.append("SELECT COUNT(*) FROM TDepartment a WHERE 1=1 ");
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -41,10 +41,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	private void buildHQL(QueryVO queryVO, StringBuilder dataHQL, StringBuilder totalHQL, Map<String, Object> params) {
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getName())) {
 			String keyword = "%" + queryVO.getName() + "%";

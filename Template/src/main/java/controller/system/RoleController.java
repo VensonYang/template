@@ -33,8 +33,8 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-	@RequestMapping("showQueryRole")
-	public ReturnResult showQueryRole() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = roleService.queryRole(queryVO);
@@ -44,8 +44,8 @@ public class RoleController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addRole")
-	public ReturnResult addRole() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		RoleVO roleVO = BeanDirectorFactory.getBeanDirector().getDataVO(RoleVO.class, va, IAddRole.class);
@@ -58,8 +58,8 @@ public class RoleController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyRole")
-	public ReturnResult modifyRole() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		RoleVO RoleVO = BeanDirectorFactory.getBeanDirector().getDataVO(RoleVO.class, va, IModifyRole.class);
@@ -72,8 +72,8 @@ public class RoleController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deleteRole")
-	public ReturnResult deleteRole() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -89,8 +89,8 @@ public class RoleController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getRole")
-	public ReturnResult getRole() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

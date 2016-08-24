@@ -35,8 +35,8 @@ public class NetdiskController {
 	@Autowired
 	private NetdiskService netdiskService;
 
-	@RequestMapping("showQueryFiles")
-	public ReturnResult showQueryFiles() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = netdiskService.queryFiles(queryVO);
@@ -46,8 +46,8 @@ public class NetdiskController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "saveFile")
-	public ReturnResult saveFile() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		BatchFileVO fileVO = BeanDirectorFactory.getBeanDirector().getDataVO(BatchFileVO.class, va);
@@ -59,8 +59,8 @@ public class NetdiskController {
 		return returnResult;
 	}
 
-	@RequestMapping("getFile")
-	public ReturnResult getFile() {
+	@RequestMapping("get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -74,8 +74,8 @@ public class NetdiskController {
 		return returnResult;
 	}
 
-	@RequestMapping("deleteAttachment")
-	public ReturnResult deleteAttachment() {
+	@RequestMapping("delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

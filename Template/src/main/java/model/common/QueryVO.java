@@ -20,7 +20,7 @@ public class QueryVO {
 	private String staTime;
 	private String endTime;
 	private String byTime;
-	private String status;
+	private String state;
 	private String other1;
 	private String other2;
 	private String other3;
@@ -84,12 +84,12 @@ public class QueryVO {
 		this.byTime = byTime;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getState() {
+		return state;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getOther1() {

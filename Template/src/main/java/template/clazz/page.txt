@@ -83,7 +83,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>备注:</label>
-                                                            <textarea id="memo" class="form-control"></textarea>
+                                                            <textarea id="remark" class="form-control"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -104,7 +104,7 @@
                                                 <th data-checkbox="true">全选</th>
 												<th data-field="id" data-align="center">ID</th>
 												<th data-field="name" data-align="center">名称</th>
-												<th data-field="memo" data-align="center">备注</th>
+												<th data-field="remark" data-align="center">备注</th>
 												<th data-formatter="operateFormatter" data-align="center" data-events="operateEvents">操作</th>
                                             </tr>
                                         </thead>
@@ -155,7 +155,7 @@
 			        		//async: false, 
 			        		success: function(data){
 		        			$("#name").val(data.rows.name);
-		        			$("#memo").val(data.rows.memo);
+		        			$("#remark").val(data.rows.remark);
 		        		}});
 			        	$("#saveId").off('click').on('click',function(){
 			        		params=getParameter($(this));
@@ -169,13 +169,13 @@
 			//获取参数
 			function getParameter(tip){
 				var vname=$("#name").val();
-				var vmemo=$("#memo").val();
+				var vremark=$("#remark").val();
 				var vlidArr=[vname];
 				var msgArr1=["名称不能为空"];
 				if(isNull(vlidArr,msgArr1,tip)){
 					var params={
 							name:vname,
-							memo:vmemo
+							remark:vremark
 					}
 					return params;
 				}else{

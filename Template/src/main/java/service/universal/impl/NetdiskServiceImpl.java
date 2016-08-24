@@ -36,7 +36,7 @@ public class NetdiskServiceImpl implements NetdiskService {
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append("SELECT new map(a.id as id, a.fileDesc as fileDesc,a.fileName as fileName,"
 				+ "a.fileSize as fileSize, b.userName as uploadName,a.createTime as createTime) "
-				+ "FROM TFile a,TUser b WHERE a.createor=b.id ");
+				+ "FROM TFile a,TUser b WHERE a.creator=b.id ");
 		totalHQL.append("SELECT COUNT(*) FROM TFile a  WHERE 1=1");
 		Map<String, Object> params = new HashMap<String, Object>();
 		buildHQL(queryVO, dataHQL, totalHQL, params);
@@ -103,7 +103,7 @@ public class NetdiskServiceImpl implements NetdiskService {
 			saveFileVO.setBuilderName(builderName);
 			saveFileVO.setFileSize(fileSize);
 			saveFileVO.setFilePath(url);
-			saveFileVO.setCreateor(userId);
+			saveFileVO.setCreator(userId);
 			saveFileVO.setCreateTime(new Date());
 			addFile(saveFileVO);
 		}

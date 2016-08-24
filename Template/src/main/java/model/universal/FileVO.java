@@ -11,7 +11,7 @@ public class FileVO {
 	private String url;
 	private String filePath;
 	private String fileDesc;
-	private Integer createor;
+	private Integer creator;
 	private Date createTime;
 	private String remark;
 	private Character state;
@@ -64,12 +64,12 @@ public class FileVO {
 		this.fileDesc = fileDesc;
 	}
 
-	public Integer getCreateor() {
-		return createor;
+	public Integer getCreator() {
+		return creator;
 	}
 
-	public void setCreateor(Integer createor) {
-		this.createor = createor;
+	public void setCreator(Integer creator) {
+		this.creator = creator;
 	}
 
 	public Date getCreateTime() {

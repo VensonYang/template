@@ -32,8 +32,8 @@ public class PrivilegesController {
 	@Autowired
 	private PrivilegesService privilegesService;
 
-	@RequestMapping("showQueryPrivileges")
-	public ReturnResult showQueryPrivileges() {
+	@RequestMapping("query")
+	public ReturnResult query() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		QueryVO queryVO = BeanDirectorFactory.getBeanDirector().getDataVO(QueryVO.class);
 		Map<String, Object> result = privilegesService.queryPrivileges(queryVO);
@@ -43,8 +43,8 @@ public class PrivilegesController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addPrivileges")
-	public ReturnResult addPrivileges() {
+	@RequestMapping(value = "save")
+	public ReturnResult save() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		PrivilegesVO privilegesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PrivilegesVO.class, va,
@@ -59,8 +59,8 @@ public class PrivilegesController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "modifyPrivileges")
-	public ReturnResult modifyPrivileges() {
+	@RequestMapping(value = "update")
+	public ReturnResult update() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		PrivilegesVO privilegesVO = BeanDirectorFactory.getBeanDirector().getDataVO(PrivilegesVO.class, va,
@@ -74,8 +74,8 @@ public class PrivilegesController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "deletePrivileges")
-	public ReturnResult deletePrivileges() {
+	@RequestMapping(value = "delete")
+	public ReturnResult delete() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
@@ -87,8 +87,8 @@ public class PrivilegesController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getPrivileges")
-	public ReturnResult getPrivileges() {
+	@RequestMapping(value = "get")
+	public ReturnResult get() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {

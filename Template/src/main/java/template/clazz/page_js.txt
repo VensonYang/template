@@ -22,7 +22,7 @@ $(function () {
                     field: 'icon',
                     title: '图标'
                 }, {
-                    field: 'status',
+                    field: 'state',
                     title: '是否启用'
                 }]
         	})	

@@ -78,7 +78,7 @@
                                             <label>全选/反选</label>
                                         </li>
                                         <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" data-toggle='modal' data-backdrop="static" data-target="#modify-privileges">增加</a></li>
-                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('privileges/deleteprivileges','#table')">删除</a></li>
+                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('privileges/delete','#table')">删除</a></li>
                                     </ul>
                                 </div>
                                     <div class="modal dialog" id="modify-privileges">
@@ -120,7 +120,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label>备注:</label>
-                                                        <textarea id="memo" class="form-control"></textarea>
+                                                        <textarea id="remark" class="form-control"></textarea>
                                                     </div>
                                                 </form>
                                             </div>
@@ -168,7 +168,7 @@
     	$("#saveId").off('click').on('click',function(){
     		params=getParameter($(this));
     		if(params!=null){
-				saveAjax("privileges/addprivileges",params,$(this))
+				saveAjax("privileges/save",params,$(this))
 			}
 	    });
     	
@@ -188,7 +188,7 @@
 	        	var options={backdrop:true};
 	        	var id=row.id;
 	        	$('#modify-privileges').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"privileges/getprivileges",data:{"id":id,"privilegesID":privilegesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"privileges/get",data:{"id":id,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#name").val(data.rows.name);
@@ -196,13 +196,13 @@
         			$("#pid").val(data.rows.pid);
         			$("#icon").val(data.rows.icon);
         			$("#status").val(data.rows.status);
-        			$("#memo").val(data.rows.memo);
+        			$("#remark").val(data.rows.remark);
         		}});
 	        	$("#saveId").off('click').on('click',function(){
 	        		params=getParameter($(this));
 					if(params!=null){
 						params.id=id;
-						saveAjax("privileges/modifyprivileges",params,$(this))
+						saveAjax("privileges/update",params,$(this))
 					}
 			    });
 	        }
@@ -214,7 +214,7 @@
 		var vpid=$("#pid").val();
 		var vicon=$("#icon").val();
 		var vstatus=$("#status").val();
-		var vmemo=$("#memo").val();
+		var vremark=$("#remark").val();
 		var vlidArr=[vname,vurl,vpid,vicon,vstatus];
 		var msgArr1=["名称不能为空","权限地址不能为空","父节点","图标","状态不能为空"];
 		if(isNull(vlidArr,msgArr1,tip)){
@@ -224,7 +224,7 @@
 					pid:vpid,
 					icon:vicon,
 					status:vstatus,
-					memo:vmemo
+					remark:vremark
 			}
 			return params;
 		}else{
@@ -243,7 +243,7 @@
 			});
 	}
 	$table.bootstrapTable({
-		url: baseUrl+'privileges/showQueryprivileges',
+		url: baseUrl+'privileges/query',
 		queryParams:function(params){
 			params.privilegesID=privilegesID;
 			params.search=searchName;

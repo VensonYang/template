@@ -30,8 +30,8 @@ public class UserManageServiceImpl implements UserManageService {
 		StringBuilder dataHQL = new StringBuilder();
 		StringBuilder totalHQL = new StringBuilder();
 		dataHQL.append("SELECT new map(id as id,userName as userName,sex as sex,userAccount as userAccount,"
-				+ "(CASE status WHEN '1' THEN '启用' ELSE '停用' END) as status,(select userName from TUser where id=a.creator) as creator,createTime as createTime,"
-				+ " (select userName from TUser where id=a.modifier) as modifier, modifyTime as modifyTime,memo as memo) "
+				+ "(CASE state WHEN '1' THEN '启用' ELSE '停用' END) as state,(select userName from TUser where id=a.creator) as creator,createTime as createTime,"
+				+ " (select userName from TUser where id=a.modifier) as modifier, modifyTime as modifyTime,remark as remark) "
 				+ "FROM TUser a WHERE  1=1  ");
 		totalHQL.append("SELECT COUNT(*) FROM TUser a WHERE  1=1  ");
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -50,10 +50,10 @@ public class UserManageServiceImpl implements UserManageService {
 			totalHQL.append("AND a.userAccount=:userAccount  ");
 			params.put("userAccount", queryVO.getAccount());
 		}
-		if (StringUtils.isNotBlank(queryVO.getStatus())) {
-			dataHQL.append("AND a.status=:status  ");
-			totalHQL.append("AND a.status=:status  ");
-			params.put("status", queryVO.getStatus());
+		if (StringUtils.isNotBlank(queryVO.getState())) {
+			dataHQL.append("AND a.state=:state  ");
+			totalHQL.append("AND a.state=:state  ");
+			params.put("state", queryVO.getState());
 		}
 		if (StringUtils.isNotBlank(queryVO.getName())) {
 			String keyword = "%" + queryVO.getName() + "%";

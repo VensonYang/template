@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
+<!-- Generated 2016-8-24 20:31:25 by Hibernate Tools 4.3.1.Final -->
 <hibernate-mapping>
     <class name="dao.model.TEnumbank" table="t_enumbank" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -10,32 +10,32 @@
         </id>
         <property name="typeId" type="string">
             <column name="type_id" length="8" not-null="true">
-                <comment>&#231;&#177;&#187;&#229;&#158;&#139;&#231;&#188;&#150;&#229;&#143;&#183;</comment>
+                <comment>&#192;&#224;&#208;&#205;&#177;&#224;&#186;&#197;</comment>
             </column>
         </property>
         <property name="typeName" type="string">
             <column name="type_name" length="30" not-null="true">
-                <comment>&#231;&#177;&#187;&#229;&#158;&#139;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
+                <comment>&#192;&#224;&#208;&#205;&#195;&#251;&#179;&#198;</comment>
             </column>
         </property>
         <property name="enumId" type="string">
             <column name="enum_id" length="8" not-null="true">
-                <comment>&#230;&#158;&#154;&#228;&#184;&#190;ID</comment>
+                <comment>&#195;&#182;&#190;&#217;ID</comment>
             </column>
         </property>
         <property name="enumValue" type="string">
             <column name="enum_value" length="120" not-null="true">
-                <comment>&#230;&#158;&#154;&#228;&#184;&#190;&#229;&#128;&#188;</comment>
+                <comment>&#195;&#182;&#190;&#217;&#214;&#181;</comment>
             </column>
         </property>
         <property name="state" type="java.lang.Character">
             <column name="state" length="1">
-                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
+                <comment>&#215;&#180;&#204;&#172;</comment>
             </column>
         </property>
         <property name="remark" type="string">
             <column name="remark" length="30">
-                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
+                <comment>&#177;&#184;&#215;&#162;</comment>
             </column>
         </property>
     </class>

@@ -9,66 +9,63 @@ public class EnumbankVO {
 	}
 
 	private Integer id;
-	private String enumtypeid;
-	private String enumtypename;
-	private String enumid;
-	private String enumvalue;
-	private Byte flag;
+	private String typeId;
+	private String typeName;
+	private String enumId;
+	private String enumValue;
+	private Character state;
 	private String remark;
 
-	public EnumbankVO() {
-	}
-
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getEnumtypeid() {
-		return this.enumtypeid;
+	public String getTypeId() {
+		return typeId;
 	}
 
-	public void setEnumtypeid(String enumtypeid) {
-		this.enumtypeid = enumtypeid;
+	public void setTypeId(String typeId) {
+		this.typeId = typeId;
 	}
 
-	public String getEnumtypename() {
-		return this.enumtypename;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setEnumtypename(String enumtypename) {
-		this.enumtypename = enumtypename;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
-	public String getEnumid() {
-		return this.enumid;
+	public String getEnumId() {
+		return enumId;
 	}
 
-	public void setEnumid(String enumid) {
-		this.enumid = enumid;
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
 	}
 
-	public String getEnumvalue() {
-		return this.enumvalue;
+	public String getEnumValue() {
+		return enumValue;
 	}
 
-	public void setEnumvalue(String enumvalue) {
-		this.enumvalue = enumvalue;
+	public void setEnumValue(String enumValue) {
+		this.enumValue = enumValue;
 	}
 
-	public Byte getFlag() {
-		return this.flag;
+	public Character getState() {
+		return state;
 	}
 
-	public void setFlag(Byte flag) {
-		this.flag = flag;
+	public void setState(Character state) {
+		this.state = state;
 	}
 
 	public String getRemark() {
-		return this.remark;
+		return remark;
 	}
 
 	public void setRemark(String remark) {
