@@ -187,7 +187,7 @@
 	        	var options={backdrop:true};
 	        	var id=row.id;
 	        	$('#modify-newsType').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"newsType/getNewsType",data:{"id":id,"priviledgesID":priviledgesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"newsType/getNewsType",data:{"id":id,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#name").val(data.rows.name);
@@ -238,7 +238,7 @@
 	$table.bootstrapTable({
 		url: baseUrl+'newsType/showQueryNewsType',
 		queryParams:function(params){
-			params.priviledgesID=priviledgesID;
+			params.privilegesID=privilegesID;
 			params.search=searchName;
 			params.status=searchStatus;
     		return params;

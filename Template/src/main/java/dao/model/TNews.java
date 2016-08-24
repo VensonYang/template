@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final
+// Generated 2016-8-23 9:45:27 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
 
@@ -16,23 +16,27 @@ public class TNews implements java.io.Serializable {
 	private String source;
 	private String imageUrl;
 	private String summary;
+	private Integer creator;
 	private Date createTime;
+	private Integer modifier;
 	private Date modifyTime;
-	private String status;
+	private String state;
+	private String remark;
 
 	public TNews() {
 	}
 
-	public TNews(TNewsType TNewsType, String title, String publisher, String content, String status) {
+	public TNews(TNewsType TNewsType, String title, String publisher, String content, String state) {
 		this.TNewsType = TNewsType;
 		this.title = title;
 		this.publisher = publisher;
 		this.content = content;
-		this.status = status;
+		this.state = state;
 	}
 
 	public TNews(TNewsType TNewsType, String title, String publisher, String content, String source, String imageUrl,
-			String summary, Date createTime, Date modifyTime, String status) {
+			String summary, Integer creator, Date createTime, Integer modifier, Date modifyTime, String state,
+			String remark) {
 		this.TNewsType = TNewsType;
 		this.title = title;
 		this.publisher = publisher;
@@ -40,9 +44,12 @@ public class TNews implements java.io.Serializable {
 		this.source = source;
 		this.imageUrl = imageUrl;
 		this.summary = summary;
+		this.creator = creator;
 		this.createTime = createTime;
+		this.modifier = modifier;
 		this.modifyTime = modifyTime;
-		this.status = status;
+		this.state = state;
+		this.remark = remark;
 	}
 
 	public Integer getId() {
@@ -109,12 +116,28 @@ public class TNews implements java.io.Serializable {
 		this.summary = summary;
 	}
 
+	public Integer getCreator() {
+		return this.creator;
+	}
+
+	public void setCreator(Integer creator) {
+		this.creator = creator;
+	}
+
 	public Date getCreateTime() {
 		return this.createTime;
 	}
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Integer getModifier() {
+		return this.modifier;
+	}
+
+	public void setModifier(Integer modifier) {
+		this.modifier = modifier;
 	}
 
 	public Date getModifyTime() {
@@ -125,12 +148,20 @@ public class TNews implements java.io.Serializable {
 		this.modifyTime = modifyTime;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getState() {
+		return this.state;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

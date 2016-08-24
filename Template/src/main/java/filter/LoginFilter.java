@@ -27,7 +27,7 @@ import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ReturnResult;
 import controller.base.StatusCode;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVectorVO;
 import service.system.UserService;
 import utils.common.CookieUtil;
 import utils.common.MD5Util;
@@ -138,15 +138,15 @@ public class LoginFilter implements Filter {
 					&& MD5Util.getMD5StringWithSalt(cookie_account, salt.toString()).equals(cookie_secret_key)) {
 				Map<String, Object> userMap = userService.getUserByAccount(cookie_account);
 				Integer userId = (Integer) userMap.get(StaticsConstancts.USER_ID);
-				Map<Integer, PriviledgesVectorVO> priviledgesVector = userService
-						.getPriviledgesVectors((Integer) userMap.get(StaticsConstancts.USER_ID));
+				Map<Integer, PrivilegesVectorVO> privilegesVector = userService
+						.getPrivilegesVectors((Integer) userMap.get(StaticsConstancts.USER_ID));
 				userMap.put(StaticsConstancts.USER_IP_ADDRESS, NetworkUtil.getIpAddress(res));
 				userMap.put(StaticsConstancts.USER_ROLE, userService.getUserRoleByUserId(userId));
 				session.setAttribute(StaticsConstancts.USER_NAME, userMap.get(StaticsConstancts.USER_NAME));
 				session.setAttribute(StaticsConstancts.USER_ACCOUNT, userMap.get(StaticsConstancts.USER_ACCOUNT));
 				session.setAttribute(StaticsConstancts.USER_ID, userId);
 				session.setAttribute(StaticsConstancts.USER_INFO, userMap);
-				session.setAttribute(StaticsConstancts.PRIVILEDGES_VECTOR, priviledgesVector);
+				session.setAttribute(StaticsConstancts.PRIVILEGES_VECTOR, privilegesVector);
 				logger.info(
 						"账号：[" + cookie_account + "]IP：[" + userMap.get(StaticsConstancts.USER_IP_ADDRESS) + "]免密登录");
 				return false;

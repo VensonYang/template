@@ -20,7 +20,7 @@ import controller.base.ValidationAwareSupport;
 import model.common.QueryVO;
 import model.system.RoleVO;
 import model.system.RoleVO.IAddRole;
-import model.system.RoleVO.IAddRolePriviledges;
+import model.system.RoleVO.IAddRolePrivileges;
 import model.system.RoleVO.IModifyRole;
 import service.system.RoleService;
 import utils.bean.BeanDirectorFactory;
@@ -49,7 +49,7 @@ public class RoleController {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
 		RoleVO roleVO = BeanDirectorFactory.getBeanDirector().getDataVO(RoleVO.class, va, IAddRole.class);
-		logger.debug(roleVO.getName());
+		logger.debug(roleVO.getRoleName());
 		if (ControllerHelper.checkError(roleVO, va, returnResult, logger)) {
 			return returnResult;
 		}
@@ -109,30 +109,30 @@ public class RoleController {
 		return returnResult;
 	}
 
-	@RequestMapping(value = "getRolePriviledges")
-	public ReturnResult getRolePriviledges() {
+	@RequestMapping(value = "getRolePrivileges")
+	public ReturnResult getRolePrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		String param = ControllerHelper.checkParam(ValidParam.NUM);
 		if (param == null) {
 			return returnResult;
 		}
 		returnResult.setStatus(StatusCode.SUCCESS)
-				.setRows(roleService.getPriviledgesVOByRoleId(Integer.parseInt(param)));
-		logger.debug("getRolePriviledges success");
+				.setRows(roleService.getPrivilegesVOByRoleId(Integer.parseInt(param)));
+		logger.debug("getRolePrivileges success");
 		return returnResult;
 	}
 
-	@RequestMapping(value = "addRolePriviledges")
-	public ReturnResult addRolePriviledges() {
+	@RequestMapping(value = "addRolePrivileges")
+	public ReturnResult addRolePrivileges() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		ValidationAware va = new ValidationAwareSupport();
-		RoleVO roleVO = BeanDirectorFactory.getBeanDirector().getDataVO(RoleVO.class, va, IAddRolePriviledges.class);
+		RoleVO roleVO = BeanDirectorFactory.getBeanDirector().getDataVO(RoleVO.class, va, IAddRolePrivileges.class);
 		if (ControllerHelper.checkError(roleVO, va, returnResult, logger)) {
 			return returnResult;
 		}
-		roleService.addRolePriviledges(roleVO);
+		roleService.addRolePrivileges(roleVO);
 		returnResult.setStatus(StatusCode.SUCCESS);
-		logger.debug("save RolePriviledges");
+		logger.debug("save RolePrivileges");
 		return returnResult;
 	}
 

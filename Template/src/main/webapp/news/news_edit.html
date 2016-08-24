@@ -66,12 +66,12 @@
     <script type="text/javascript" charset="utf-8" src="../js/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript">
 	var newsId=getUrlParam("newsId");
-	var id=getUrlParam("priviledgesID");
+	var id=getUrlParam("privilegesID");
 	var news;
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"news/getNews",
-		   data:{"priviledgesID":id,"id":newsId},
+		   data:{"privilegesID":id,"id":newsId},
 		   async: false,
 		   success: function(data){
 		    	if(data.status==0){
@@ -83,7 +83,7 @@
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"newsType/getNewTypes",
-		   data:{"priviledgesID":id},
+		   data:{"privilegesID":id},
 		   cache: false,
 		   success: function(data){
 			   var htmlCode='<option value="">新闻类型</option>';
@@ -136,7 +136,7 @@
 					source:vsource,
 					content:editor.getContent(),
 					summary:vsummary,
-					priviledgesID:id
+					privilegesID:id
 			}
 			return params;
 		}else{
@@ -152,7 +152,7 @@
 		  imageCompressBorder: 800, /* 图片压缩最长边限制 */
 		  imageInsertAlign: "none", /* 插入的图片浮动方式 */
 		  imageUrlPrefix: baseUrl, /* 图片访问路径前缀 */
-	      serverUrl:baseUrl+"attachment/editorUpload?priviledgesID="+id,//图片上传提交后台对应的地址
+	      serverUrl:baseUrl+"attachment/editorUpload?privilegesID="+id,//图片上传提交后台对应的地址
 	      
 	      autoHeightEnabled:false,
 	      toolbars: [
@@ -252,7 +252,7 @@
 	});
 	/*
 	editor.addListener( 'ready', function( editor ) {
-		reSizeFun(priviledgesID);
+		reSizeFun(privilegesID);
 	 } );
 	*/
 	editor.ready(function() {

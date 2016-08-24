@@ -77,11 +77,11 @@
                                         <li class="tool-list-item">
                                             <label>全选/反选</label>
                                         </li>
-                                        <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" data-toggle='modal' data-backdrop="static" data-target="#modify-priviledges">增加</a></li>
-                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('priviledges/deletePriviledges','#table')">删除</a></li>
+                                        <li class="tool-list-item"><a class="add" href="javascript:void(0)" onclick="add()" data-toggle='modal' data-backdrop="static" data-target="#modify-privileges">增加</a></li>
+                                        <li class="tool-list-item"><a class="delete" href="javascript:void(0)" onClick="deleteObject('privileges/deleteprivileges','#table')">删除</a></li>
                                     </ul>
                                 </div>
-                                    <div class="modal dialog" id="modify-priviledges">
+                                    <div class="modal dialog" id="modify-privileges">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -168,13 +168,13 @@
     	$("#saveId").off('click').on('click',function(){
     		params=getParameter($(this));
     		if(params!=null){
-				saveAjax("priviledges/addPriviledges",params,$(this))
+				saveAjax("privileges/addprivileges",params,$(this))
 			}
 	    });
     	
     }
     //关闭模态框触发清空
-    $('#modify-priviledges').on('hidden.bs.modal', function (e) {
+    $('#modify-privileges').on('hidden.bs.modal', function (e) {
     	$(this).find(":input").val("");
     })
 	var $table = $('#table');
@@ -187,8 +187,8 @@
 	        'click .modify': function (e, value, row, index) {
 	        	var options={backdrop:true};
 	        	var id=row.id;
-	        	$('#modify-priviledges').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"priviledges/getPriviledges",data:{"id":id,"priviledgesID":priviledgesID}, 
+	        	$('#modify-privileges').modal(options);
+	        	$.ajax({ type: "POST",url: baseUrl+"privileges/getprivileges",data:{"id":id,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#name").val(data.rows.name);
@@ -202,7 +202,7 @@
 	        		params=getParameter($(this));
 					if(params!=null){
 						params.id=id;
-						saveAjax("priviledges/modifyPriviledges",params,$(this))
+						saveAjax("privileges/modifyprivileges",params,$(this))
 					}
 			    });
 	        }
@@ -243,9 +243,9 @@
 			});
 	}
 	$table.bootstrapTable({
-		url: baseUrl+'priviledges/showQueryPriviledges',
+		url: baseUrl+'privileges/showQueryprivileges',
 		queryParams:function(params){
-			params.priviledgesID=priviledgesID;
+			params.privilegesID=privilegesID;
 			params.search=searchName;
 			params.status=searchStatus;
     		return params;

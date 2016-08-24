@@ -218,7 +218,7 @@
 	        	var options={backdrop:true};
 	        	var userId=row.id;
 	        	$('#modify-user').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"userManage/getUser",data:{"id":userId,"priviledgesID":priviledgesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"userManage/getUser",data:{"id":userId,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#userName").val(data.rows.userName);
@@ -245,7 +245,7 @@
 	        	var options={backdrop:true};
 	        	$('#warningConfirm').modal(options);
 	        	$("#OKConfirm").off("click").on("click",function(){
-	        		$.post(baseUrl+"userManage/resetPassword",{id:row.id,"priviledgesID":priviledgesID},function(data){
+	        		$.post(baseUrl+"userManage/resetPassword",{id:row.id,"privilegesID":privilegesID},function(data){
 	        			if(data.status==0){
 	        				$table.bootstrapTable('refresh');
 	        			}else{
@@ -304,7 +304,7 @@
 			params.search=searchName;
 			params.account=searchAccount;
 			params.status=searchStatus;
-			params.priviledgesID=priviledgesID;
+			params.privilegesID=privilegesID;
     		return params;
     	}
 	});

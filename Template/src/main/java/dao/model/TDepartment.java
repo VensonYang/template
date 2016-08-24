@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final
+// Generated 2016-8-23 9:45:27 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,27 +11,31 @@ import java.util.Set;
 public class TDepartment implements java.io.Serializable {
 
 	private Integer id;
-	private String name;
+	private String deptName;
 	private Integer pid;
 	private String deptNo;
-	private Date createTime;
 	private String creator;
-	private String status;
-	private String memo;
+	private Date createTime;
+	private Integer modifier;
+	private Date modifyTime;
+	private String state;
+	private String remark;
 	private Set TUsers = new HashSet(0);
 
 	public TDepartment() {
 	}
 
-	public TDepartment(String name, Integer pid, String deptNo, Date createTime, String creator, String status,
-			String memo, Set TUsers) {
-		this.name = name;
+	public TDepartment(String deptName, Integer pid, String deptNo, String creator, Date createTime, Integer modifier,
+			Date modifyTime, String state, String remark, Set TUsers) {
+		this.deptName = deptName;
 		this.pid = pid;
 		this.deptNo = deptNo;
-		this.createTime = createTime;
 		this.creator = creator;
-		this.status = status;
-		this.memo = memo;
+		this.createTime = createTime;
+		this.modifier = modifier;
+		this.modifyTime = modifyTime;
+		this.state = state;
+		this.remark = remark;
 		this.TUsers = TUsers;
 	}
 
@@ -43,12 +47,12 @@ public class TDepartment implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getDeptName() {
+		return this.deptName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 	public Integer getPid() {
@@ -67,14 +71,6 @@ public class TDepartment implements java.io.Serializable {
 		this.deptNo = deptNo;
 	}
 
-	public Date getCreateTime() {
-		return this.createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
 	public String getCreator() {
 		return this.creator;
 	}
@@ -83,20 +79,44 @@ public class TDepartment implements java.io.Serializable {
 		this.creator = creator;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public Date getCreateTime() {
+		return this.createTime;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getMemo() {
-		return this.memo;
+	public Integer getModifier() {
+		return this.modifier;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setModifier(Integer modifier) {
+		this.modifier = modifier;
+	}
+
+	public Date getModifyTime() {
+		return this.modifyTime;
+	}
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Set getTUsers() {

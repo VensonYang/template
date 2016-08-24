@@ -1,5 +1,5 @@
 package dao.model;
-// Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final
+// Generated 2016-8-23 9:45:27 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
 
@@ -14,9 +14,10 @@ public class TFile implements java.io.Serializable {
 	private String fileType;
 	private Integer fileSize;
 	private String filePath;
-	private Integer createor;
+	private Integer creator;
 	private Date createTime;
-	private String memo;
+	private Character state;
+	private String remark;
 
 	public TFile() {
 	}
@@ -26,16 +27,17 @@ public class TFile implements java.io.Serializable {
 		this.filePath = filePath;
 	}
 
-	public TFile(String fileDesc, String fileName, String fileType, Integer fileSize, String filePath, Integer createor,
-			Date createTime, String memo) {
+	public TFile(String fileDesc, String fileName, String fileType, Integer fileSize, String filePath, Integer creator,
+			Date createTime, Character state, String remark) {
 		this.fileDesc = fileDesc;
 		this.fileName = fileName;
 		this.fileType = fileType;
 		this.fileSize = fileSize;
 		this.filePath = filePath;
-		this.createor = createor;
+		this.creator = creator;
 		this.createTime = createTime;
-		this.memo = memo;
+		this.state = state;
+		this.remark = remark;
 	}
 
 	public Integer getId() {
@@ -86,12 +88,12 @@ public class TFile implements java.io.Serializable {
 		this.filePath = filePath;
 	}
 
-	public Integer getCreateor() {
-		return this.createor;
+	public Integer getCreator() {
+		return this.creator;
 	}
 
-	public void setCreateor(Integer createor) {
-		this.createor = createor;
+	public void setCreator(Integer creator) {
+		this.creator = creator;
 	}
 
 	public Date getCreateTime() {
@@ -102,12 +104,20 @@ public class TFile implements java.io.Serializable {
 		this.createTime = createTime;
 	}
 
-	public String getMemo() {
-		return this.memo;
+	public Character getState() {
+		return this.state;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setState(Character state) {
+		this.state = state;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

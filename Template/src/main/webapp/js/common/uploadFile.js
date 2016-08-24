@@ -74,7 +74,7 @@
     	function showResponse(data,statusText){
 	  		if(data.status==0){
 	  			params.push(data.rows);
-	  			params.push("&priviledgesID="+priviledgesID);
+	  			params.push("&privilegesID="+privilegesID);
 	  			params.push("&floder=netdisk");
 	  			$.ajax({
 					type:"post",
@@ -105,7 +105,7 @@
     	function getProcess() {
 			  $.ajax({
 			    url:baseUrl+'attachment/getUploadProcess',
-			    data:{'timestamp': new Date().getTime(),"priviledgesID":priviledgesID},
+			    data:{'timestamp': new Date().getTime(),"privilegesID":privilegesID},
 			    type:'get',
 			    success:function(data){
 			    	if(data.status==0){

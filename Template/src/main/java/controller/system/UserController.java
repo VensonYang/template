@@ -31,7 +31,7 @@ import model.system.LoginVO;
 import model.system.LoginVO.IModifyPas;
 import model.system.LoginVO.Ilogin;
 import model.system.NodeVO;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVectorVO;
 import service.system.UserService;
 import utils.bean.BeanDirectorFactory;
 import utils.common.CookieUtil;
@@ -147,15 +147,15 @@ public class UserController {
 		// .getUserRoleByUserId((Integer) userMap.get(StaticContanct.USER_ID));
 		// userMap.put(StaticContanct.USER_ROLE, userRoles);
 		Integer userId = (Integer) userMap.get(StaticsConstancts.USER_ID);
-		Map<Integer, PriviledgesVectorVO> priviledgesVector = userService.getPriviledgesVectors(userId);
-		if (priviledgesVector != null && priviledgesVector.size() > 0) {
+		Map<Integer, PrivilegesVectorVO> privilegesVector = userService.getPrivilegesVectors(userId);
+		if (privilegesVector != null && privilegesVector.size() > 0) {
 			userMap.put(StaticsConstancts.USER_IP_ADDRESS, NetworkUtil.getIpAddress(request));
 			userMap.put(StaticsConstancts.USER_ROLE, userService.getUserRoleByUserId(userId));
 			session.setAttribute(StaticsConstancts.USER_NAME, userMap.get(StaticsConstancts.USER_NAME));
 			session.setAttribute(StaticsConstancts.USER_ACCOUNT, userMap.get(StaticsConstancts.USER_ACCOUNT));
 			session.setAttribute(StaticsConstancts.USER_ID, userId);
 			session.setAttribute(StaticsConstancts.USER_INFO, userMap);
-			session.setAttribute(StaticsConstancts.PRIVILEDGES_VECTOR, priviledgesVector);
+			session.setAttribute(StaticsConstancts.PRIVILEGES_VECTOR, privilegesVector);
 			logger.debug("用户登陆成功");
 			return returnResult.setStatus(StatusCode.SUCCESS);
 		} else {
@@ -168,24 +168,24 @@ public class UserController {
 	public ReturnResult getUOP() {
 		ReturnResult returnResult = ControllerContext.getResult();
 		HttpSession session = ControllerContext.getSession();
-		String priviledgeId = ControllerHelper.checkParam(ValidParam.NUM, StaticsConstancts.PRIVILEDGES_ID);
+		String priviledgeId = ControllerHelper.checkParam(ValidParam.NUM, StaticsConstancts.PRIVILEGES_ID);
 		if (priviledgeId == null) {
 			return returnResult;
 		}
-		Map<Integer, PriviledgesVectorVO> priviledgesVector = (Map<Integer, PriviledgesVectorVO>) session
-				.getAttribute(StaticsConstancts.PRIVILEDGES_VECTOR);
-		if (priviledgesVector == null) {
+		Map<Integer, PrivilegesVectorVO> privilegesVector = (Map<Integer, PrivilegesVectorVO>) session
+				.getAttribute(StaticsConstancts.PRIVILEGES_VECTOR);
+		if (privilegesVector == null) {
 			returnResult.setStatus(StatusCode.FAIL.setMessage("获取页面操作权限失败"));
 			logger.debug("获取页面操作权限失败");
 			return returnResult;
 		}
-		PriviledgesVectorVO vo = ((PriviledgesVectorVO) priviledgesVector.get(Integer.valueOf(priviledgeId)));
+		PrivilegesVectorVO vo = ((PrivilegesVectorVO) privilegesVector.get(Integer.valueOf(priviledgeId)));
 		if (vo == null) {
 			returnResult.setStatus(StatusCode.FAIL.setMessage("获取页面操作权限失败"));
 			logger.debug("获取页面操作权限失败");
 			return returnResult;
 		}
-		returnResult.setStatus(StatusCode.SUCCESS).setRows(vo.getPriviledgesMatrix());
+		returnResult.setStatus(StatusCode.SUCCESS).setRows(vo.getPrivilegeMatrix());
 		logger.debug("获取页面操作权限成功");
 		return returnResult;
 	}

@@ -97,7 +97,7 @@ var baseUrl = window.location.protocol + "//" + window.location.host + "/tkglDI/
 //前台跳转前缀
 var baseUIUrl = window.location.protocol + "//" + window.location.host + "/tkglUI/";
 //页面权限ID
-var priviledgesID = Comm.getUrlParam("id");
+var privilegesID = Comm.getUrlParam("id");
 
 /* 确认框 */
 Comm.confirm = function (text, handle, messageType) {
@@ -141,7 +141,7 @@ Comm.deleteObject = function (url, table) {
 Comm.modifyObject = function (url, table) {
     var obj = Comm.getSelectedRow($(table));
     if (obj)
-        location.href = url + "?objId=" + obj.id + "&id=" + priviledgesID;
+        location.href = url + "?objId=" + obj.id + "&id=" + privilegesID;
     else
         Comm.alert("请点击要修改的行");
 
@@ -165,7 +165,7 @@ Comm.deleteAjax = function (url, table, ids) {
             url: baseUrl + url,
             data: {
                 id: ids,
-                "priviledgesID": priviledgesID
+                "privilegesID": privilegesID
             },
             dataType: "json",
             success: function (data) {
@@ -244,7 +244,7 @@ Comm.saveDataByObject = function (option) {
         option.type = (!option.type) ? "POST" : option.type;
         option.tip = (!option.tip) ? '#saveId' : option.tip;
         if (typeof (option.params) == "object") {
-            option.params.priviledgesID = priviledgesID;
+            option.params.privilegesID = privilegesID;
         }
         if (!option.success) {
             option.success = function (response) {
@@ -392,7 +392,7 @@ Comm.setSelect = function (url, tag, handle) {
 }
 
 Comm.setText = function (url, tag, params) {
-        params.priviledgesID = priviledgesID;
+        params.privilegesID = privilegesID;
         var data = this.getData(url, params);
         $(tag).text(data);
     }
@@ -405,7 +405,7 @@ Comm.setText = function (url, tag, params) {
 Comm.setData = function (url, objId, id) {
     var data = Comm.getData(url, {
         "id": objId,
-        "priviledgesID": priviledgesID
+        "privilegesID": privilegesID
     });
     Comm.setFormData(data, id);
 
@@ -436,7 +436,7 @@ Comm.setFormData = function (data, id) {
      * */
 Comm.setCheckbox = function (url, objId, tag) {
         data = this.getData(url, {
-            "priviledgesID": priviledgesID,
+            "privilegesID": privilegesID,
             "id": objId
         });
         var inputs = $(tag);
@@ -461,8 +461,8 @@ Comm.getCheckedData = function (tag, paramName) {
 
 Comm.checkDataToParam = function (o, paramName) {
     var ids = [];
-    ids.push("priviledgesID=");
-    ids.push(priviledgesID);
+    ids.push("privilegesID=");
+    ids.push(privilegesID);
     for (var k in o) {
         ids.push("&" + paramName + "=");
         ids.push(k);
@@ -503,7 +503,7 @@ Comm.getData = function (url, params, cache) {
     params = (params) ? params : {};
     cache = (cache) ? cache : false;
     var name = this.builderName(url, params);
-    params.priviledgesID = priviledgesID;
+    params.privilegesID = privilegesID;
     var data;
     if (cache) {
         //    if (!parent.window.cache[name]) {
@@ -568,11 +568,11 @@ Comm.builderName = function (url, params) {
      * 设置权限菜单
      * */
 Comm.setPriviledgeMenu = function () {
-    data = this.getData("priviledges/getMenu", {}, true);
+    data = this.getData("privileges/getMenu", {}, true);
     $.each(data.childNode, function (i, v) {
         $("#content").append(getMenu(v));
     });
-    $.each($(".priviledgesGroup"), function (i, e) {
+    $.each($(".privilegesGroup"), function (i, e) {
         $(this).click(function () {
             var checkAll = this.checked;
             $.each($(this).parent("label").parent("div .row-check-all").next("div .row-check-item").find(":checkbox"), function (i1, o) {
@@ -585,14 +585,14 @@ Comm.setPriviledgeMenu = function () {
         var menu_li = '';
         if (menu.childNode.length > 0) {
             menu_li += '<div class="row-check"><div class="row-check-all">';
-            menu_li += '<label><input name="priviledgesID" class="priviledgesGroup" value=' + menu.id + ' type="checkbox"> <span>' + menu.name + ' </span></label></div>';
+            menu_li += '<label><input name="privilegesID" class="privilegesGroup" value=' + menu.id + ' type="checkbox"> <span>' + menu.name + ' </span></label></div>';
             menu_li += '<div class="row-check-item">';
             $.each(menu.childNode, function (i, v) {
                 menu_li += getMenu(v);
             })
             menu_li += "</div></div>"
         } else {
-            menu_li += '<label><input name="priviledgesID" value=' + menu.id + ' type="checkbox"> <span>' + menu.name + ' </span></label>';
+            menu_li += '<label><input name="privilegesID" value=' + menu.id + ' type="checkbox"> <span>' + menu.name + ' </span></label>';
         }
         return menu_li;
     };
@@ -623,7 +623,7 @@ Comm.exportExcel = function (fileName) {
 Comm.postByForm = function (URL, PARAMS) {
     var temp = document.createElement("form");
     temp.action = baseUrl + URL;
-    PARAMS.priviledgesID = priviledgesID;
+    PARAMS.privilegesID = privilegesID;
     temp.method = "post";
     temp.target = "_blank";
     temp.style.display = "none";
@@ -643,10 +643,10 @@ Comm.post = function (url, response, params) {
     url = baseUrl + url;
     if (typeof (params) == "object") {
         params = params ? params : {};
-        params.priviledgesID = priviledgesID;
+        params.privilegesID = privilegesID;
     } else {
         params = params ? params : "";
-        params = "priviledgesID=" + priviledgesID + params;
+        params = "privilegesID=" + privilegesID + params;
     }
     $.post(url, params, response, "json");
 }
@@ -655,11 +655,11 @@ Comm.post = function (url, response, params) {
  * 自动获取查询参数并发送查询请求
  * */
 var queryParam = {};
-queryParam.priviledgesID = priviledgesID;
+queryParam.privilegesID = privilegesID;
 Comm.queryData = function (id) {
 	id = (id) ? id : "searchForm";
     queryParam = {};
-    queryParam.priviledgesID = priviledgesID;
+    queryParam.privilegesID = privilegesID;
     $("#"+id+" :input").not(":button").each(function (i, e) {
         if ($(this).is("input[type='checkbox']")) {
             if (this.checked) {

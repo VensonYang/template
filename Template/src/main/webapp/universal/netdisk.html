@@ -179,7 +179,7 @@
 		        	$.ajax({
 						   type: "POST",
 						   url: baseUrl+"netdisk/getFile",
-						   data:{"id":row.id,"priviledgesID":priviledgesID},
+						   data:{"id":row.id,"privilegesID":privilegesID},
 						   async:false,
 						   success: function(data){
 							  if(data.status==0){
@@ -196,7 +196,7 @@
 		    				id:"-211",
 		    				title:"文件预览",
 		    				icon :"fa-eye",
-		    				url:"../universal/preview_doc.html?fileId="+row.id+"&priviledgesID="+priviledgesID,
+		    				url:"../universal/preview_doc.html?fileId="+row.id+"&privilegesID="+privilegesID,
 		    				close:true
 		    		};
 		    		addTabs(setting);
@@ -209,7 +209,7 @@
 		        		$.ajax({
 							   type: "POST",
 							   url: baseUrl+"netdisk/deleteAttachment",
-							   data:{"id":row.id,"priviledgesID":priviledgesID},
+							   data:{"id":row.id,"privilegesID":privilegesID},
 							   success: function(response){
 								  if(response.status==0){
 									  $table.bootstrapTable('remove', {
@@ -243,7 +243,7 @@
     	$table.bootstrapTable({
     				url: baseUrl+'netdisk/showQueryFiles',
     				queryParams:function(params){
-    					params.priviledgesID=priviledgesID;
+    					params.privilegesID=privilegesID;
     					params.name=vfileName;
     					params.staTime=vstaTime;
     					params.endTime=vendTime;

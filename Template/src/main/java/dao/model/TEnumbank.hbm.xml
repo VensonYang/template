@@ -1,41 +1,41 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
 <hibernate-mapping>
     <class name="dao.model.TEnumbank" table="t_enumbank" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="enumtypeid" type="string">
-            <column name="enumtypeid" length="8">
-                <comment>&#195;&#182;&#190;&#217;&#192;&#224;&#208;&#205;&#177;&#224;&#186;&#197;</comment>
+        <property name="typeId" type="string">
+            <column name="type_id" length="8" not-null="true">
+                <comment>&#231;&#177;&#187;&#229;&#158;&#139;&#231;&#188;&#150;&#229;&#143;&#183;</comment>
             </column>
         </property>
-        <property name="enumtypename" type="string">
-            <column name="enumtypename" length="30">
-                <comment>&#195;&#182;&#190;&#217;&#192;&#224;&#208;&#205;&#195;&#251;&#179;&#198;</comment>
+        <property name="typeName" type="string">
+            <column name="type_name" length="30" not-null="true">
+                <comment>&#231;&#177;&#187;&#229;&#158;&#139;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
             </column>
         </property>
-        <property name="enumid" type="string">
-            <column name="enumid" length="8">
-                <comment>&#195;&#182;&#190;&#217;&#207;&#238;ID</comment>
+        <property name="enumId" type="string">
+            <column name="enum_id" length="8" not-null="true">
+                <comment>&#230;&#158;&#154;&#228;&#184;&#190;ID</comment>
             </column>
         </property>
-        <property name="enumvalue" type="string">
-            <column name="enumvalue" length="120">
-                <comment>&#195;&#182;&#190;&#217;&#207;&#238;&#214;&#181;</comment>
+        <property name="enumValue" type="string">
+            <column name="enum_value" length="120" not-null="true">
+                <comment>&#230;&#158;&#154;&#228;&#184;&#190;&#229;&#128;&#188;</comment>
             </column>
         </property>
-        <property name="flag" type="java.lang.Byte">
-            <column name="flag">
-                <comment>&#202;&#199;&#183;&#241;&#191;&#201;&#210;&#212;&#208;&#222;&#184;&#196;&#163;&#172;0&#183;&#241;&#163;&#172;1&#202;&#199;</comment>
+        <property name="state" type="java.lang.Character">
+            <column name="state" length="1">
+                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
             </column>
         </property>
         <property name="remark" type="string">
             <column name="remark" length="30">
-                <comment>&#177;&#184;&#215;&#162;</comment>
+                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
             </column>
         </property>
     </class>

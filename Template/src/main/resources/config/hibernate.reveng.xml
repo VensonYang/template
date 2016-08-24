@@ -7,10 +7,10 @@
   <table-filter match-catalog="template" match-name="t_file"/>
   <table-filter match-catalog="template" match-name="t_news"/>
   <table-filter match-catalog="template" match-name="t_news_type"/>
-  <table-filter match-catalog="template" match-name="t_priviledges"/>
-  <table-filter match-catalog="template" match-name="t_priviledges_matrix"/>
+  <table-filter match-catalog="template" match-name="t_privileges"/>
+  <table-filter match-catalog="template" match-name="t_privileges_matrix"/>
   <table-filter match-catalog="template" match-name="t_role"/>
-  <table-filter match-catalog="template" match-name="t_role_priviledges"/>
+  <table-filter match-catalog="template" match-name="t_role_privileges"/>
   <table-filter match-catalog="template" match-name="t_user"/>
   <table-filter match-catalog="template" match-name="t_user_role"/>
 </hibernate-reverse-engineering>

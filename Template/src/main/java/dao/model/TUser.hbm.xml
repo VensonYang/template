@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
 <hibernate-mapping>
     <class name="dao.model.TUser" table="t_user" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -9,68 +9,90 @@
             <generator class="identity" />
         </id>
         <many-to-one name="TDepartment" class="dao.model.TDepartment" fetch="select">
-            <column name="deptId">
-                <comment>&#211;&#195;&#187;&#167;&#178;&#191;&#195;&#197;</comment>
+            <column name="dept_id">
+                <comment>&#231;&#148;&#168;&#230;&#136;&#183;&#233;&#131;&#168;&#233;&#151;&#168;</comment>
             </column>
         </many-to-one>
         <property name="userName" type="string">
-            <column name="userName" length="20" not-null="true">
-                <comment>&#211;&#195;&#187;&#167;&#195;&#251;&#179;&#198;</comment>
+            <column name="user_name" length="20" not-null="true">
+                <comment>&#231;&#148;&#168;&#230;&#136;&#183;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
             </column>
         </property>
         <property name="sex" type="string">
             <column name="sex" length="4" not-null="true">
-                <comment>&#208;&#212;&#177;&#240;</comment>
+                <comment>&#230;&#128;&#167;&#229;&#136;&#171;</comment>
             </column>
         </property>
         <property name="userAccount" type="string">
-            <column name="userAccount" length="32" not-null="true" unique="true">
-                <comment>&#213;&#203;&#186;&#197;</comment>
+            <column name="user_account" length="32" not-null="true" unique="true">
+                <comment>&#232;&#180;&#166;&#229;&#143;&#183;</comment>
             </column>
         </property>
         <property name="password" type="string">
             <column name="password" length="32" not-null="true">
-                <comment>&#181;&#199;&#194;&#189;&#195;&#220;&#194;&#235;</comment>
+                <comment>&#231;&#153;&#187;&#233;&#153;&#134;&#229;&#175;&#134;&#231;&#160;&#129;</comment>
             </column>
         </property>
-        <property name="status" type="string">
-            <column name="status" length="2">
-                <comment>&#215;&#180;&#204;&#172;(0&#163;&#186;&#211;&#208;&#208;&#167; 1&#163;&#186;&#206;&#222;&#208;&#167;)</comment>
+        <property name="email" type="string">
+            <column name="email" length="100">
+                <comment>&#233;&#130;&#174;&#231;&#174;&#177;</comment>
+            </column>
+        </property>
+        <property name="mobile" type="string">
+            <column name="mobile" length="11">
+                <comment>&#230;&#137;&#139;&#230;&#156;&#186;</comment>
             </column>
         </property>
         <property name="creator" type="java.lang.Integer">
             <column name="creator">
-                <comment>&#180;&#180;&#189;&#168;&#213;&#223;(&#182;&#212;&#211;&#166;userId)</comment>
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#232;&#128;&#133;</comment>
             </column>
         </property>
         <property name="createTime" type="timestamp">
-            <column name="createTime" length="19" not-null="true">
-                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            <column name="create_time" length="19" not-null="true">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
             </column>
         </property>
         <property name="modifier" type="java.lang.Integer">
             <column name="modifier">
-                <comment>&#208;&#222;&#184;&#196;&#200;&#203;</comment>
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="modifyTime" type="timestamp">
-            <column name="modifyTime" length="19">
-                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            <column name="modify_time" length="19">
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
             </column>
         </property>
         <property name="headImage" type="string">
-            <column name="headImage" length="150">
-                <comment>&#211;&#195;&#187;&#167;&#205;&#183;&#207;&#241;</comment>
+            <column name="head_image" length="150">
+                <comment>&#231;&#148;&#168;&#230;&#136;&#183;&#229;&#164;&#180;&#229;&#131;&#143;</comment>
             </column>
         </property>
-        <property name="memo" type="string">
-            <column name="memo" length="100">
-                <comment>&#177;&#184;&#215;&#162;</comment>
+        <property name="loginDate" type="timestamp">
+            <column name="login_date" length="19">
+                <comment>&#230;&#156;&#128;&#229;&#144;&#142;&#231;&#153;&#187;&#229;&#189;&#149;&#230;&#151;&#165;&#230;&#156;&#159;</comment>
+            </column>
+        </property>
+        <property name="loginIp" type="string">
+            <column name="login_ip" length="100">
+                <comment>&#230;&#156;&#128;&#229;&#144;&#142;&#231;&#153;&#187;&#229;&#189;&#149;ip</comment>
+            </column>
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="2">
+                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
+            </column>
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="100">
+                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
             </column>
         </property>
         <set name="TUserRoles" table="t_user_role" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="userID" />
+                <column name="user_id">
+                    <comment>&#231;&#148;&#168;&#230;&#136;&#183;id</comment>
+                </column>
             </key>
             <one-to-many class="dao.model.TUserRole" />
         </set>

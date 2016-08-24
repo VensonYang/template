@@ -20,15 +20,15 @@ import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
 import common.StaticsConstancts;
 import controller.base.ControllerContext;
 import controller.base.ControllerHelper;
-import model.system.PriviledgesVectorVO;
+import model.system.PrivilegesVectorVO;
 
 /**
- * 权限拦截器，通过前台请求参数{@linkplain #PRIVILEDGES_ID priviledgesID}判断该请求是合法请求还是非法请求
+ * 权限拦截器，通过前台请求参数{@linkplain #PRIVILEGES_ID privilegesID}判断该请求是合法请求还是非法请求
  * 
  * @author Venson Yang
  */
 public class AuthorityInterceptor extends HandlerInterceptorAdapter {
-	private static final String PRIVILEDGES_ID = "priviledgesID";
+	private static final String PRIVILEGES_ID = "privilegesID";
 	private static final Map<String, String> methodStartName = new HashMap<String, String>();
 	static {
 		methodStartName.put("add", "iscreate");
@@ -58,28 +58,28 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
 			return true;
 
 		// 判断请求是否存在权限ID参数且ID是否为有效数字
-		String priviledgeId = request.getParameter(PRIVILEDGES_ID);
-		if (!StringUtils.isNumeric(priviledgeId))
+		String privilegeId = request.getParameter(PRIVILEGES_ID);
+		if (!StringUtils.isNumeric(privilegeId))
 			return ControllerHelper.renderJSON("权限ID丢失或有误，禁止访问", logger);
 
 		// 获取session中的权限
 		@SuppressWarnings("unchecked")
-		Map<Integer, PriviledgesVectorVO> priviledgesVectors = (Map<Integer, PriviledgesVectorVO>) request.getSession()
-				.getAttribute(StaticsConstancts.PRIVILEDGES_VECTOR);
-		if (priviledgesVectors == null)
+		Map<Integer, PrivilegesVectorVO> privilegesVectors = (Map<Integer, PrivilegesVectorVO>) request.getSession()
+				.getAttribute(StaticsConstancts.PRIVILEGES_VECTOR);
+		if (privilegesVectors == null)
 			return ControllerHelper.renderJSON("用户未登录，禁止访问", logger);
 
 		// 查看该用户是否存在该权限ID
-		Set<Integer> priviledgeIdSet = priviledgesVectors.keySet();
-		if (!priviledgeIdSet.contains(Integer.valueOf(priviledgeId)))
+		Set<Integer> privilegeIdSet = privilegesVectors.keySet();
+		if (!privilegeIdSet.contains(Integer.valueOf(privilegeId)))
 			return ControllerHelper.renderJSON("非法权限ID，禁止访问", logger);
 
 		// 查看该请求对应的方法是否为增，删，改，导入，导出，如果是则进行权限矩阵判断
-		Map<String, Boolean> priviledgesMatrix = ((PriviledgesVectorVO) priviledgesVectors
-				.get(Integer.valueOf(priviledgeId))).getPriviledgesMatrix();
+		Map<String, Boolean> privilegesMatrix = ((PrivilegesVectorVO) privilegesVectors
+				.get(Integer.valueOf(privilegeId))).getPrivilegeMatrix();
 		for (Entry<String, String> entry : methodStartName.entrySet()) {
 			if (methodName.startsWith(entry.getKey())) {
-				if (priviledgesMatrix.get(entry.getValue()))
+				if (privilegesMatrix.get(entry.getValue()))
 					return true;
 				else
 					return ControllerHelper

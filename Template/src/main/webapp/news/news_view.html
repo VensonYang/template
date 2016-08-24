@@ -23,11 +23,11 @@
 	<script src="../js/common/common.js"></script>
 	<script type="text/javascript">
 	var newsId=getUrlParam("newsId");
-	var priviledgesID=getUrlParam("priviledgesID");
+	var privilegesID=getUrlParam("privilegesID");
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"news/getNews",
-		   data:{"priviledgesID":priviledgesID,"id":newsId},
+		   data:{"privilegesID":privilegesID,"id":newsId},
 		   cache: false,
 		   success: function(data){
 		    	if(data.status==0){

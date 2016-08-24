@@ -1,75 +1,87 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-7-26 8:50:26 by Hibernate Tools 4.3.1.Final -->
+<!-- Generated 2016-8-23 9:45:28 by Hibernate Tools 4.3.4.Final -->
 <hibernate-mapping>
     <class name="dao.model.TRole" table="t_role" catalog="template" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="name" type="string">
-            <column name="name" length="20" not-null="true">
-                <comment>&#189;&#199;&#201;&#171;&#195;&#251;&#179;&#198;</comment>
+        <property name="roleName" type="string">
+            <column name="role_name" length="20" not-null="true">
+                <comment>&#232;&#167;&#146;&#232;&#137;&#178;&#229;&#144;&#141;&#231;&#167;&#176;</comment>
+            </column>
+        </property>
+        <property name="creator" type="java.lang.Integer">
+            <column name="creator">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="createTime" type="timestamp">
-            <column name="createTime" length="19" not-null="true">
-                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
+            <column name="create_time" length="19" not-null="true">
+                <comment>&#229;&#136;&#155;&#229;&#187;&#186;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
+            </column>
+        </property>
+        <property name="modifier" type="java.lang.Integer">
+            <column name="modifier">
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#228;&#186;&#186;</comment>
             </column>
         </property>
         <property name="modifyTime" type="timestamp">
-            <column name="modifyTime" length="19">
-                <comment>&#208;&#222;&#184;&#196;&#202;&#177;&#188;&#228;</comment>
+            <column name="modify_time" length="19">
+                <comment>&#228;&#191;&#174;&#230;&#148;&#185;&#230;&#151;&#182;&#233;&#151;&#180;</comment>
             </column>
         </property>
-        <property name="status" type="string">
-            <column name="status" length="2">
-                <comment>&#215;&#180;&#204;&#172;(0&#163;&#186;&#211;&#208;&#208;&#167; 1&#163;&#186;&#206;&#222;&#208;&#167;)</comment>
+        <property name="state" type="string">
+            <column name="state" length="2">
+                <comment>&#231;&#138;&#182;&#230;&#128;&#129;</comment>
             </column>
         </property>
-        <property name="memo" type="string">
-            <column name="memo" length="100">
-                <comment>&#177;&#184;&#215;&#162;</comment>
+        <property name="remark" type="string">
+            <column name="remark" length="100">
+                <comment>&#229;&#164;&#135;&#230;&#179;&#168;</comment>
             </column>
         </property>
-        <set name="TRolePriviledgeses" table="t_role_priviledges" inverse="true" lazy="true" fetch="select">
+        <set name="TRolePrivilegeses" table="t_role_privileges" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="roleID" not-null="true">
-                    <comment>&#189;&#199;&#201;&#171;ID</comment>
+                <column name="role_id" not-null="true">
+                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
                 </column>
             </key>
-            <one-to-many class="dao.model.TRolePriviledges" />
+            <one-to-many class="dao.model.TRolePrivileges" />
         </set>
-        <set name="TPriviledgesMatrixes" table="t_priviledges_matrix" inverse="true" lazy="true" fetch="select">
+        <set name="TPrivilegesMatrixes" table="t_privileges_matrix" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="roleID" not-null="true">
-                    <comment>&#189;&#199;&#201;&#171;ID</comment>
+                <column name="role_id" not-null="true">
+                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
                 </column>
             </key>
-            <one-to-many class="dao.model.TPriviledgesMatrix" />
+            <one-to-many class="dao.model.TPrivilegesMatrix" />
         </set>
-        <set name="TPriviledgesMatrixes_1" table="t_priviledges_matrix" inverse="true" lazy="true" fetch="select">
+        <set name="TPrivilegesMatrixes_1" table="t_privileges_matrix" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="roleID" not-null="true">
-                    <comment>&#189;&#199;&#201;&#171;ID</comment>
+                <column name="role_id" not-null="true">
+                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
                 </column>
             </key>
-            <one-to-many class="dao.model.TPriviledgesMatrix" />
+            <one-to-many class="dao.model.TPrivilegesMatrix" />
         </set>
         <set name="TUserRoles" table="t_user_role" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="roleID" />
+                <column name="role_id">
+                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;id</comment>
+                </column>
             </key>
             <one-to-many class="dao.model.TUserRole" />
         </set>
-        <set name="TRolePriviledgeses_1" table="t_role_priviledges" inverse="true" lazy="true" fetch="select">
+        <set name="TRolePrivilegeses_1" table="t_role_privileges" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="roleID" not-null="true">
-                    <comment>&#189;&#199;&#201;&#171;ID</comment>
+                <column name="role_id" not-null="true">
+                    <comment>&#232;&#167;&#146;&#232;&#137;&#178;ID</comment>
                 </column>
             </key>
-            <one-to-many class="dao.model.TRolePriviledges" />
+            <one-to-many class="dao.model.TRolePrivileges" />
         </set>
     </class>
 </hibernate-mapping>

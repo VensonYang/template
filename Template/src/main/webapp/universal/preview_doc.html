@@ -22,18 +22,18 @@
 	<script src="../js/common/common.js"></script>
 	<script type="text/javascript">
 	var fileId=getUrlParam('fileId');
-	var priviledgesID=getUrlParam('priviledgesID');
+	var privilegesID=getUrlParam('privilegesID');
 	$.ajax({
 		   type: "POST",
 		   url: baseUrl+"netdisk/getFile",
-		   data:{"id":fileId,"priviledgesID":priviledgesID},
+		   data:{"id":fileId,"privilegesID":privilegesID},
 		   success: function(data){
 			  if(data.status==0){
 				  $("#title").text(data.rows.downName+"文件预览");
 			  	  $.ajax({
 			  		  type:"post",
 			  		  url:baseUrl+"netdisk/preview",
-			  		  data:{"fileName":data.rows.fileName,"priviledgesID":priviledgesID},
+			  		  data:{"fileName":data.rows.fileName,"privilegesID":privilegesID},
 			  		  success:function(response){
 			  			  if(response.status==0){
 			  				$("#content").load(baseUrl+"upload/html/"+response.rows,function(){

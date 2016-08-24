@@ -19,11 +19,11 @@ public class LoginServiceImpl implements LoginService {
 	private BaseDao baseDao;
 
 	@Override
-	public List<Map<String, Object>> getPriviledgesByUserId(int id) {
+	public List<Map<String, Object>> getPrivilegesByUserId(int id) {
 		// TODO Auto-generated method stub
 		String hql = " SELECT DISTINCT a.id as id,a.name as name,a.url as url,a.status as status,a.pid as pid,a.icon as icon,a.isParent as isParent "
-				+ " FROM t_priviledges a "
-				+ " LEFT JOIN t_role_priviledges b ON a.id=b.priviledgesID LEFT JOIN t_user_role c ON b.roleID=c.roleId "
+				+ " FROM t_privileges a "
+				+ " LEFT JOIN t_role_privileges b ON a.id=b.privilegesID LEFT JOIN t_user_role c ON b.roleID=c.roleId "
 				+ " WHERE c.userId=:userId ";
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -32,10 +32,10 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getPriviledgesMatrixByUserId(int id) {
+	public List<Map<String, Object>> getPrivilegesMatrixByUserId(int id) {
 
-		String hql = " SELECT DISTINCT a.priviledgesID AS priviledgesID ,a.iscreate AS iscreate ,a.isdelete AS isdelete,a.ismodify AS ismodify ,a.isprint AS isprint,a.isimport AS isimport,a.isexport AS isexport "
-				+ " FROM t_priviledges_matrix a LEFT JOIN t_user_role b ON a.roleID=b.roleID "
+		String hql = " SELECT DISTINCT a.privilegesID AS privilegesID ,a.iscreate AS iscreate ,a.isdelete AS isdelete,a.ismodify AS ismodify ,a.isprint AS isprint,a.isimport AS isimport,a.isexport AS isexport "
+				+ " FROM t_privileges_matrix a LEFT JOIN t_user_role b ON a.roleID=b.roleID "
 				+ " WHERE b.userID=:userId";
 
 		Map<String, Object> params = new HashMap<String, Object>();

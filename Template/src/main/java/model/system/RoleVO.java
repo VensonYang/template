@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-import model.system.PriviledgesVO.IAddPriviledges;
+import model.system.PrivilegesVO.IAddPrivileges;
 
 public class RoleVO {
 	public interface IAddRole {
@@ -13,40 +13,59 @@ public class RoleVO {
 	public interface IModifyRole {
 	}
 
-	public interface IAddRolePriviledges {
+	public interface IAddRolePrivileges {
 
 	}
 
-	@NotNull(message = "角色ID不能为空", groups = { IModifyRole.class, IAddPriviledges.class })
+	@NotNull(message = "角色ID不能为空", groups = { IModifyRole.class, IAddPrivileges.class })
 	private Integer id;
 	@NotNull(message = "角色名不能为空", groups = { IAddRole.class, IModifyRole.class })
-	private String name;
+	private String roleName;
+
+	private Integer creator;
+	private Integer modifier;
 	private Date createTime;
 	private Date modifyTime;
 	@NotNull(message = "状态不能为空", groups = { IAddRole.class, IModifyRole.class })
-	private String status;
-	private String memo;
-	@NotNull(message = "权限ID不能为空", groups = { IAddPriviledges.class })
-	private int priviledgesIds[];
+	private String state;
+	private String remark;
+	@NotNull(message = "权限ID不能为空", groups = { IAddPrivileges.class })
+	private int privilegesIds[];
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return this.name;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public Integer getCreator() {
+		return creator;
+	}
+
+	public void setCreator(Integer creator) {
+		this.creator = creator;
+	}
+
+	public Integer getModifier() {
+		return modifier;
+	}
+
+	public void setModifier(Integer modifier) {
+		this.modifier = modifier;
 	}
 
 	public Date getCreateTime() {
-		return this.createTime;
+		return createTime;
 	}
 
 	public void setCreateTime(Date createTime) {
@@ -54,35 +73,35 @@ public class RoleVO {
 	}
 
 	public Date getModifyTime() {
-		return this.modifyTime;
+		return modifyTime;
 	}
 
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getState() {
+		return state;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setState(String state) {
+		this.state = state;
 	}
 
-	public String getMemo() {
-		return this.memo;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public int[] getPriviledgesIds() {
-		return priviledgesIds;
+	public int[] getPrivilegesIds() {
+		return privilegesIds;
 	}
 
-	public void setPriviledgesIds(int[] priviledgesIds) {
-		this.priviledgesIds = priviledgesIds;
+	public void setPrivilegesIds(int[] privilegesIds) {
+		this.privilegesIds = privilegesIds;
 	}
 
 }

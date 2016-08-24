@@ -7,9 +7,10 @@ public class NodeVO {
 	private int id;
 	private String name;
 	private String url;
+	private String target;
 	private int pid;
 	private String icon;
-	private String memo;
+	private String remark;
 
 	private List<NodeVO> childNode = new LinkedList<NodeVO>();
 
@@ -83,12 +84,20 @@ public class NodeVO {
 		return childNode;
 	}
 
-	public String getMemo() {
-		return memo;
+	public String getTarget() {
+		return target;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public void setChildNode(List<NodeVO> childNode) {

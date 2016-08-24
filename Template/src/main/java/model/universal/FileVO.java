@@ -13,7 +13,8 @@ public class FileVO {
 	private String fileDesc;
 	private Integer createor;
 	private Date createTime;
-	private String memo;
+	private String remark;
+	private Character state;
 
 	public String getFileName() {
 		return fileName;
@@ -79,12 +80,20 @@ public class FileVO {
 		this.createTime = createTime;
 	}
 
-	public String getMemo() {
-		return memo;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Character getState() {
+		return state;
+	}
+
+	public void setState(Character state) {
+		this.state = state;
 	}
 
 	public String getUrl() {

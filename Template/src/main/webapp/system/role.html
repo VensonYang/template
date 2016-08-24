@@ -147,7 +147,7 @@
         </div>
     </div>
     <!-- 权限控制 -->
-     <div class="modal dialog" id="assign-priviledges">
+     <div class="modal dialog" id="assign-privileges">
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
@@ -171,21 +171,21 @@
 	<script src="../js/common/common.js"></script>
 	<script type="text/javascript">
 	function assignPri(id){
-		$.ajax({ type: "POST",url: baseUrl+"priviledges/getMenu",data:{"priviledgesID":priviledgesID}, 
+		$.ajax({ type: "POST",url: baseUrl+"privileges/getMenu",data:{"privilegesID":privilegesID}, 
 			async: false, 
     		success: function(data){
-    			$("#assign-priviledges .modal-body").html("");
+    			$("#assign-privileges .modal-body").html("");
     			$.each(data.rows.childNode,function(i,v){
-					$("#assign-priviledges .modal-body").append(getMenu(v));
+					$("#assign-privileges .modal-body").append(getMenu(v));
 				});
 		}});
-		$.ajax({ type: "POST",url: baseUrl+"role/getRolePriviledges",data:{"priviledgesID":priviledgesID,"id":id}, 
+		$.ajax({ type: "POST",url: baseUrl+"role/getRoleprivileges",data:{"privilegesID":privilegesID,"id":id}, 
     		//async: false, 
     		success: function(data){
-    			var priviledges=data.rows;
-    			var inputs=$("#assign-priviledges .modal-body input");
+    			var privileges=data.rows;
+    			var inputs=$("#assign-privileges .modal-body input");
     			if(data.status==0){
-    				$.each(priviledges,function(i,v){
+    				$.each(privileges,function(i,v){
     					$.each(inputs,function(i1,v1){
     						if(v.id==$(this).val()){
     							this.checked=true;
@@ -197,35 +197,35 @@
     			
 		}});
 		var options={backdrop:true};
-    	$('#assign-priviledges').modal(options);
+    	$('#assign-privileges').modal(options);
     	$("input[name='roleId']").val(id);
 	}
 	$("#save").click(function(){
 		var ids=[];
 		ids.push("id=");
 		ids.push($("input[name='roleId']").val());
-		$($("input[name='priviledgesID']:checked")).each(function(i,v){
+		$($("input[name='privilegesID']:checked")).each(function(i,v){
 			ids.push("&");
-			ids.push("priviledgesIds=");
+			ids.push("privilegesIds=");
 			ids.push($(this).val());
 		})
 		ids.push("&");
-		ids.push("priviledgesID=");
-		ids.push(priviledgesID);
-		saveAjax("role/addRolePriviledges",ids.join(''),$(this))
+		ids.push("privilegesID=");
+		ids.push(privilegesID);
+		saveAjax("role/addRoleprivileges",ids.join(''),$(this))
 	})
 	function getMenu(menu){
 		var menu_li='';
 		if(menu.childNode.length>0){
 					menu_li+="<div class='row2'>";
-					menu_li+='<label><input name="priviledgesID" value='+menu.id+' type="checkbox"> '+menu.name+' </label>';
+					menu_li+='<label><input name="privilegesID" value='+menu.id+' type="checkbox"> '+menu.name+' </label>';
 					menu_li+="<div class='row3'>";
 					$.each(menu.childNode,function(i,v){
 							menu_li+=getMenu(v);
 						})
 					menu_li+="</div></div>"
 			}else{
-					menu_li+=' <label><input name="priviledgesID" value='+menu.id+' type="checkbox"> '+menu.name+'</label> ';
+					menu_li+=' <label><input name="privilegesID" value='+menu.id+' type="checkbox"> '+menu.name+'</label> ';
 				}
 		return menu_li;
 	};
@@ -254,7 +254,7 @@
 	        	var options={backdrop:true};
 	        	var id=row.id;
 	        	$('#modify-role').modal(options);
-	        	$.ajax({ type: "POST",url: baseUrl+"role/getRole",data:{"id":id,"priviledgesID":priviledgesID}, 
+	        	$.ajax({ type: "POST",url: baseUrl+"role/getRole",data:{"id":id,"privilegesID":privilegesID}, 
 	        		//async: false, 
 	        		success: function(data){
         			$("#name").val(data.rows.name);
@@ -302,7 +302,7 @@
 	$table.bootstrapTable({
 		url: baseUrl+'role/showQueryRole',
 		queryParams:function(params){
-			params.priviledgesID=priviledgesID;
+			params.privilegesID=privilegesID;
 			params.search=searchName;
 			params.status=searchStatus;
     		return params;
